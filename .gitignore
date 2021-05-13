@@ -1,0 +1,14 @@
+*/.idea
+*/cmake-build-debug
+*.exe
+*.o
+/.idea
+.idea
+/cmake-build-debug
+cmake-build-debug
+*.s
+*.gcno
+.gcno
+*.gcda
+*.gcov
+*.rar
