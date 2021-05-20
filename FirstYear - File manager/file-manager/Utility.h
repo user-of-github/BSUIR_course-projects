@@ -48,6 +48,19 @@ enum class Color
     White = 15
 };
 
+struct Theme
+{
+    Color body_background;
+    Color body_foreground;
+    Color body_background_accent;
+    Color body_foreground_accent;
+    Color footer_background;
+    Color footer_foreground;
+    Color footer_background_accent;
+    Color footer_foreground_accent;
+};
+
+
 std::string LeftTrim(std::string);
 
 std::string RightTrim(std::string);
@@ -55,6 +68,8 @@ std::string RightTrim(std::string);
 std::string Trim(std::string);
 
 Color StringToColor(const std::string &);
+
+size_t GetMaximumWordLength(const std::string [], const size_t &);
 
 
 #endif //FILE_MANAGER_UTILITY_H

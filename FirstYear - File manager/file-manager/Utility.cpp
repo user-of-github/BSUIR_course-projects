@@ -80,3 +80,12 @@ Color StringToColor(const std::string &color)
 
     return Color::Black;
 }
+
+size_t GetMaximumWordLength(const std::string array[], const size_t &array_length)
+{
+    size_t response = array[0].size();
+    for (size_t counter = 0; counter < array_length; ++counter)
+        response = std::max(response, array[counter].size());
+
+    return response;
+}

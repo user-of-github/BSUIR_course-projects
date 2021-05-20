@@ -11,12 +11,17 @@ class FileManager
 public:
     static void Launch();
 
+    static void LoadTheme(const std::string & = FileManager::kFileManagerDefaultThemeFilePath);
+
 private:
-    static const std::string kFileManagerConfigurationFileName;
+    static const std::string kFileManagerSettingsFilePath;
+    static const std::string kFileManagerDefaultThemeFilePath;
     static std::string kStartDirectory;
     static AppState state_;
 
     static std::filesystem::directory_iterator GetDirectoryByPath(const std::string &);
+
+    static void LoadSettings(const std::string & = FileManager::kFileManagerSettingsFilePath);
 
     static void LoadConfiguration();
 };

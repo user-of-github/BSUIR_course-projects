@@ -5,16 +5,16 @@
 
 #include "Utility.h"
 
-struct Theme
-{
-    Color background_main;
-    Color foreground_main;
-    Color background_accent;
-    Color foreground_accent;
-};
 
 class GUI
 {
+public:
+    static HANDLE console_handle_;
+
+    static void Launch(const AppState &);
+
+    static void SetTheme(const Theme &);
+
 private:
     static std::string kWindowTitle;
     static size_t console_width_;
@@ -24,47 +24,33 @@ private:
     static const std::string kMenuItemsTitles[];
     static const std::string kMenuItemsKeys[];
 
-    static Theme kTheme;
+    static const size_t kFooterStartPositionFromBottom = 2;
 
-    static const size_t kHeaderMarginTop = 1;
-    static const size_t kHeaderPaddingBottom = 1;
-    static const size_t kBodyInfoMarginTop = 1;
-    static const size_t kBodyInfoPaddingBottom = 1;
-    static const size_t kBodyFilesMarginTop = 1;
-    static const size_t kBodyFilesPaddingLeft = 5;
+    static bool was_first_render_;
+
+    static Theme kTheme;
 
     static CONSOLE_SCREEN_BUFFER_INFO console_info_;
 
+    static size_t kMaximumMenuItemLength;
+
     static void ResizeConsole();
-
-    static void ChangeConsoleColors(const Color & = GUI::kTheme.background_main, const Color & = GUI::kTheme.foreground_main);
-
-    static void ChangeConsoleBackground();
 
     static void HideCursor();
 
     static void MoveToCoordinate(const size_t &, const size_t &);
 
-    static void PrintByCoordinate(const size_t &, const size_t &, const char * = " ");
-
-    static void PrintByCoordinate(const size_t &, const size_t &, const char & = ' ');
-
-    static void DrawHorizontalBorder(const size_t &, const size_t &, const size_t &);
+    static void SetConsoleColors(const Color &, const Color &);
 
     static void ConfigureConsoleWindow();
 
-    static void RenderDirectoryItemsList(const std::filesystem::directory_iterator &);
+    static void PaintBackground(const size_t &, const size_t &, const size_t &, const size_t &, const Color &);
 
-public:
-    static HANDLE console_handle_;
+    static void PaintFooterBackground();
 
-    static void RenderHeader();
+    static void RenderFooter(const AppState &);
 
-    static void RenderBody(const AppState &, const std::filesystem::directory_iterator &);
-
-    static void Render();
-
-    static void SetTheme(const Theme &);
+    static void RenderFooterMenuItems();
 };
 
 
