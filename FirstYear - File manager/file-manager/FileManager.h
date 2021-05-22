@@ -17,7 +17,6 @@ private:
     static const std::string kFileManagerSettingsFilePath;
     static const std::string kFileManagerDefaultThemeFilePath;
     static std::string kStartDirectory;
-    static AppState state_;
 
     static std::filesystem::directory_iterator GetDirectoryByPath(const std::string &);
 

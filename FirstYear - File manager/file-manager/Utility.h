@@ -9,23 +9,23 @@
 #include <winuser.h>
 #include <filesystem>
 #include <fstream>
+#include <algorithm>
 
-
-enum class PositionState
-{
-    IN_DIRECTORY,
-    IN_FILE
-};
 
 class AppState
 {
 public:
-    std::string current_directory;
-    PositionState position;
+    static std::string current_directory;
+    static std::filesystem::directory_iterator files_list;
 
-    AppState(const std::string &start_directory, const PositionState &start_position) :
-            current_directory(start_directory), position(start_position)
-    {}
+    static size_t show_from , show_to;
+    static size_t list_length;
+    static size_t current_position;
+
+    static void Launch(const std::string &);
+    static size_t GetFileListLength();
+
+    static std::filesystem::directory_entry GetByIndex(const size_t &);
 };
 
 enum class Color
@@ -71,5 +71,6 @@ Color StringToColor(const std::string &);
 
 size_t GetMaximumWordLength(const std::string [], const size_t &);
 
+std::string TrimByChar(const std::string &, const char &);
 
 #endif //FILE_MANAGER_UTILITY_H

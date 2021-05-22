@@ -1,5 +1,38 @@
 #include "Utility.h"
 
+size_t AppState::show_from = 0;
+size_t AppState::show_to = 24;
+size_t AppState::list_length = 0;
+size_t AppState::current_position = 0;
+std::string AppState::current_directory;
+std::filesystem::directory_iterator AppState::files_list;
+
+void AppState::Launch(const std::string &start_directory)
+{
+    AppState::list_length = AppState::GetFileListLength();
+    AppState::show_from = 0;
+    AppState::show_to = std::min(AppState::list_length - 1, static_cast<size_t>(23));
+}
+
+size_t AppState::GetFileListLength()
+{
+    size_t response = 0;
+    for (const auto &item : AppState::files_list)
+        ++response;
+    return response;
+}
+
+std::filesystem::directory_entry AppState::GetByIndex(const size_t &index)
+{
+    size_t counter = 0;
+    for (auto &item : AppState::files_list)
+    {
+        if (counter == index)
+            return item;
+        ++counter;
+    }
+}
+
 std::string LeftTrim(std::string s)
 {
     s.erase(std::begin(s), std::find_if(std::begin(s), std::end(s), [](unsigned char ch) {
@@ -86,6 +119,19 @@ size_t GetMaximumWordLength(const std::string array[], const size_t &array_lengt
     size_t response = array[0].size();
     for (size_t counter = 0; counter < array_length; ++counter)
         response = std::max(response, array[counter].size());
+
+    return response;
+}
+
+std::string TrimByChar(const std::string &query, const char &symbol)
+{
+    std::string response = query;
+
+    while (response.size() > 0 && response[0] == symbol)
+        response.erase(0, 1);
+
+    while (response.size() > 0 && response[response.size() - 1] == symbol)
+        response.pop_back();
 
     return response;
 }

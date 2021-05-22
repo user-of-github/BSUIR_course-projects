@@ -7,7 +7,7 @@ void KeyEventProc(const KEY_EVENT_RECORD &ker)
     SetConsoleCursorPosition(GUI::console_handle_, {100, 100});
     if (!ker.bKeyDown)
     {
-        std::cout << ker.wVirtualKeyCode;
+        //std::cout << ker.wVirtualKeyCode;
     }
 }
 
@@ -20,16 +20,16 @@ void MouseEventProc(const MOUSE_EVENT_RECORD &mer)
             if (mer.dwButtonState == FROM_LEFT_1ST_BUTTON_PRESSED)
             {
                 SetConsoleCursorPosition(GUI::console_handle_, {0, 28});
-                std::cout << "                                   ";
+                //std::cout << "                                   ";
                 SetConsoleCursorPosition(GUI::console_handle_, {0, 28});
-                std::cout << (mer.dwMousePosition.X) << " " << mer.dwMousePosition.Y;
+                //std::cout << (mer.dwMousePosition.X) << " " << mer.dwMousePosition.Y;
             }
             break;
         case DOUBLE_CLICK:
             SetConsoleCursorPosition(GUI::console_handle_, {0, 28});
-            std::cout << "                                   ";
+            //std::cout << "                                   ";
             SetConsoleCursorPosition(GUI::console_handle_, {0, 28});
-            std::cout << ("double click ") << mer.dwMousePosition.X << " " << mer.dwMousePosition.Y;
+            //std::cout << ("double click ") << mer.dwMousePosition.X << " " << mer.dwMousePosition.Y;
             break;
     }
 }
