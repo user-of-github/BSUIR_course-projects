@@ -10,23 +10,7 @@
 #include <filesystem>
 #include <fstream>
 #include <algorithm>
-
-
-class AppState
-{
-public:
-    static std::string current_directory;
-    static std::filesystem::directory_iterator files_list;
-
-    static size_t show_from , show_to;
-    static size_t list_length;
-    static size_t current_position;
-
-    static void Launch(const std::string &);
-    static size_t GetFileListLength();
-
-    static std::filesystem::directory_entry GetByIndex(const size_t &);
-};
+#include <map>
 
 enum class Color
 {
@@ -71,6 +55,10 @@ Color StringToColor(const std::string &);
 
 size_t GetMaximumWordLength(const std::string [], const size_t &);
 
+std::string CutDirectoryString(const std::string &, const size_t &);
+
 std::string TrimByChar(const std::string &, const char &);
+
+std::string FileTypeToString(const std::filesystem::file_type &);
 
 #endif //FILE_MANAGER_UTILITY_H

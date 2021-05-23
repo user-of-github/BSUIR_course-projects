@@ -1,38 +1,5 @@
 #include "Utility.h"
 
-size_t AppState::show_from = 0;
-size_t AppState::show_to = 24;
-size_t AppState::list_length = 0;
-size_t AppState::current_position = 0;
-std::string AppState::current_directory;
-std::filesystem::directory_iterator AppState::files_list;
-
-void AppState::Launch(const std::string &start_directory)
-{
-    AppState::list_length = AppState::GetFileListLength();
-    AppState::show_from = 0;
-    AppState::show_to = std::min(AppState::list_length - 1, static_cast<size_t>(23));
-}
-
-size_t AppState::GetFileListLength()
-{
-    size_t response = 0;
-    for (const auto &item : AppState::files_list)
-        ++response;
-    return response;
-}
-
-std::filesystem::directory_entry AppState::GetByIndex(const size_t &index)
-{
-    size_t counter = 0;
-    for (auto &item : AppState::files_list)
-    {
-        if (counter == index)
-            return item;
-        ++counter;
-    }
-}
-
 std::string LeftTrim(std::string s)
 {
     s.erase(std::begin(s), std::find_if(std::begin(s), std::end(s), [](unsigned char ch) {
@@ -123,6 +90,24 @@ size_t GetMaximumWordLength(const std::string array[], const size_t &array_lengt
     return response;
 }
 
+std::string CutDirectoryString(const std::string &query, const size_t &max_path_length)
+{
+    if (query.size() <= max_path_length)
+        return query;
+
+    std::string response;
+    response = query;
+
+    size_t index = response.find_first_of('\\') + 1;
+    while (response.size() > max_path_length - 3)
+        response.erase(index, 1);
+
+    response.insert(index, "...");
+
+    return response;
+}
+
+
 std::string TrimByChar(const std::string &query, const char &symbol)
 {
     std::string response = query;
@@ -134,4 +119,33 @@ std::string TrimByChar(const std::string &query, const char &symbol)
         response.pop_back();
 
     return response;
+}
+
+std::string FileTypeToString(const std::filesystem::file_type &type)
+{
+    switch (type)
+    {
+        case std::filesystem::file_type::block:
+            return "block";
+        case std::filesystem::file_type::character:
+            return "character";
+        case std::filesystem::file_type::directory:
+            return "folder";
+        case std::filesystem::file_type::fifo:
+            return "fifo";
+        case std::filesystem::file_type::none:
+            return "none";
+        case std::filesystem::file_type::not_found:
+            return "not found";
+        case std::filesystem::file_type::regular:
+            return "regular";
+        case std::filesystem::file_type::socket:
+            return "socket";
+        case std::filesystem::file_type::symlink:
+            return "symlink";
+        case std::filesystem::file_type::unknown:
+            return "unknown";
+        default:
+            return "other";
+    }
 }

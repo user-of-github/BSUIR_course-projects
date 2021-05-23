@@ -1,5 +1,1 @@
-C:\Users\User\Desktop\CourseProjects\FirstYear - File manager\file-manager\cmake-build-debug
-White
-Blue
-LightGray
-LightRed
+C:\Users\User\Desktop\CourseProjects

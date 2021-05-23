@@ -2,22 +2,14 @@
 
 const std::string FileManager::kFileManagerSettingsFilePath = "config.txt";
 const std::string FileManager::kFileManagerDefaultThemeFilePath = "theme.txt";
-
 std::string FileManager::kStartDirectory;
 
 
 void FileManager::Launch()
 {
     FileManager::LoadConfiguration();
-    AppState::current_directory = FileManager::kStartDirectory;
-    AppState::files_list = FileManager::GetDirectoryByPath(AppState::current_directory);
-    AppState::Launch(FileManager::kStartDirectory);
+    AppState::UpdateDirectory(FileManager::kStartDirectory);
     GUI::Launch();
-}
-
-std::filesystem::directory_iterator FileManager::GetDirectoryByPath(const std::string &path)
-{
-    return std::filesystem::directory_iterator(path);
 }
 
 void FileManager::LoadConfiguration()
