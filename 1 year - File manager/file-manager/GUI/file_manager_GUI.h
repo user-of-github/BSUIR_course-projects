@@ -5,6 +5,7 @@
 
 #include "../Utilities/utilities.h"
 #include "../State/file_manager_state.h"
+#include "EventsConroller/file_manager_events_controller.h"
 
 class GUI
 {
@@ -16,6 +17,8 @@ public:
     static void RenderFooter();
 
     static void Launch();
+
+    static void MoveSelection(const short &);
 
 private:
     static const std::string kWindowTitle;
@@ -72,14 +75,6 @@ private:
     static void RenderBodyDynamicFilesList();
 
     static void ChangeSelection(const size_t &, const size_t &);
-
-    static void MoveSelection(const short &);
-
-    static void ProcessMouseEvent(const MOUSE_EVENT_RECORD &);
-
-    static void ProcessKeyEvent(const KEY_EVENT_RECORD &);
-
-    static void RunEventLoop();
 };
 
 
