@@ -1,29 +1,39 @@
-# Консольный файловый менеджер
+# Console File manager
 
 &nbsp;
 
-### Используемый стек: _C++ 17_, _WinAPI_
+### Technologies used: _C++ 17_, _WinAPI_
 
-### Разработка в: _JetBrains Clion_
+### Developed in: _JetBrains Clion_
 
 &nbsp;
 
-#### Цели:
+#### Purposes:
 
-* _применить подход раздельного реактивного рендера псевдокомпонентов в консоли_
-* _научить консоль работать с пользовательскими событиями_
-* _научить консоль выглядеть похожей на обычное десктопное оконное приложение_
+* _Apply the approach of separate rendering of pseudo-components in console_
+* _Teach console to work with custom events_
+* _Teach console to look like a normal desktop window application_
 
-#### Особенности:
+#### Features:
 
-* _чистый C++ и WinAPI (встроенная библиотека - windows.h)_
-* _новый стандарт языка — С++ 17_
-* _подход раздельного "рендера компонентов"_  
-  &nbsp;
+* _Pure C++ and WinAPI (built-in libraries windows.h & winuser.h)_
+* _New language standard: C++ 17_
+* _Separate "component rendering"_
 
-#### Демонстрация:
+#### Functionality:
 
-![alt text](demonstration.png "Демонстрация")
-&nbsp;
+* _Browsing and navigation through folders_
+* _Mouse and keyboard navigation_
+* _Saving the history of directories visits_
 
-###### © 2021. Слуцкий Никита, студент группы 053501 (БГУИР / ФКСиС / ИиТП) 
+#### Demo:
+
+![alt text](demonstration.png "Screenshot")
+&nbsp;  
+&nbsp;  
+
+
+###### _Copyright © 2021_   
+###### **Slutski Nikita**  
+###### _Student of group 053501_  
+###### _BSUIR  |  Faculty of Computer Systems & Networks  |  Computer Science & Programing Technologies_
