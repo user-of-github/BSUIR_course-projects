@@ -11,6 +11,8 @@
 #include <fstream>
 #include <algorithm>
 #include <map>
+#include <stack>
+#include <array>
 
 enum class Color
 {

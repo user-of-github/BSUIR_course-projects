@@ -3,8 +3,8 @@
 
 #pragma once
 
-#include "Utility.h"
-#include "FileManagerState.h"
+#include "../Utilities/utilities.h"
+#include "../State/file_manager_state.h"
 
 class GUI
 {
@@ -26,6 +26,9 @@ private:
     static const size_t kMenuItemsCount = 3;
     static const std::string kMenuItemsTitles[];
     static const std::string kMenuItemsKeys[];
+    static const size_t kColumnsCount = 4;
+    static const std::array<const std::string, GUI::kColumnsCount> kColumnsTitles;
+    static const std::array<const size_t, GUI::kColumnsCount> kColumnsPrecisions;
 
     static const size_t kFooterStartPositionFromBottom = 2;
     static size_t kMaxPathLength;
@@ -64,9 +67,20 @@ private:
 
     static void RenderBodyDynamicPath();
 
-    static void RenderBodyDinamicFilesList();
+    static void RenderBodySingleFileLine(const std::filesystem::directory_entry &);
+
+    static void RenderBodyDynamicFilesList();
+
+    static void ChangeSelection(const size_t &, const size_t &);
+
+    static void MoveSelection(const short &);
+
+    static void ProcessMouseEvent(const MOUSE_EVENT_RECORD &);
+
+    static void ProcessKeyEvent(const KEY_EVENT_RECORD &);
+
+    static void RunEventLoop();
 };
 
-void RunEventLoop(HANDLE &);
 
 #endif //FILE_MANAGER_FILEMANAGERGUI_H

@@ -1,10 +1,10 @@
-#include "FileManager.h"
+#include "./MainClass/file_manager.h"
 #include <conio.h>
 
 
 int main()
 {
-    FileManager::Launch();
+    file_manager::Launch();
 
     getch();
     return 0;

@@ -1,24 +1,24 @@
-#include "FileManager.h"
+#include "file_manager.h"
 
-const std::string FileManager::kFileManagerSettingsFilePath = "config.txt";
-const std::string FileManager::kFileManagerDefaultThemeFilePath = "theme.txt";
-std::string FileManager::kStartDirectory;
+const std::string file_manager::kFileManagerSettingsFilePath = "config.txt";
+const std::string file_manager::kFileManagerDefaultThemeFilePath = "theme.txt";
+std::string file_manager::kStartDirectory;
 
 
-void FileManager::Launch()
+void file_manager::Launch()
 {
-    FileManager::LoadConfiguration();
-    AppState::UpdateDirectory(FileManager::kStartDirectory);
+    file_manager::LoadConfiguration();
+    AppState::Launch(file_manager::kStartDirectory);
     GUI::Launch();
 }
 
-void FileManager::LoadConfiguration()
+void file_manager::LoadConfiguration()
 {
-    FileManager::LoadSettings();
-    FileManager::LoadTheme();
+    file_manager::LoadSettings();
+    file_manager::LoadTheme();
 }
 
-void FileManager::LoadTheme(const std::string &theme_file_path)
+void file_manager::LoadTheme(const std::string &theme_file_path)
 {
     auto read = std::ifstream(theme_file_path);
     std::string body_bgc, body_fgc, body_bgc_acc, body_fgc_acc,
@@ -44,9 +44,9 @@ void FileManager::LoadTheme(const std::string &theme_file_path)
     read.close();
 }
 
-void FileManager::LoadSettings(const std::string &)
+void file_manager::LoadSettings(const std::string &)
 {
-    auto read = std::ifstream(FileManager::kFileManagerSettingsFilePath);
-    std::getline(read, FileManager::kStartDirectory);
+    auto read = std::ifstream(file_manager::kFileManagerSettingsFilePath);
+    std::getline(read, file_manager::kStartDirectory);
     read.close();
 }

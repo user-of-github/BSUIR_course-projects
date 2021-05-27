@@ -1,4 +1,4 @@
-#include "Utility.h"
+#include "utilities.h"
 
 std::string LeftTrim(std::string s)
 {
