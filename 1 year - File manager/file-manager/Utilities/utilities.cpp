@@ -1,6 +1,6 @@
 #include "utilities.h"
 
-std::string LeftTrim(std::string s)
+const std::string LeftTrim(std::string s)
 {
     s.erase(std::begin(s), std::find_if(std::begin(s), std::end(s), [](unsigned char ch) {
         return !std::isspace(ch);
@@ -9,7 +9,7 @@ std::string LeftTrim(std::string s)
     return s;
 };
 
-std::string RightTrim(std::string s)
+const std::string RightTrim(std::string s)
 {
     s.erase(std::find_if(std::rbegin(s), std::rend(s), [](unsigned char ch) {
         return !std::isspace(ch);
@@ -18,7 +18,7 @@ std::string RightTrim(std::string s)
     return s;
 }
 
-std::string Trim(std::string s)
+const std::string Trim(std::string s)
 {
     s = LeftTrim(s);
     s = RightTrim(s);
@@ -90,7 +90,7 @@ size_t GetMaximumWordLength(const std::string array[], const size_t &array_lengt
     return response;
 }
 
-std::string CutDirectoryString(const std::string &query, const size_t &max_path_length)
+const std::string CutDirectoryString(const std::string &query, const size_t &max_path_length)
 {
     if (query.size() <= max_path_length)
         return query;
@@ -108,7 +108,7 @@ std::string CutDirectoryString(const std::string &query, const size_t &max_path_
 }
 
 
-std::string TrimByChar(const std::string &query, const char &symbol)
+const std::string TrimByChar(const std::string &query, const char &symbol)
 {
     std::string response = query;
 
@@ -121,7 +121,7 @@ std::string TrimByChar(const std::string &query, const char &symbol)
     return response;
 }
 
-std::string FileTypeToString(const std::filesystem::file_type &type)
+const std::string FileTypeToString(const std::filesystem::file_type &type)
 {
     switch (type)
     {
@@ -148,4 +148,38 @@ std::string FileTypeToString(const std::filesystem::file_type &type)
         default:
             return "other";
     }
+}
+
+const std::string CutFileNameString(const std::string &query, const size_t &to_length)
+{
+    if (query.size() < to_length)
+        return query;
+
+    return query.substr(0, to_length - 3) + "...";
+}
+
+const bool IsFileHidden(const std::filesystem::directory_entry &file)
+{
+    if (file.path().filename().string() != ".." && file.path().filename().string() != "." &&
+        file.path().filename().string()[0] == '.')
+        return true;
+
+    return false;
+}
+
+const std::string GetParentDirectory(const std::string &current_directory)
+{
+    if (current_directory == "C:\\")
+        return current_directory;
+
+    std::string response = current_directory;
+
+    auto last_slash_position = response.find_last_of('\\');
+    response.erase(last_slash_position, response.size() - last_slash_position + 1);
+
+    if (std::find(std::begin(response), std::end(response), '\\') == std::end(response))
+        response.push_back('\\');
+
+
+    return response;
 }

@@ -6,7 +6,7 @@
 #include "../Utilities/utilities.h"
 #include "../GUI/file_manager_GUI.h"
 
-class file_manager
+class FileManagerLauncher
 {
 public:
     static void Launch();
@@ -16,9 +16,9 @@ private:
     static const std::string kFileManagerDefaultThemeFilePath;
     static std::string kStartDirectory;
 
-    static void LoadTheme(const std::string & = file_manager::kFileManagerDefaultThemeFilePath);
+    static void LoadTheme(const std::string & = FileManagerLauncher::kFileManagerDefaultThemeFilePath);
 
-    static void LoadSettings(const std::string & = file_manager::kFileManagerSettingsFilePath);
+    static void LoadSettings(const std::string & = FileManagerLauncher::kFileManagerSettingsFilePath);
 
     static void LoadConfiguration();
 };

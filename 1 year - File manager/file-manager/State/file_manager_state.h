@@ -7,9 +7,11 @@ class AppState
 {
 public:
     static std::string current_directory;
+    static std::string parent_directory;
 
     static std::map<size_t, std::filesystem::directory_entry> currently_rendered_with_coordinates;
     static std::vector<std::filesystem::directory_entry> currently_rendered_files_list;
+    static std::vector<std::filesystem::directory_entry> files_list;
     static size_t render_from, render_to; // in global vector
     static size_t current_position; // in currently_rendered
 
@@ -20,7 +22,6 @@ public:
     static void Move(const std::string &);
 
 private:
-    static std::vector<std::filesystem::directory_entry> files_list;
 
     static std::stack<std::string> history;
 

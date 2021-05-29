@@ -151,16 +151,23 @@ void GUI::RenderBodyDynamicPath()
     std::cout << ' ' << path << ' ';
 }
 
-void GUI::RenderBodySingleFileLine(const std::filesystem::directory_entry &file)
+void GUI::RenderBodySingleFileLine(const std::filesystem::directory_entry &file, const bool &is_link_to_parent)
 {
+    if (file.path().string() == AppState::parent_directory)
+    {
+        std::cout << std::setw(GUI::console_width_) << std::left << " .. ";
+        return;
+    }
+
     std::cout << std::setw(GUI::kColumnsPrecisions.at(0) * GUI::console_width_ / 5) << std::left
-              << (" " + file.path().filename().string());
+              << (" " + CutFileNameString(file.path().filename().string(),
+                                          GUI::kColumnsPrecisions.at(0) * GUI::console_width_ / 5 - 1));
     std::cout << std::setw(GUI::kColumnsPrecisions.at(1) * GUI::console_width_ / 5) << std::left
-              << file.path().extension().string();
+              << (" " + file.path().extension().string());
     std::cout << std::setw(GUI::kColumnsPrecisions.at(2) * GUI::console_width_ / 5) << std::left
-              << (file.path().extension().string() != "" ? (std::to_string(file.file_size() / 1024) + " KB") : "");
+              << (file.is_regular_file() ? (" " + std::to_string(file.file_size() / 1024) + " KB") : "");
     std::cout << std::setw(GUI::kColumnsPrecisions.at(3) * GUI::console_width_ / 5) << std::left
-              << FileTypeToString(file.status().type());
+              << (" " + FileTypeToString(file.status().type()));
 }
 
 void GUI::RenderBodyDynamicFilesList()
@@ -182,7 +189,7 @@ void GUI::RenderBodyDynamicFilesList()
         else
             GUI::SetConsoleColors(GUI::kTheme.body_background, GUI::kTheme.body_foreground);
 
-        GUI::RenderBodySingleFileLine(file);
+        GUI::RenderBodySingleFileLine(file, (counter == 0));
 
         ++counter;
     }
@@ -209,6 +216,8 @@ void GUI::RenderFooter()
 
     GUI::MoveToCoordinate(0, GUI::console_height_ - GUI::kFooterStartPositionFromBottom);
     GUI::SetConsoleColors(GUI::kTheme.footer_background, GUI::kTheme.footer_foreground);
+    std::cout << std::setw(GUI::console_width_ - 1) << "";
+    GUI::MoveToCoordinate(0, GUI::console_height_ - GUI::kFooterStartPositionFromBottom);
     std::cout << CutDirectoryString(AppState::current_directory, GUI::kMaxPathLength) << '>';
 
     if (!GUI::was_first_render_)
@@ -233,11 +242,15 @@ void GUI::ChangeSelection(const size_t &previous, const size_t &current)
 {
     GUI::MoveToCoordinate(0, 3 + previous);
     GUI::SetConsoleColors(GUI::kTheme.body_background, GUI::kTheme.body_foreground);
-    GUI::RenderBodySingleFileLine(AppState::currently_rendered_with_coordinates[3 + previous]);
+    GUI::RenderBodySingleFileLine(AppState::currently_rendered_with_coordinates[3 + previous],
+                                  AppState::currently_rendered_with_coordinates.at(3 + previous) ==
+                                  AppState::files_list.at(0));
 
     GUI::MoveToCoordinate(0, 3 + current);
     GUI::SetConsoleColors(GUI::kTheme.body_background_accent, GUI::kTheme.body_foreground_accent);
-    GUI::RenderBodySingleFileLine(AppState::currently_rendered_with_coordinates[3 + current]);
+    GUI::RenderBodySingleFileLine(AppState::currently_rendered_with_coordinates.at(3 + current),
+                                  AppState::currently_rendered_with_coordinates.at(3 + current) ==
+                                  AppState::files_list.at(0));
 }
 
 void GUI::MoveSelection(const short &delta)

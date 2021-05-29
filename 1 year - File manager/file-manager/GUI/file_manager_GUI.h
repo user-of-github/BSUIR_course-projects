@@ -70,7 +70,7 @@ private:
 
     static void RenderBodyDynamicPath();
 
-    static void RenderBodySingleFileLine(const std::filesystem::directory_entry &);
+    static void RenderBodySingleFileLine(const std::filesystem::directory_entry &, const bool &);
 
     static void RenderBodyDynamicFilesList();
 
