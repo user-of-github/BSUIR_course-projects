@@ -25,7 +25,7 @@
 
 #### Demo:
 
-![alt text](preview.gif "Demonstration")
+![alt text](demo.gif "Demonstration")
 &nbsp;  
 &nbsp;
 
