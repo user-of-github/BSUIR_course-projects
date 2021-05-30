@@ -5,10 +5,11 @@ const std::string GUI::kWindowTitle = "Console File Manager";
 
 const std::string GUI::kFirstLineTexture = "═";
 const std::string GUI::kSecondLineTexture = "—";
+const std::string GUI::kArrowBackTexture = "←";
 
 const size_t GUI::kMenuItemsCount;
 const std::string GUI::kMenuItemsTitles[] = {"Quit", "Choose", "Move"};
-const std::string GUI::kMenuItemsKeys[] = {"ESC", "ENTER", "UP, DOWN"};
+const std::string GUI::kMenuItemsKeys[] = {"ESC", "ENTER / DOUBLE CLICK", "UP, DOWN / MOUSE CLICK"};
 const size_t GUI::kColumnsCount;
 const std::array<const std::string, GUI::kColumnsCount> GUI::kColumnsTitles = {"Name", "Extension", "Size", "Type"};
 const std::array<const size_t, GUI::kColumnsCount> GUI::kColumnsPrecisions = {2, 1, 1, 1};
@@ -20,6 +21,7 @@ size_t GUI::kMaximumMenuItemLength;
 
 size_t GUI::console_width_;
 const size_t GUI::console_height_;
+const size_t GUI::kFilesListLength;
 
 HANDLE GUI::console_handle_;
 CONSOLE_SCREEN_BUFFER_INFO GUI::console_info_;
@@ -147,8 +149,12 @@ void GUI::RenderBodyDynamicPath()
     std::string path = CutDirectoryString(AppState::current_directory, GUI::kMaxPathLength);
     size_t left_margin = GUI::console_width_ / 2 - (path.size() + 2) / 2;
     GUI::MoveToCoordinate(left_margin, 0);
-    GUI::SetConsoleColors(GUI::kTheme.body_background_accent, GUI::kTheme.body_foreground_accent);
+    GUI::SetConsoleColors(GUI::kTheme.body_background, GUI::kTheme.body_foreground);
     std::cout << ' ' << path << ' ';
+
+    GUI::MoveToCoordinate(0, 0);
+    GUI::SetConsoleColors(GUI::kTheme.body_background_accent, GUI::kTheme.body_foreground_accent);
+    std::cout << ' ' << GUI::kArrowBackTexture << ' ';
 }
 
 void GUI::RenderBodySingleFileLine(const std::filesystem::directory_entry &file, const bool &is_link_to_parent)
@@ -165,7 +171,7 @@ void GUI::RenderBodySingleFileLine(const std::filesystem::directory_entry &file,
     std::cout << std::setw(GUI::kColumnsPrecisions.at(1) * GUI::console_width_ / 5) << std::left
               << (" " + file.path().extension().string());
     std::cout << std::setw(GUI::kColumnsPrecisions.at(2) * GUI::console_width_ / 5) << std::left
-              << (file.is_regular_file() ? (" " + std::to_string(file.file_size() / 1024) + " KB") : "");
+              << (file.is_regular_file() ? (" " + GetAdaptiveSize(file.file_size())) : "");
     std::cout << std::setw(GUI::kColumnsPrecisions.at(3) * GUI::console_width_ / 5) << std::left
               << (" " + FileTypeToString(file.status().type()));
 }
@@ -255,12 +261,37 @@ void GUI::ChangeSelection(const size_t &previous, const size_t &current)
 
 void GUI::MoveSelection(const short &delta)
 {
-    if (AppState::current_position + delta >= AppState::render_from &&
-        AppState::current_position + delta <= AppState::render_to)
+    if (AppState::current_position + delta >= 0 &&
+        AppState::current_position + delta < AppState::currently_rendered_files_list.size())
     {
         auto prev = AppState::current_position;
-        auto curr = AppState::current_position + delta;
-        AppState::current_position = curr;
-        GUI::ChangeSelection(prev, curr);
+        AppState::current_position = prev + delta;
+        GUI::ChangeSelection(prev, AppState::current_position);
+        return;
+    }
+
+    if (AppState::current_position == AppState::currently_rendered_files_list.size() - 1 && delta == 1)
+    {
+        if (AppState::render_to<AppState::files_list.size() - 1)
+        {
+            AppState::render_from += GUI::kFilesListLength;
+            AppState::render_to = std::min(AppState::render_to + GUI::kFilesListLength,
+                                           AppState::files_list.size() - 1);
+            AppState::current_position = 0;
+            AppState::CreateCurrentlyRenderedList();
+            GUI::RenderBodyDynamicFilesList();
+        }
+    }
+    else if (AppState::current_position == 0 && delta == -1)
+    {
+        if (AppState::render_from > 0)
+        {
+            AppState::render_from = std::max(AppState::render_from - GUI::kFilesListLength, static_cast<size_t>(0));
+            AppState::render_to = std::min(AppState::render_from + GUI::kFilesListLength,
+                                           AppState::files_list.size() - 1);
+            AppState::CreateCurrentlyRenderedList();
+            AppState::current_position = AppState::currently_rendered_files_list.size() - 1;
+            GUI::RenderBodyDynamicFilesList();
+        }
     }
 }

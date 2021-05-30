@@ -108,19 +108,6 @@ const std::string CutDirectoryString(const std::string &query, const size_t &max
 }
 
 
-const std::string TrimByChar(const std::string &query, const char &symbol)
-{
-    std::string response = query;
-
-    while (response.size() > 0 && response[0] == symbol)
-        response.erase(0, 1);
-
-    while (response.size() > 0 && response[response.size() - 1] == symbol)
-        response.pop_back();
-
-    return response;
-}
-
 const std::string FileTypeToString(const std::filesystem::file_type &type)
 {
     switch (type)
@@ -182,4 +169,23 @@ const std::string GetParentDirectory(const std::string &current_directory)
 
 
     return response;
+}
+
+const std::string GetAdaptiveSize(const size_t &bytes_value)
+{
+    std::string bytes = std::to_string(bytes_value);
+    std::string kilobytes = std::to_string(bytes_value / 1024);
+    std::string megabytes = std::to_string((bytes_value / 1024) / 1024);
+    std::string gigabytes = std::to_string(((bytes_value / 1024) / 1024) / 1024);
+
+    if (bytes.size() <= 3)
+        return bytes + " B";
+
+    if (kilobytes.size() <= 3)
+        return kilobytes + " KB";
+
+    if (megabytes.size() <= 3)
+        return megabytes + " MB";
+
+    return gigabytes + " GB";
 }

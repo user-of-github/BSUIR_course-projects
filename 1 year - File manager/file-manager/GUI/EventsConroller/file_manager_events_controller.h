@@ -13,6 +13,12 @@ public:
     static void RunEventLoop();
 
 private:
+    friend class GUI;
+
+    static void ProcessSelection();
+
+    static void ArrowBackPressed(const MOUSE_EVENT_RECORD &);
+
     static void ProcessMouseEvent(const MOUSE_EVENT_RECORD &);
 
     static void ProcessKeyEvent(const KEY_EVENT_RECORD &);

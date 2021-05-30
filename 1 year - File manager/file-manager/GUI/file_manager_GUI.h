@@ -12,19 +12,20 @@ class GUI
 public:
     static void SetTheme(const Theme &);
 
-    static void RenderBody();
-
-    static void RenderFooter();
-
     static void Launch();
 
-    static void MoveSelection(const short &);
-
 private:
+    friend class EventsController;
+
+    friend class AppState;
+
+    friend class FileManagerLauncher;
+
     static const std::string kWindowTitle;
 
     static const std::string kFirstLineTexture;
     static const std::string kSecondLineTexture;
+    static const std::string kArrowBackTexture;
 
     static const size_t kMenuItemsCount = 3;
     static const std::string kMenuItemsTitles[];
@@ -39,6 +40,7 @@ private:
 
     static size_t console_width_;
     static const size_t console_height_ = 30;
+    static const size_t kFilesListLength = 23;
 
     static HANDLE console_handle_;
     static CONSOLE_SCREEN_BUFFER_INFO console_info_;
@@ -75,6 +77,12 @@ private:
     static void RenderBodyDynamicFilesList();
 
     static void ChangeSelection(const size_t &, const size_t &);
+
+    static void RenderBody();
+
+    static void RenderFooter();
+
+    static void MoveSelection(const short &);
 };
 
 

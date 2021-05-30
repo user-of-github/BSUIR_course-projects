@@ -13,6 +13,7 @@
 #include <map>
 #include <stack>
 #include <array>
+#include <ShellAPI.h>
 
 enum class Color
 {
@@ -33,6 +34,7 @@ enum class Color
     Yellow = 14,
     White = 15
 };
+
 
 struct Theme
 {
@@ -59,8 +61,6 @@ size_t GetMaximumWordLength(const std::string [], const size_t &);
 
 const std::string CutDirectoryString(const std::string &, const size_t &);
 
-const std::string TrimByChar(const std::string &, const char &);
-
 const std::string FileTypeToString(const std::filesystem::file_type &);
 
 const std::string CutFileNameString(const std::string &, const size_t &);
@@ -68,5 +68,7 @@ const std::string CutFileNameString(const std::string &, const size_t &);
 const bool IsFileHidden(const std::filesystem::directory_entry &);
 
 const std::string GetParentDirectory(const std::string &);
+
+const std::string GetAdaptiveSize(const size_t &);
 
 #endif //FILE_MANAGER_UTILITY_H
