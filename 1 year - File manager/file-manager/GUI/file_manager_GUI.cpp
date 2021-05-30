@@ -149,7 +149,7 @@ void GUI::RenderBodyDynamicPath()
     std::string path = CutDirectoryString(AppState::current_directory, GUI::kMaxPathLength);
     size_t left_margin = GUI::console_width_ / 2 - (path.size() + 2) / 2;
     GUI::MoveToCoordinate(left_margin, 0);
-    GUI::SetConsoleColors(GUI::kTheme.body_background, GUI::kTheme.body_foreground);
+    GUI::SetConsoleColors(Color::Black, Color::White);
     std::cout << ' ' << path << ' ';
 
     GUI::MoveToCoordinate(0, 0);
@@ -239,8 +239,6 @@ void GUI::Launch()
     GUI::RenderFooter();
     GUI::RenderBody();
     GUI::was_first_render_ = true;
-
-    EventsController::RunEventLoop();
 }
 
 

@@ -5,6 +5,7 @@
 
 #include "../Utilities/utilities.h"
 #include "../GUI/file_manager_GUI.h"
+#include "../GUI/EventsConroller/file_manager_events_controller.h"
 
 class FileManagerLauncher
 {

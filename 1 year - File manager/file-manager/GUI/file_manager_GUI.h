@@ -5,7 +5,6 @@
 
 #include "../Utilities/utilities.h"
 #include "../State/file_manager_state.h"
-#include "EventsConroller/file_manager_events_controller.h"
 
 class GUI
 {

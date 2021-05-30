@@ -10,6 +10,7 @@ void FileManagerLauncher::Launch()
     FileManagerLauncher::LoadConfiguration();
     AppState::Launch(FileManagerLauncher::kStartDirectory);
     GUI::Launch();
+    EventsController::RunEventLoop();
 }
 
 void FileManagerLauncher::LoadConfiguration()
