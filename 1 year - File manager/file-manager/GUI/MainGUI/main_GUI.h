@@ -3,8 +3,10 @@
 
 #pragma once
 
-#include "../Utilities/utilities.h"
-#include "../State/file_manager_state.h"
+#include "../Modals/modal_delete.h"
+#include "../Modals/modal_create.h"
+#include "../../Utilities/utilities.h"
+#include "../../State/state.h"
 
 class GUI
 {
@@ -16,13 +18,17 @@ public:
 private:
     friend class EventsController;
 
+    friend class ModalDelete;
+
+    friend class ModalCreate;
+
     static const std::string kWindowTitle;
 
     static const std::string kFirstLineTexture;
     static const std::string kSecondLineTexture;
     static const std::string kArrowBackTexture;
 
-    static const size_t kMenuItemsCount = 3;
+    static const size_t kMenuItemsCount = 4;
     static const std::array<const std::string, GUI::kMenuItemsCount> kMenuItemsTitles;
     static const std::array<const std::string, GUI::kMenuItemsCount> kMenuItemsKeys;
     static const size_t kColumnsCount = 4;
@@ -33,14 +39,14 @@ private:
     static size_t kMaxPathLength;
     static size_t kMaximumMenuItemLength;
 
-    static size_t console_width_;
-    static const size_t console_height_ = 30;
+    static size_t console_width;
+    static const size_t console_height = 30;
     static const size_t kFilesListLength = 23;
 
-    static HANDLE console_handle_;
-    static CONSOLE_SCREEN_BUFFER_INFO console_info_;
+    static HANDLE console_handle;
+    static CONSOLE_SCREEN_BUFFER_INFO console_info;
 
-    static bool was_first_render_;
+    static bool was_first_render;
 
     static Theme kTheme;
 
@@ -71,11 +77,11 @@ private:
 
     static void RenderBodyDynamicFilesList();
 
-    static void ChangeSelection(const size_t &, const size_t &);
-
     static void RenderBody();
 
     static void RenderFooter();
+
+    static void ChangeSelection(const size_t &, const size_t &);
 
     static void MoveSelection(const short &);
 };

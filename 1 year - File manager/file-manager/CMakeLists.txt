@@ -3,5 +3,5 @@ project(file_manager)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(file_manager main.cpp Launcher/file_manager_launcher.h GUI/file_manager_GUI.h Utilities/utilities.h GUI/file_manager_GUI.cpp Launcher/file_manager_launcher.cpp Utilities/utilities.cpp State/file_manager_state.cpp GUI/EventsConroller/file_manager_events_controller.cpp GUI/EventsConroller/file_manager_events_controller.h)
+add_executable(file_manager main.cpp Launcher/launcher.h GUI/MainGUI/main_GUI.h Utilities/utilities.h GUI/MainGUI/main_GUI.cpp Launcher/launcher.cpp Utilities/utilities.cpp State/state.cpp GUI/EventsConroller/events_controller.cpp GUI/EventsConroller/events_controller.h GUI/Modals/modal_delete.cpp GUI/Modals/modal_delete.h GUI/Modals/modal_create.cpp GUI/Modals/modal_create.h)
 add_compile_options(/std:c++latest)

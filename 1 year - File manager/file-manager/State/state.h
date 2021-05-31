@@ -2,12 +2,14 @@
 #define FILE_MANAGER_FILEMANAGERSTATE_H
 
 #include "../Utilities/utilities.h"
-#include "../GUI/EventsConroller/file_manager_events_controller.h"
+#include "../GUI/EventsConroller/events_controller.h"
 
 class AppState
 {
 public:
     static void Launch(const std::string &);
+
+    static void UpdateDirectory(const std::string &);
 
 private:
     friend class EventsController;
@@ -31,7 +33,6 @@ private:
 
     static void GetFilesListFromDirectoryIterator(std::filesystem::directory_iterator &);
 
-    static void UpdateDirectory(const std::string &);
 
     static bool GoBack();
 

@@ -1,4 +1,4 @@
-#include "./Launcher/file_manager_launcher.h"
+#include "./Launcher/launcher.h"
 
 int main()
 {

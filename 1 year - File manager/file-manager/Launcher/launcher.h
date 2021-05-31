@@ -4,8 +4,8 @@
 #pragma once
 
 #include "../Utilities/utilities.h"
-#include "../GUI/file_manager_GUI.h"
-#include "../GUI/EventsConroller/file_manager_events_controller.h"
+#include "../GUI/MainGUI/main_GUI.h"
+#include "../GUI/EventsConroller/events_controller.h"
 
 class FileManagerLauncher
 {

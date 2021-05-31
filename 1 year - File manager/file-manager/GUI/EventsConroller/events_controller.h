@@ -1,11 +1,11 @@
-#ifndef README_MD_FILE_MANAGER_EVENTS_CONTROLLER_H
-#define README_MD_FILE_MANAGER_EVENTS_CONTROLLER_H
+#ifndef README_MD_EVENTS_CONTROLLER_H
+#define README_MD_EVENTS_CONTROLLER_H
 
 #pragma once
 
 #include "../../Utilities/utilities.h"
-#include "../file_manager_GUI.h"
-#include "../../State/file_manager_state.h"
+#include "../MainGUI/main_GUI.h"
+#include "../../State/state.h"
 
 class EventsController
 {
@@ -25,4 +25,4 @@ private:
 };
 
 
-#endif //README_MD_FILE_MANAGER_EVENTS_CONTROLLER_H
+#endif //README_MD_EVENTS_CONTROLLER_H

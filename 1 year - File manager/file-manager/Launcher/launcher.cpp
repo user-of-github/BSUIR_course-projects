@@ -1,4 +1,4 @@
-#include "file_manager_launcher.h"
+#include "launcher.h"
 
 const std::string FileManagerLauncher::kFileManagerSettingsFilePath = "config.txt";
 const std::string FileManagerLauncher::kFileManagerDefaultThemeFilePath = "theme.txt";

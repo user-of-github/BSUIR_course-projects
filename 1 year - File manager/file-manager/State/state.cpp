@@ -1,4 +1,4 @@
-#include "file_manager_state.h"
+#include "state.h"
 
 std::string AppState::current_directory;
 std::string AppState::parent_directory;
