@@ -55,9 +55,9 @@ const std::string RightTrim(std::string);
 
 const std::string Trim(std::string);
 
-Color StringToColor(const std::string &);
+const Color StringToColor(const std::string &);
 
-size_t GetMaximumWordLength(const std::string [], const size_t &);
+const size_t GetMaximumWordLength(const std::array<const std::string, 3> &);
 
 const std::string CutDirectoryString(const std::string &, const size_t &);
 

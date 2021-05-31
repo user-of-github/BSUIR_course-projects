@@ -19,11 +19,12 @@ void FileManagerLauncher::LoadConfiguration()
     FileManagerLauncher::LoadTheme();
 }
 
-void FileManagerLauncher::LoadTheme(const std::string &theme_file_path)
+void FileManagerLauncher::LoadTheme()
 {
-    auto read = std::ifstream(theme_file_path);
+    auto read = std::ifstream(FileManagerLauncher::kFileManagerDefaultThemeFilePath);
     std::string body_bgc, body_fgc, body_bgc_acc, body_fgc_acc,
             footer_bgc, footer_fgc, footer_bgc_acc, footer_fgc_acc;
+
     std::getline(read, body_bgc);
     std::getline(read, body_fgc);
     std::getline(read, body_bgc_acc);
@@ -45,7 +46,7 @@ void FileManagerLauncher::LoadTheme(const std::string &theme_file_path)
     read.close();
 }
 
-void FileManagerLauncher::LoadSettings(const std::string &)
+void FileManagerLauncher::LoadSettings()
 {
     auto read = std::ifstream(FileManagerLauncher::kFileManagerSettingsFilePath);
     std::getline(read, FileManagerLauncher::kStartDirectory);

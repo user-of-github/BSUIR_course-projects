@@ -8,8 +8,9 @@ const std::string GUI::kSecondLineTexture = "—";
 const std::string GUI::kArrowBackTexture = "←";
 
 const size_t GUI::kMenuItemsCount;
-const std::string GUI::kMenuItemsTitles[] = {"Quit", "Choose", "Move"};
-const std::string GUI::kMenuItemsKeys[] = {"ESC", "ENTER / DOUBLE CLICK", "UP, DOWN / MOUSE CLICK"};
+const std::array<const std::string, GUI::kMenuItemsCount> GUI::kMenuItemsTitles = {"Quit", "Choose", "Move"};
+const std::array<const std::string, GUI::kMenuItemsCount> GUI::kMenuItemsKeys = {"ESC", "ENTER / DOUBLE CLICK",
+                                                                                 "UP, DOWN / MOUSE CLICK"};
 const size_t GUI::kColumnsCount;
 const std::array<const std::string, GUI::kColumnsCount> GUI::kColumnsTitles = {"Name", "Extension", "Size", "Type"};
 const std::array<const size_t, GUI::kColumnsCount> GUI::kColumnsPrecisions = {2, 1, 1, 1};
@@ -232,7 +233,7 @@ void GUI::RenderFooter()
 
 void GUI::Launch()
 {
-    GUI::kMaximumMenuItemLength = GetMaximumWordLength(GUI::kMenuItemsTitles, GUI::kMenuItemsCount) + 2;
+    GUI::kMaximumMenuItemLength = GetMaximumWordLength(GUI::kMenuItemsTitles) + 2;
 
     GUI::ConfigureConsoleWindow();
     GUI::PaintBackground(0, 0, GUI::console_height_ - 1, GUI::console_width_ - 1, GUI::kTheme.body_background);

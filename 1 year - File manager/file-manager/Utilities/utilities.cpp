@@ -26,7 +26,7 @@ const std::string Trim(std::string s)
     return s;
 }
 
-Color StringToColor(const std::string &color)
+const Color StringToColor(const std::string &color)
 {
     auto trimmedString = Trim(color);
 
@@ -81,11 +81,11 @@ Color StringToColor(const std::string &color)
     return Color::Black;
 }
 
-size_t GetMaximumWordLength(const std::string array[], const size_t &array_length)
+const size_t GetMaximumWordLength(const std::array<const std::string, 3> &array)
 {
-    size_t response = array[0].size();
-    for (size_t counter = 0; counter < array_length; ++counter)
-        response = std::max(response, array[counter].size());
+    size_t response = array.front().size();
+    for (const auto &word : array)
+        response = std::max(response, word.size());
 
     return response;
 }

@@ -17,9 +17,9 @@ private:
     static const std::string kFileManagerDefaultThemeFilePath;
     static std::string kStartDirectory;
 
-    static void LoadTheme(const std::string & = FileManagerLauncher::kFileManagerDefaultThemeFilePath);
+    static void LoadTheme();
 
-    static void LoadSettings(const std::string & = FileManagerLauncher::kFileManagerSettingsFilePath);
+    static void LoadSettings();
 
     static void LoadConfiguration();
 };

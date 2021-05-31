@@ -16,10 +16,6 @@ public:
 private:
     friend class EventsController;
 
-    friend class AppState;
-
-    friend class FileManagerLauncher;
-
     static const std::string kWindowTitle;
 
     static const std::string kFirstLineTexture;
@@ -27,8 +23,8 @@ private:
     static const std::string kArrowBackTexture;
 
     static const size_t kMenuItemsCount = 3;
-    static const std::string kMenuItemsTitles[];
-    static const std::string kMenuItemsKeys[];
+    static const std::array<const std::string, GUI::kMenuItemsCount> kMenuItemsTitles;
+    static const std::array<const std::string, GUI::kMenuItemsCount> kMenuItemsKeys;
     static const size_t kColumnsCount = 4;
     static const std::array<const std::string, GUI::kColumnsCount> kColumnsTitles;
     static const std::array<const size_t, GUI::kColumnsCount> kColumnsPrecisions;
