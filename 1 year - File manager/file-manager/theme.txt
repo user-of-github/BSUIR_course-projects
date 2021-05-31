@@ -1,8 +1,8 @@
 White
 Black
-Black
+LightBlue
 White
 Black
 White
-White
+LightGreen
 Black
