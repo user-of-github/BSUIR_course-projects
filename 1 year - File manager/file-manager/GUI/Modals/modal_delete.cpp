@@ -61,6 +61,7 @@ void ModalDelete::Launch(const std::filesystem::path &path, const std::filesyste
 
     ModalDelete::is_launched = true;
 
+    ModalDelete::currently_selected = 0;
     ModalDelete::Render();
 }
 
@@ -75,12 +76,11 @@ void ModalDelete::PrintBorder()
         std::cout << ModalDelete::kBorderTexture;
 }
 
-void ModalDelete::MoveSelection(const short &delta)
+void ModalDelete::MoveSelection(const short &new_item)
 {
-    if (ModalDelete::currently_selected + delta >= 0 &&
-        ModalDelete::currently_selected + delta < ModalDelete::kChoiceItems.size())
+    if (new_item >= 0 && new_item < ModalDelete::kChoiceItems.size())
     {
-        ModalDelete::currently_selected += delta;
+        ModalDelete::currently_selected = new_item;
         ModalDelete::RenderChoicePositions();
     }
 }
@@ -123,12 +123,10 @@ void ModalDelete::ComputeSingleMouseClick(const size_t &y, const size_t &x)
     {
         if (x >= ModalDelete::left_padding &&
             x < ModalDelete::left_padding + ModalDelete::modal_width / ModalDelete::kChoiceItems.size())
-            ModalDelete::MoveSelection(-1);
+            ModalDelete::MoveSelection(0);
         else
             ModalDelete::MoveSelection(1);
     }
-
-
 }
 
 void ModalDelete::ComputeDoubleMouseClick(const size_t &y, const size_t &x)

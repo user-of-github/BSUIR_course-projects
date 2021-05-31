@@ -60,115 +60,157 @@ void EventsController::ArrowBackPressed(const MOUSE_EVENT_RECORD &mouse_event)
         }
 }
 
+void EventsController::ProcessKeyMainGUI(const KEY_EVENT_RECORD &key_event)
+{
+    switch (key_event.wVirtualKeyCode)
+    {
+        case 38: // Up
+            GUI::MoveSelection(-1);
+            break;
+        case 40: // Down
+            GUI::MoveSelection(1);
+            break;
+
+        case 13: // Enter
+            EventsController::ProcessSelection();
+            break;
+        case 8: // BackSpace
+            if (AppState::GoBack())
+            {
+                GUI::RenderBody();
+                GUI::RenderFooter();
+            }
+            break;
+        case 46: // Delete
+            if (AppState::currently_rendered_files_list.at(AppState::current_position) != AppState::files_list.at(0))
+                ModalDelete::Launch(AppState::currently_rendered_files_list.at(AppState::current_position),
+                                    std::filesystem::path(AppState::current_directory));
+            break;
+        case 107: // +
+            ModalCreate::Launch(AppState::current_directory);
+            break;
+    }
+}
+
+void EventsController::ProcessKeyModalCreate(const KEY_EVENT_RECORD &key_event)
+{
+    switch (key_event.wVirtualKeyCode)
+    {
+        case 37: // Left
+            ModalCreate::MoveSelection(ModalCreate::currently_selected - 1);
+            break;
+        case 39: // Right
+            ModalCreate::MoveSelection(ModalCreate::currently_selected + 1);
+            break;
+        case 13: // Enter//
+            ModalCreate::ProcessChoice();
+            break;
+        case 8: // BackSpace
+            ModalCreate::UpdateNewFileName(13);
+            break;
+        case 27: //Escape
+            ModalCreate::Close();
+            break;
+        case 65 ... 90:
+            ModalCreate::UpdateNewFileName(static_cast<size_t>(key_event.wVirtualKeyCode));
+            break;
+    }
+}
+
+void EventsController::ProcessKeyModalDelete(const KEY_EVENT_RECORD &key_event)
+{
+    switch (key_event.wVirtualKeyCode)
+    {
+        case 37: // Left
+            ModalDelete::MoveSelection(ModalDelete::currently_selected - 1);
+            break;
+        case 39: // Right
+            ModalDelete::MoveSelection(ModalDelete::currently_selected + 1);
+            break;
+        case 13: // Enter
+            ModalDelete::ProcessChoice();
+            break;
+        case 8: // BackSpace
+            ModalDelete::Close();
+            break;
+        case 27: //Escape
+            ModalDelete::Close();
+            break;
+    }
+}
+
 void EventsController::ProcessKeyEvent(const KEY_EVENT_RECORD &key_event)
 {
     if (!key_event.bKeyDown)
         return;
 
-    switch (key_event.wVirtualKeyCode)
+    if (ModalDelete::IsLaunched())
+        EventsController::ProcessKeyModalDelete(key_event);
+    else if (ModalCreate::IsLaunched())
+        EventsController::ProcessKeyModalCreate(key_event);
+    else
+        EventsController::ProcessKeyMainGUI(key_event);
+}
+
+
+void EventsController::ProcessMouseMainGUI(const MOUSE_EVENT_RECORD &mouse_event)
+{
+    switch (mouse_event.dwEventFlags)
     {
-        case 38: // Up
-        {
-            if (!ModalDelete::IsLaunched())
-                GUI::MoveSelection(-1);
+        case 0:
+            if (mouse_event.dwButtonState == FROM_LEFT_1ST_BUTTON_PRESSED)
+            {
+                EventsController::ArrowBackPressed(mouse_event);
+                GUI::MoveSelection((mouse_event.dwMousePosition.Y - 3) - (int) AppState::current_position);
+            }
             break;
-        }
-        case 40: // Down
-        {
-            if (!ModalDelete::IsLaunched())
-                GUI::MoveSelection(1);
-            break;
-        }
-        case 37: // Left
-        {
-            if (ModalDelete::IsLaunched())
-                ModalDelete::MoveSelection(-1);
-            break;
-        }
-        case 39: // Right
-        {
-            if (ModalDelete::IsLaunched())
-                ModalDelete::MoveSelection(1);
-            break;
-        }
-        case 13: // Enter
-        {
-            if (ModalDelete::IsLaunched())
-                ModalDelete::ProcessChoice();
-            else
+        case DOUBLE_CLICK:
+            if (mouse_event.dwButtonState == FROM_LEFT_1ST_BUTTON_PRESSED &&
+                AppState::currently_rendered_with_coordinates.contains(mouse_event.dwMousePosition.Y))
                 EventsController::ProcessSelection();
             break;
-        }
-        case 8: // BackSpace
-        {
-            if (!ModalDelete::IsLaunched())
-                if (AppState::GoBack())
-                {
-                    GUI::RenderBody();
-                    GUI::RenderFooter();
-                }
+        case MOUSE_WHEELED:
+            if (static_cast<size_t>(HIWORD(mouse_event.dwButtonState)) == 120)
+                GUI::MoveSelection(-1);
+            else
+                GUI::MoveSelection(1);
             break;
-        }
-        case 46: // Delete
-        {
-            if (!ModalDelete::IsLaunched() &&
-                AppState::currently_rendered_files_list.at(AppState::current_position) != AppState::files_list.at(0))
-                ModalDelete::Launch(AppState::currently_rendered_files_list.at(AppState::current_position),
-                                    std::filesystem::path(AppState::current_directory));
+    }
+}
+
+void EventsController::ProcessMouseModalDelete(const MOUSE_EVENT_RECORD &mouse_event)
+{
+    switch (mouse_event.dwEventFlags)
+    {
+        case 0:
+            ModalDelete::ComputeSingleMouseClick(mouse_event.dwMousePosition.Y, mouse_event.dwMousePosition.X);
             break;
-        }
-        case 27: //Escape
-        {
-            if (ModalDelete::IsLaunched())
-                ModalDelete::Close();
+        case DOUBLE_CLICK:
+            ModalDelete::ComputeDoubleMouseClick(mouse_event.dwMousePosition.Y, mouse_event.dwMousePosition.X);
             break;
-        }
+    }
+}
+
+void EventsController::ProcessMouseModalCreate(const MOUSE_EVENT_RECORD &mouse_event)
+{
+    switch (mouse_event.dwEventFlags)
+    {
+        case 0:
+            ModalCreate::ComputeSingleMouseClick(mouse_event.dwMousePosition.Y, mouse_event.dwMousePosition.X);
+            break;
+        case DOUBLE_CLICK:
+            ModalCreate::ComputeDoubleMouseClick(mouse_event.dwMousePosition.Y, mouse_event.dwMousePosition.X);
+            break;
     }
 }
 
 void EventsController::ProcessMouseEvent(const MOUSE_EVENT_RECORD &mouse_event)
 {
-    switch (mouse_event.dwEventFlags)
-    {
-        case 0:
-        {
-            if (!ModalDelete::IsLaunched())
-            {
-                if (mouse_event.dwButtonState == FROM_LEFT_1ST_BUTTON_PRESSED)
-                {
-                    EventsController::ArrowBackPressed(mouse_event);
-                    GUI::MoveSelection((mouse_event.dwMousePosition.Y - 3) - (int) AppState::current_position);
-                }
-            }
-            else
-            {
-                ModalDelete::ComputeSingleMouseClick(mouse_event.dwMousePosition.Y, mouse_event.dwMousePosition.X);
-            }
-            break;
-        }
-        case DOUBLE_CLICK:
-        {
-            if (!ModalDelete::IsLaunched())
-            {
-                if (mouse_event.dwButtonState == FROM_LEFT_1ST_BUTTON_PRESSED &&
-                    AppState::currently_rendered_with_coordinates.contains(mouse_event.dwMousePosition.Y))
-                    EventsController::ProcessSelection();
-            }
-            else
-                ModalDelete::ComputeDoubleMouseClick(mouse_event.dwMousePosition.Y, mouse_event.dwMousePosition.X);
-
-            break;
-        }
-        case MOUSE_WHEELED:
-        {
-            if (!ModalDelete::IsLaunched())
-            {
-                if (static_cast<size_t>(HIWORD(mouse_event.dwButtonState)) == 120)
-                    GUI::MoveSelection(-1);
-                else
-                    GUI::MoveSelection(1);
-            }
-            break;
-        }
-    }
+    if (ModalDelete::IsLaunched())
+        EventsController::ProcessMouseModalDelete(mouse_event);
+    else if (ModalCreate::IsLaunched())
+        EventsController::ProcessMouseModalCreate(mouse_event);
+    else
+        EventsController::ProcessMouseMainGUI(mouse_event);
 }
+

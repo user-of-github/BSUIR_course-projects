@@ -3,6 +3,7 @@
 
 #include "../Utilities/utilities.h"
 #include "../GUI/EventsConroller/events_controller.h"
+#include "../GUI/Modals/modal_create.h"
 
 class AppState
 {
@@ -13,6 +14,7 @@ public:
 
 private:
     friend class EventsController;
+    friend class ModalCreate;
 
     friend class GUI;
 

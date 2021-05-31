@@ -16,10 +16,14 @@ private:
     static const Color kBackgroundColor = Color::Green;
     static const Color kForegroundColor = Color::White;
     static const Color kSelectionColor = Color::Black;
+    static const Color kInputBackground = Color::LightBlue;
+    static const Color kInputForeground = Color::Black;
     static const size_t kMarginTop = 5;
     static const size_t modal_height = 5;
     static const size_t kBottomBorderCoordinate = ModalCreate::kMarginTop + ModalCreate::modal_height;
     static size_t modal_width;
+
+    static std::string new_file_name;
 
     static size_t left_padding;
     static bool is_launched;
@@ -41,6 +45,8 @@ private:
     static void ComputeSingleMouseClick(const size_t &, const size_t &);
 
     static void ComputeDoubleMouseClick(const size_t &, const size_t &);
+
+    static void UpdateNewFileName(const size_t &);
 
 public:
     static void Launch(const std::filesystem::path &);

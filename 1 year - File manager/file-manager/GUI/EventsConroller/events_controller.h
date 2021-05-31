@@ -19,7 +19,19 @@ private:
 
     static void ArrowBackPressed(const MOUSE_EVENT_RECORD &);
 
+    static void ProcessMouseMainGUI(const MOUSE_EVENT_RECORD &);
+
+    static void ProcessMouseModalCreate(const MOUSE_EVENT_RECORD &);
+
+    static void ProcessMouseModalDelete(const MOUSE_EVENT_RECORD &);
+
     static void ProcessMouseEvent(const MOUSE_EVENT_RECORD &);
+
+    static void ProcessKeyMainGUI(const KEY_EVENT_RECORD &);
+
+    static void ProcessKeyModalCreate(const KEY_EVENT_RECORD &);
+
+    static void ProcessKeyModalDelete(const KEY_EVENT_RECORD &);
 
     static void ProcessKeyEvent(const KEY_EVENT_RECORD &);
 };

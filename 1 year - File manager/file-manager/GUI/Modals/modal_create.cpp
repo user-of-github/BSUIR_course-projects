@@ -7,6 +7,8 @@ const std::string ModalCreate::kBorderTexture = "═";
 const Color ModalCreate::kBackgroundColor;
 const Color ModalCreate::kForegroundColor;
 const Color ModalCreate::kSelectionColor;
+const Color ModalCreate::kInputBackground;
+const Color ModalCreate::kInputForeground;
 std::filesystem::path ModalCreate::current_path;
 const size_t ModalCreate::kMarginTop;
 const size_t ModalCreate::kBottomBorderCoordinate;
@@ -15,7 +17,8 @@ const size_t ModalCreate::modal_height;
 size_t ModalCreate::left_padding;
 bool ModalCreate::is_launched = false;
 size_t ModalCreate::currently_selected = 0;
-size_t ModalCreate::choice_line_y = ModalCreate::kMarginTop + 3;
+size_t ModalCreate::choice_line_y = ModalCreate::kMarginTop + 4;
+std::string ModalCreate::new_file_name = "new file";
 
 
 void ModalCreate::RenderChoicePositions()
@@ -36,6 +39,12 @@ void ModalCreate::RenderChoicePositions()
 
 void ModalCreate::RenderInput()
 {
+    GUI::MoveToCoordinate(ModalCreate::left_padding, ModalCreate::choice_line_y - 1);
+    GUI::PaintBackground(ModalCreate::choice_line_y - 1, ModalCreate::left_padding + 1,
+                         ModalCreate::choice_line_y - 1, ModalCreate::left_padding + ModalCreate::modal_width - 1,
+                         ModalCreate::kInputBackground);
+    GUI::MoveToCoordinate(ModalCreate::left_padding + 1, ModalCreate::choice_line_y - 1);
+    std::cout << std::setw(ModalCreate::modal_width - 1) << std::left << ModalCreate::new_file_name;
 
 }
 
@@ -53,7 +62,7 @@ void ModalCreate::Render()
 
 
     std::cout << ModalCreate::kWarning;
-
+    ModalCreate::RenderInput();
     ModalCreate::RenderChoicePositions();
 }
 
@@ -79,12 +88,11 @@ void ModalCreate::PrintBorder()
         std::cout << ModalCreate::kBorderTexture;
 }
 
-void ModalCreate::MoveSelection(const short &delta)
+void ModalCreate::MoveSelection(const short &new_item)
 {
-    if (ModalCreate::currently_selected + delta >= 0 &&
-        ModalCreate::currently_selected + delta < ModalCreate::kChoiceItems.size())
+    if (new_item >= 0 && new_item < ModalCreate::kChoiceItems.size())
     {
-        ModalCreate::currently_selected += delta;
+        ModalCreate::currently_selected = new_item;
         ModalCreate::RenderChoicePositions();
     }
 }
@@ -94,12 +102,26 @@ void ModalCreate::ProcessChoice()
     switch (ModalCreate::currently_selected)
     {
         case 0:
-            ModalCreate::is_launched = false;
+            ModalCreate::Close();
             GUI::RenderBodyDynamicFilesList();
             break;
         case 1:
+            if (std::find_if(std::begin(AppState::files_list), std::end(AppState::files_list),
+                             [&](const auto &item) { return item.path() == ModalCreate::new_file_name; }) ==
+                std::end(AppState::files_list))
+            {
+                std::filesystem::create_directory(
+                        std::filesystem::path(ModalCreate::current_path.string() + '\\' + ModalCreate::new_file_name));
+                AppState::UpdateDirectory(ModalCreate::current_path.string());
+            }
+
+            ModalCreate::Close();
+            GUI::RenderBodyDynamicFilesList();
+            break;
+        case 2:
+            auto response = std::ofstream(ModalCreate::current_path.string() + ModalCreate::new_file_name);
             AppState::UpdateDirectory(ModalCreate::current_path.string());
-            ModalCreate::is_launched = false;
+            ModalCreate::Close();
             GUI::RenderBodyDynamicFilesList();
             break;
     }
@@ -122,11 +144,14 @@ void ModalCreate::ComputeSingleMouseClick(const size_t &y, const size_t &x)
         return;
     }
 
-    else if (y == ModalCreate::choice_line_y)
+    else if (y == ModalCreate::choice_line_y && x >= ModalCreate::left_padding &&
+             x < ModalCreate::left_padding + ModalCreate::modal_width)
     {
         if (x >= ModalCreate::left_padding &&
             x < ModalCreate::left_padding + ModalCreate::modal_width / ModalCreate::kChoiceItems.size())
-            ModalCreate::MoveSelection(-1);
+            ModalCreate::MoveSelection(0);
+        else if (x > ModalCreate::left_padding + 2 * ModalCreate::modal_width / ModalCreate::kChoiceItems.size())
+            ModalCreate::MoveSelection(2);
         else
             ModalCreate::MoveSelection(1);
     }
@@ -145,18 +170,37 @@ void ModalCreate::ComputeDoubleMouseClick(const size_t &y, const size_t &x)
         return;
     }
 
-    else if (y == ModalCreate::choice_line_y)
+    else if (y == ModalCreate::choice_line_y && x >= ModalCreate::left_padding &&
+             x < ModalCreate::left_padding + ModalCreate::modal_width)
     {
         if (x >= ModalCreate::left_padding &&
             x < ModalCreate::left_padding + ModalCreate::modal_width / ModalCreate::kChoiceItems.size())
-        {
-            ModalCreate::MoveSelection(-1);
-            ModalCreate::ProcessChoice();
-        }
+            ModalCreate::MoveSelection(0);
+        else if (x > ModalCreate::left_padding + 2 * ModalCreate::modal_width / ModalCreate::kChoiceItems.size())
+            ModalCreate::MoveSelection(2);
         else
-        {
             ModalCreate::MoveSelection(1);
-            ModalCreate::ProcessChoice();
+
+        ModalCreate::ProcessChoice();
+    }
+}
+
+void ModalCreate::UpdateNewFileName(const size_t &code)
+{
+    if (code == 13)
+    {
+        if (!ModalCreate::new_file_name.empty())
+        {
+            ModalCreate::new_file_name.pop_back();
+            ModalCreate::RenderInput();
+        }
+    }
+    else
+    {
+        if (ModalCreate::new_file_name.size() < ModalCreate::modal_width - 2)
+        {
+            ModalCreate::new_file_name += static_cast<char>(code);
+            ModalCreate::RenderInput();
         }
     }
 }
