@@ -153,7 +153,7 @@ void EventsController::ProcessKeyEvent(const KEY_EVENT_RECORD &key_event)
 }
 
 
-void EventsController::ProcessMouseMainGUI(const MOUSE_EVENT_RECORD &mouse_event)
+void EventsController::ProcessMouseMain(const MOUSE_EVENT_RECORD &)
 {
     switch (mouse_event.dwEventFlags)
     {
@@ -211,6 +211,5 @@ void EventsController::ProcessMouseEvent(const MOUSE_EVENT_RECORD &mouse_event)
     else if (ModalCreate::IsLaunched())
         EventsController::ProcessMouseModalCreate(mouse_event);
     else
-        EventsController::ProcessMouseMainGUI(mouse_event);
+        EventsController::ProcessMouseMain(mouse_event);
 }
-
