@@ -2,20 +2,14 @@
 
 const std::array<const std::string, 2> ModalDelete::kChoiceItems = {"Cancel", "Ok"};
 const std::string ModalDelete::kWarning = "Do you wish to remove ?";
-const std::string ModalDelete::kBorderTexture = "═";
-const Color ModalDelete::kBackgroundColor;
-const Color ModalDelete::kForegroundColor;
-const Color ModalDelete::kSelectionColor;
+
 std::filesystem::path ModalDelete::deleted_item_path;
 std::filesystem::path ModalDelete::current_path;
-const size_t ModalDelete::kMarginTop;
-const size_t ModalDelete::kBottomBorderCoordinate;
 size_t ModalDelete::modal_width;
-const size_t ModalDelete::modal_height;
 size_t ModalDelete::left_padding;
 bool ModalDelete::is_launched = false;
 size_t ModalDelete::currently_selected = 0;
-size_t ModalDelete::choice_line_y = ModalDelete::kMarginTop + 3;
+size_t ModalDelete::choice_line_y = kModalMarginTop + 3;
 
 
 void ModalDelete::RenderChoicePositions()
@@ -25,9 +19,9 @@ void ModalDelete::RenderChoicePositions()
     for (size_t counter = 0; counter < ModalDelete::kChoiceItems.size(); ++counter)
     {
         GUI::SetConsoleColors(counter == ModalDelete::currently_selected
-                              ? ModalDelete::kSelectionColor
-                              : ModalDelete::kBackgroundColor,
-                              ModalDelete::kForegroundColor);
+                              ? kModalSelectionColor
+                              : kModalBackgroundColor,
+                              kModalForegroundColor);
 
         std::cout << std::setw(ModalDelete::modal_width / ModalDelete::kChoiceItems.size()) << std::right
                   << (ModalDelete::kChoiceItems.at(counter) + " ");
@@ -36,15 +30,15 @@ void ModalDelete::RenderChoicePositions()
 
 void ModalDelete::Render()
 {
-    GUI::PaintBackground(ModalDelete::kMarginTop, ModalDelete::left_padding,
-                         ModalDelete::kBottomBorderCoordinate, ModalDelete::left_padding + ModalDelete::modal_width,
-                         ModalDelete::kBackgroundColor);
-    GUI::MoveToCoordinate(ModalDelete::left_padding, ModalDelete::kMarginTop);
-    GUI::SetConsoleColors(ModalDelete::kBackgroundColor, ModalDelete::kForegroundColor);
+    GUI::PaintBackground(kModalMarginTop, ModalDelete::left_padding,
+                         kModalBottomBorderCoordinate, ModalDelete::left_padding + ModalDelete::modal_width,
+                         kModalBackgroundColor);
+    GUI::MoveToCoordinate(ModalDelete::left_padding, kModalMarginTop);
+    GUI::SetConsoleColors(kModalBackgroundColor, kModalForegroundColor);
     ModalDelete::PrintBorder();
 
     GUI::MoveToCoordinate(ModalDelete::left_padding + (ModalDelete::modal_width / 2 - ModalDelete::kWarning.size() / 2),
-                          ModalDelete::kMarginTop + 1);
+                          kModalMarginTop + 1);
 
 
     std::cout << ModalDelete::kWarning;
@@ -73,7 +67,7 @@ const bool ModalDelete::IsLaunched()
 void ModalDelete::PrintBorder()
 {
     for (size_t counter = 0; counter <= ModalDelete::modal_width; ++counter)
-        std::cout << ModalDelete::kBorderTexture;
+        std::cout << kModalBorderTexture;
 }
 
 void ModalDelete::MoveSelection(const short &new_item)
@@ -110,8 +104,8 @@ void ModalDelete::Close()
 
 void ModalDelete::ComputeSingleMouseClick(const size_t &y, const size_t &x)
 {
-    if (y < ModalDelete::kMarginTop ||
-        y > ModalDelete::kBottomBorderCoordinate ||
+    if (y < kModalMarginTop ||
+        y > kModalBottomBorderCoordinate ||
         x < ModalDelete::left_padding ||
         x > ModalDelete::left_padding + ModalDelete::modal_width)
     {
@@ -131,8 +125,8 @@ void ModalDelete::ComputeSingleMouseClick(const size_t &y, const size_t &x)
 
 void ModalDelete::ComputeDoubleMouseClick(const size_t &y, const size_t &x)
 {
-    if (y < ModalDelete::kMarginTop ||
-        y > ModalDelete::kBottomBorderCoordinate ||
+    if (y < kModalMarginTop ||
+        y > kModalBottomBorderCoordinate ||
         x < ModalDelete::left_padding ||
         x > ModalDelete::left_padding + ModalDelete::modal_width)
     {

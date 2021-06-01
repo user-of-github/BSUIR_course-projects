@@ -3,6 +3,7 @@
 
 #include "../MainGUI/main_GUI.h"
 #include "../../Utilities/utilities.h"
+#include "modal-constants.h"
 
 class ModalDelete
 {
@@ -11,13 +12,7 @@ private:
 
     static const std::array<const std::string, 2> kChoiceItems;
     static const std::string kWarning;
-    static const std::string kBorderTexture;
-    static const Color kBackgroundColor = Color::Green;
-    static const Color kForegroundColor = Color::White;
-    static const Color kSelectionColor = Color::Black;
-    static const size_t kMarginTop = 5;
-    static const size_t modal_height = 5;
-    static const size_t kBottomBorderCoordinate = ModalDelete::kMarginTop + ModalDelete::modal_height;
+
     static size_t modal_width;
 
     static size_t left_padding;
