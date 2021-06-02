@@ -60,7 +60,7 @@ void EventsController::ArrowBackPressed(const MOUSE_EVENT_RECORD &mouse_event)
         }
 }
 
-void EventsController::ProcessKeyMainGUI(const KEY_EVENT_RECORD &key_event)
+void EventsController::ProcessKeyEventInMainGUI(const KEY_EVENT_RECORD &key_event)
 {
     switch (key_event.wVirtualKeyCode)
     {
@@ -92,7 +92,7 @@ void EventsController::ProcessKeyMainGUI(const KEY_EVENT_RECORD &key_event)
     }
 }
 
-void EventsController::ProcessKeyModalCreate(const KEY_EVENT_RECORD &key_event)
+void EventsController::ProcessKeyEventInModalCreate(const KEY_EVENT_RECORD &key_event)
 {
     switch (key_event.wVirtualKeyCode)
     {
@@ -117,7 +117,7 @@ void EventsController::ProcessKeyModalCreate(const KEY_EVENT_RECORD &key_event)
     }
 }
 
-void EventsController::ProcessKeyModalDelete(const KEY_EVENT_RECORD &key_event)
+void EventsController::ProcessKeyEventInModalDelete(const KEY_EVENT_RECORD &key_event)
 {
     switch (key_event.wVirtualKeyCode)
     {
@@ -145,15 +145,15 @@ void EventsController::ProcessKeyEvent(const KEY_EVENT_RECORD &key_event)
         return;
 
     if (ModalDelete::IsLaunched())
-        EventsController::ProcessKeyModalDelete(key_event);
+        EventsController::ProcessKeyEventInModalDelete(key_event);
     else if (ModalCreate::IsLaunched())
-        EventsController::ProcessKeyModalCreate(key_event);
+        EventsController::ProcessKeyEventInModalCreate(key_event);
     else
-        EventsController::ProcessKeyMainGUI(key_event);
+        EventsController::ProcessKeyEventInMainGUI(key_event);
 }
 
 
-void EventsController::ProcessMouseMain(const MOUSE_EVENT_RECORD &)
+void EventsController::ProcessMouseEventInMainGUI(const MOUSE_EVENT_RECORD &mouse_event)
 {
     switch (mouse_event.dwEventFlags)
     {
@@ -178,7 +178,7 @@ void EventsController::ProcessMouseMain(const MOUSE_EVENT_RECORD &)
     }
 }
 
-void EventsController::ProcessMouseModalDelete(const MOUSE_EVENT_RECORD &mouse_event)
+void EventsController::ProcessMouseEventInModalDelete(const MOUSE_EVENT_RECORD &mouse_event)
 {
     switch (mouse_event.dwEventFlags)
     {
@@ -191,7 +191,7 @@ void EventsController::ProcessMouseModalDelete(const MOUSE_EVENT_RECORD &mouse_e
     }
 }
 
-void EventsController::ProcessMouseModalCreate(const MOUSE_EVENT_RECORD &mouse_event)
+void EventsController::ProcessMouseEventInModalCreate(const MOUSE_EVENT_RECORD &mouse_event)
 {
     switch (mouse_event.dwEventFlags)
     {
@@ -207,9 +207,9 @@ void EventsController::ProcessMouseModalCreate(const MOUSE_EVENT_RECORD &mouse_e
 void EventsController::ProcessMouseEvent(const MOUSE_EVENT_RECORD &mouse_event)
 {
     if (ModalDelete::IsLaunched())
-        EventsController::ProcessMouseModalDelete(mouse_event);
+        EventsController::ProcessMouseEventInModalDelete(mouse_event);
     else if (ModalCreate::IsLaunched())
-        EventsController::ProcessMouseModalCreate(mouse_event);
+        EventsController::ProcessMouseEventInModalCreate(mouse_event);
     else
-        EventsController::ProcessMouseMain(mouse_event);
+        EventsController::ProcessMouseEventInMainGUI(mouse_event);
 }

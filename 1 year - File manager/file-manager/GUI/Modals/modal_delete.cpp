@@ -70,7 +70,7 @@ void ModalDelete::PrintBorder()
         std::cout << kModalBorderTexture;
 }
 
-void ModalDelete::MoveSelection(const short &new_item)
+void ModalDelete::MoveSelection(const short new_item)
 {
     if (new_item >= 0 && new_item < ModalDelete::kChoiceItems.size())
     {
@@ -102,7 +102,7 @@ void ModalDelete::Close()
     GUI::RenderBodyDynamicFilesList();
 }
 
-void ModalDelete::ComputeSingleMouseClick(const size_t &y, const size_t &x)
+void ModalDelete::ComputeSingleMouseClick(const size_t y, const size_t x)
 {
     if (y < kModalMarginTop ||
         y > kModalBottomBorderCoordinate ||
@@ -123,7 +123,7 @@ void ModalDelete::ComputeSingleMouseClick(const size_t &y, const size_t &x)
     }
 }
 
-void ModalDelete::ComputeDoubleMouseClick(const size_t &y, const size_t &x)
+void ModalDelete::ComputeDoubleMouseClick(const size_t y, const size_t x)
 {
     if (y < kModalMarginTop ||
         y > kModalBottomBorderCoordinate ||

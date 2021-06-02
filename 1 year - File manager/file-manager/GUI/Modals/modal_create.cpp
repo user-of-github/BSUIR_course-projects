@@ -98,7 +98,7 @@ void ModalCreate::ProcessChoice()
     }
 }
 
-void ModalCreate::ComputeSingleMouseClick(const size_t &y, const size_t &x)
+void ModalCreate::ComputeSingleMouseClick(const size_t y, const size_t x)
 {
     if (y < kModalMarginTop ||
         y > kModalBottomBorderCoordinate ||
@@ -122,7 +122,7 @@ void ModalCreate::ComputeSingleMouseClick(const size_t &y, const size_t &x)
     }
 }
 
-void ModalCreate::ComputeDoubleMouseClick(const size_t &y, const size_t &x)
+void ModalCreate::ComputeDoubleMouseClick(const size_t y, const size_t x)
 {
     if (y < kModalMarginTop ||
         y > kModalBottomBorderCoordinate ||
@@ -148,7 +148,7 @@ void ModalCreate::ComputeDoubleMouseClick(const size_t &y, const size_t &x)
     }
 }
 
-void ModalCreate::UpdateNewFileName(const size_t &code)
+void ModalCreate::UpdateNewFileName(const size_t code)
 {
     if (code == 13)
     {
@@ -186,7 +186,7 @@ const bool ModalCreate::IsLaunched()
 }
 
 
-void ModalCreate::MoveSelection(const short &new_item)
+void ModalCreate::MoveSelection(const short new_item)
 {
     if (new_item >= 0 && new_item < ModalCreate::kChoiceItems.size())
     {
@@ -200,4 +200,3 @@ void ModalCreate::Close()
     ModalCreate::is_launched = false;
     GUI::RenderBodyDynamicFilesList();
 }
-

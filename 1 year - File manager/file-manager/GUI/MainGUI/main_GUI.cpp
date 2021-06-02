@@ -81,7 +81,7 @@ void GUI::ConfigureConsoleWindow()
     GUI::HideCursor();
 }
 
-void GUI::MoveToCoordinate(const size_t &x, const size_t &y)
+void GUI::MoveToCoordinate(const size_t x, const size_t y)
 {
     SetConsoleCursorPosition(GUI::console_handle, {(short) x, (short) y});
 }
@@ -91,7 +91,7 @@ void GUI::SetConsoleColors(const Color &back, const Color &fore)
     SetConsoleTextAttribute(GUI::console_handle, (WORD) ((static_cast<int>(back) << 4) | static_cast<int>(fore)));
 }
 
-void GUI::PaintBackground(const size_t &y_start, const size_t &x_start, const size_t &y_end, const size_t &x_end,
+void GUI::PaintBackground(const size_t y_start, const size_t x_start, const size_t y_end, const size_t x_end,
                           const Color &background)
 {
     GUI::MoveToCoordinate(x_start, y_start);
@@ -175,7 +175,7 @@ void GUI::RenderBodyDynamicPath()
     std::cout << ' ' << GUI::kArrowBackTexture << ' ';
 }
 
-void GUI::RenderBodySingleFileLine(const std::filesystem::directory_entry &file, const bool &is_link_to_parent)
+void GUI::RenderBodySingleFileLine(const std::filesystem::directory_entry &file, const bool is_link_to_parent)
 {
     if (file.path().string() == AppState::parent_directory)
     {
@@ -244,7 +244,7 @@ void GUI::RenderFooter()
 }
 
 
-void GUI::ChangeSelection(const size_t &previous, const size_t &current)
+void GUI::ChangeSelection(const size_t previous, const size_t current)
 {
     GUI::MoveToCoordinate(0, 3 + previous);
     GUI::SetConsoleColors(GUI::kTheme.body_background, GUI::kTheme.body_foreground);
@@ -259,7 +259,7 @@ void GUI::ChangeSelection(const size_t &previous, const size_t &current)
                                   AppState::files_list.at(0));
 }
 
-void GUI::MoveSelection(const short &delta)
+void GUI::MoveSelection(const short delta)
 {
     if (AppState::current_position + delta >= 0 &&
         AppState::current_position + delta < AppState::currently_rendered_files_list.size())

@@ -57,11 +57,11 @@ private:
 
     static void ConfigureConsoleWindow();
 
-    static void MoveToCoordinate(const size_t &, const size_t &);
+    static void MoveToCoordinate(const size_t, const size_t);
 
     static void SetConsoleColors(const Color &, const Color &);
 
-    static void PaintBackground(const size_t &, const size_t &, const size_t &, const size_t &, const Color &);
+    static void PaintBackground(const size_t, const size_t, const size_t, const size_t, const Color &);
 
     static void PaintFooterBackground();
 
@@ -73,7 +73,7 @@ private:
 
     static void RenderBodyDynamicPath();
 
-    static void RenderBodySingleFileLine(const std::filesystem::directory_entry &, const bool &);
+    static void RenderBodySingleFileLine(const std::filesystem::directory_entry &, const bool);
 
     static void RenderBodyDynamicFilesList();
 
@@ -81,9 +81,9 @@ private:
 
     static void RenderFooter();
 
-    static void ChangeSelection(const size_t &, const size_t &);
+    static void ChangeSelection(const size_t, const size_t);
 
-    static void MoveSelection(const short &);
+    static void MoveSelection(const short);
 };
 
 

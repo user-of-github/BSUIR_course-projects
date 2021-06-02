@@ -31,16 +31,16 @@ private:
 
     static void ProcessChoice();
 
-    static void ComputeSingleMouseClick(const size_t &, const size_t &);
+    static void ComputeSingleMouseClick(const size_t, const size_t);
 
-    static void ComputeDoubleMouseClick(const size_t &, const size_t &);
+    static void ComputeDoubleMouseClick(const size_t, const size_t);
 
 public:
     static void Launch(const std::filesystem::path &, const std::filesystem::path &);
 
     static const bool IsLaunched();
 
-    static void MoveSelection(const short &);
+    static void MoveSelection(const short);
 
     static void Close();
 };

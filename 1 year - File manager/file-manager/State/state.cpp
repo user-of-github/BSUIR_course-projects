@@ -77,4 +77,3 @@ void AppState::Move(const std::string &new_path)
     AppState::history.push(AppState::current_directory);
     AppState::UpdateDirectory(new_path);
 }
-

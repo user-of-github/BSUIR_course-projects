@@ -6,7 +6,7 @@
 
 * _Teach console to work with custom events (mouse & keyboard)_
 * _Apply the approach of separate rendering of pseudo-components in interface_
-* _Teach console to look similar to desktop Window application_
+* _Teach console to look & behave similar to desktop Window application (as example - FAR Manager)_
 
 #### Features:
 
@@ -14,15 +14,17 @@
 * _Modern language standard: C++ 17_  
 * _Google C++ Style Guide (CodeStyle)_
 * _Building interaction among entities (classes) for rendering, listening events, etc._
+* _Separate component-rendering only when needed_
+* _3 main entities a bit like in React-Redux-RxJS concept: AppState => store, GUI => component, EventController => events subscriber_
 
 #### Functionality:
 
-* _Browsing and navigation through folders_
-* _Full mouse (wheel & clicks) and keyboard navigation system support_
+* _Full mouse (wheel & clicks) and keyboard navigation_
 * _Creating & removing items via pseudo-modals (pop-ups)_
+* _Browsing and navigation through folders_
+* _Opening files via default programs declared in Windows_
 * _Setting color-palettes from the separate theme file_
 * _Saving the history of directories visits_
-* _Opening files via default programs declared in Windows_
 
 #### Demo:
 
@@ -33,17 +35,18 @@
 #### Technologies used:
 
 * _C++_
-    * _C++ 17_
+    * _C++ 17 (almost only features from C++ 11 and newer)_
     * _WinAPI_
     * _Standard Template Library_
 
 #### Developed in:
 
 * _JetBrains Clion_
+  &nbsp;  
+  &nbsp;  
+###### _Copyright © 2021 | All rights reserved_
 
-###### _Copyright © 2021_
-
-###### **Slutski Nikita**
+###### **Slutski Nikita** 
 
 ###### _Student of group 053501_
 

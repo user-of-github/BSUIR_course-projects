@@ -49,26 +49,22 @@ struct Theme
 };
 
 
-const std::string LeftTrim(std::string);
-
-const std::string RightTrim(std::string);
-
 const std::string Trim(std::string);
 
 const Color StringToColor(const std::string &);
 
 const size_t GetMaximumWordLength(const std::array<const std::string, 4> &);
 
-const std::string CutDirectoryString(const std::string &, const size_t &);
+const std::string CutDirectoryString(const std::string &, const size_t);
 
 const std::string FileTypeToString(const std::filesystem::file_type &);
 
-const std::string CutFileNameString(const std::string &, const size_t &);
+const std::string CutFileNameString(const std::string &, const size_t);
 
 const bool IsFileHidden(const std::filesystem::directory_entry &);
 
 const std::string GetParentDirectory(const std::string &);
 
-const std::string GetAdaptiveSize(const size_t &);
+const std::string GetAdaptiveSize(const size_t);
 
 #endif //FILE_MANAGER_UTILITY_H

@@ -1,27 +1,15 @@
 #include "utilities.h"
 
-const std::string LeftTrim(std::string s)
-{
-    s.erase(std::begin(s), std::find_if(std::begin(s), std::end(s), [](unsigned char ch) {
-        return !std::isspace(ch);
-    }));
-
-    return s;
-};
-
-const std::string RightTrim(std::string s)
+const std::string Trim(std::string s)
 {
     s.erase(std::find_if(std::rbegin(s), std::rend(s), [](unsigned char ch) {
         return !std::isspace(ch);
     }).base(), std::end(s));
 
-    return s;
-}
+    s.erase(std::begin(s), std::find_if(std::begin(s), std::end(s), [](unsigned char ch) {
+        return !std::isspace(ch);
+    }));
 
-const std::string Trim(std::string s)
-{
-    s = LeftTrim(s);
-    s = RightTrim(s);
 
     return s;
 }
@@ -90,7 +78,7 @@ const size_t GetMaximumWordLength(const std::array<const std::string, 4> &array)
     return response;
 }
 
-const std::string CutDirectoryString(const std::string &query, const size_t &max_path_length)
+const std::string CutDirectoryString(const std::string &query, const size_t max_path_length)
 {
     if (query.size() <= max_path_length)
         return query;
@@ -137,7 +125,7 @@ const std::string FileTypeToString(const std::filesystem::file_type &type)
     }
 }
 
-const std::string CutFileNameString(const std::string &query, const size_t &to_length)
+const std::string CutFileNameString(const std::string &query, const size_t to_length)
 {
     if (query.size() < to_length)
         return query;
@@ -171,7 +159,7 @@ const std::string GetParentDirectory(const std::string &current_directory)
     return response;
 }
 
-const std::string GetAdaptiveSize(const size_t &bytes_value)
+const std::string GetAdaptiveSize(const size_t bytes_value)
 {
     std::string bytes = std::to_string(bytes_value);
     std::string kilobytes = std::to_string(bytes_value / 1024);

@@ -14,6 +14,7 @@ public:
 
 private:
     friend class EventsController;
+
     friend class ModalCreate;
 
     friend class GUI;
@@ -24,9 +25,9 @@ private:
     static std::string current_directory;
     static std::string parent_directory;
 
-    static std::map<size_t, std::filesystem::directory_entry> currently_rendered_with_coordinates;
-    static std::vector<std::filesystem::directory_entry> currently_rendered_files_list;
-    static std::vector<std::filesystem::directory_entry> files_list;
+    static std::map<size_t, std::filesystem::directory_entry> currently_rendered_with_coordinates; // according to screen coordinates
+    static std::vector<std::filesystem::directory_entry> currently_rendered_files_list; // just currently rendered list
+    static std::vector<std::filesystem::directory_entry> files_list; // all in current directory
     static size_t render_from, render_to; // in global vector
     static size_t current_position; // in currently_rendered
 
@@ -34,7 +35,6 @@ private:
     static std::filesystem::directory_iterator GetDirectoryByPath(const std::string &);
 
     static void GetFilesListFromDirectoryIterator(std::filesystem::directory_iterator &);
-
 
     static bool GoBack();
 
