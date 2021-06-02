@@ -15,7 +15,7 @@
 * _Google C++ Style Guide (CodeStyle)_
 * _Building interaction among entities (classes) for rendering, listening events, etc._
 * _Separate component-rendering only when needed_
-* _3 main entities a bit like in React-Redux-RxJS concept: AppState => store, GUI => component, EventController => events subscriber_
+* _3 main entities a bit like in React-Redux-RxJS concept: AppState => store, GUI => component, EventsController => events subscriber_
 
 #### Functionality:
 
