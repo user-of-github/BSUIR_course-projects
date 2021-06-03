@@ -1,6 +1,8 @@
 #ifndef FILE_MANAGER_FILEMANAGERSTATE_H
 #define FILE_MANAGER_FILEMANAGERSTATE_H
 
+#pragma once
+
 #include "../Utilities/utilities.h"
 #include "../GUI/EventsConroller/events_controller.h"
 #include "../GUI/Modals/modal_create.h"

@@ -1,4 +1,4 @@
-# Console File manager
+# Deep modification of the standard Windows console and creation of a file manager based on it
 
 &nbsp;
 
