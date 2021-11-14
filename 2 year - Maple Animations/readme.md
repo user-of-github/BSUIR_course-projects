@@ -1,4 +1,6 @@
+## _Subject: __Mathematics. Mathematical analysis___  
 # Maple animation capabilities for visualizing solutions
+
 
 &nbsp;
 
