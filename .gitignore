@@ -12,3 +12,5 @@ cmake-build-debug
 *.gcda
 *.gcov
 *.rar
+.bak
+*.bak
