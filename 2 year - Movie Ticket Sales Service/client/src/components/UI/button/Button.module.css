@@ -1,0 +1,31 @@
+.button {
+    transition-duration: var(--default-animation-duration);
+    transition-property: background-color, border-color, transform;
+    border-radius: 50px;
+    padding: 8px 17px;
+    font-weight: bolder;
+    font-size: 14px;
+    color: black;
+    border: 1px solid transparent;
+    background-color: transparent;
+    outline: none;
+    height: auto;
+    margin: auto 0;
+
+    text-transform: uppercase;
+}
+
+.buttonStroke {
+    border: 1px solid var(--accent-main);
+}
+
+.button:hover {
+    cursor: pointer;
+    background-color: var(--accent-main);
+    border-color: var(--accent-main);
+    color: white;
+}
+
+
+.button:active {
+}

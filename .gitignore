@@ -1,11 +1,7 @@
-*/.idea
-*/cmake-build-debug
+.idea/
+cmake-build-debug/
 *.exe
 *.o
-/.idea
-.idea
-/cmake-build-debug
-cmake-build-debug
 *.s
 *.gcno
 .gcno
@@ -14,3 +10,5 @@ cmake-build-debug
 *.rar
 .bak
 *.bak
+
+node_modules/

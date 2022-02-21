@@ -1,0 +1,29 @@
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Play', sans-serif;
+
+    --accent-main: #4834d4;
+    --main-background: #f1f2f6;
+    --container-background: #fff;
+    --main-font-family: 'Play', sans-serif;
+    --inactive-font-color: #999;
+    --default-font-size: 18px;
+
+    --default-animation-duration: 0.2s;
+}
+
+html {
+    background-color: var(--main-background);
+    color: var(--accent-main);
+    font-size: 10px;
+    font-family: var(--main-font-family);
+}
+
+body {
+    margin: 0;
+    overflow-x: hidden;
+    width: 100%;
+    min-height: 100vh;
+}
