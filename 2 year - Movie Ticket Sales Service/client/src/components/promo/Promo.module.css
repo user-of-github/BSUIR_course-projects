@@ -1,0 +1,38 @@
+.promoContainer {
+    width: 100%;
+}
+
+.promo {
+    background-color: var(--accent-main);
+    color: white;
+    padding: 40px 55px;
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, .15);
+    background-image: url("../../images/promo-bgc.png");
+    background-size: 375px;
+    background-position: right 30px center;
+    background-repeat: no-repeat;
+}
+
+.title {
+    color: white;
+    font-size: 40px;
+    max-width: 55%;
+}
+
+.subtitle {
+    margin-top: 18px;
+    font-size: 20px;
+    color: white;
+    max-width: 50%;
+    font-weight: 100;
+}
+
+.text {
+    margin-top: 40px;
+    font-size: 15px;
+    color: white;
+    font-weight: 100;
+    max-width: 65%;
+}

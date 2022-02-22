@@ -1,6 +1,6 @@
 .button {
     transition-duration: var(--default-animation-duration);
-    transition-property: background-color, border-color, transform;
+    transition-property: background-color, border-color, transform, color;
     border-radius: 50px;
     padding: 8px 17px;
     font-weight: bolder;
@@ -28,4 +28,5 @@
 
 
 .button:active {
+    transform: scale(0.8);
 }

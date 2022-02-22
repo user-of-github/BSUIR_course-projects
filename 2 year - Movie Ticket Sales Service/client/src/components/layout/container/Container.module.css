@@ -5,8 +5,9 @@
     justify-content: flex-start;
     align-items: flex-start;
     background-color: var(--container-background);
-    box-shadow: 0 0 5px rgba(0, 0, 0, .1);
-    height: 100vh;
+    box-shadow: 0 0 5px rgba(0, 0, 0, .05);
+    padding: 0 25px;
+    min-height: 100vh;
 }
 
 @media (min-width: 1200px) {
