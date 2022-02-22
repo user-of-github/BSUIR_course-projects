@@ -12,6 +12,8 @@
     --default-font-size: 18px;
 
     --default-animation-duration: 0.3s;
+
+    user-select: none;
 }
 
 html {

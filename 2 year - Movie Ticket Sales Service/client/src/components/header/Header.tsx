@@ -3,7 +3,7 @@ import {Input} from '../UI/input/Input'
 import Style from './Header.module.css'
 import Logo from '../../images/logo.png'
 import {Navigation} from '../navigation/Navigation'
-import {Button, ButtonType} from '../UI/button/Button'
+import {Button, ButtonStrokeType} from '../UI/button/Button'
 
 
 export const Header = (): JSX.Element => (
@@ -20,7 +20,9 @@ export const Header = (): JSX.Element => (
             <Input placeholder={'Search movies'}
                    styles={{marginRight: 'auto'}}
             />
-            <Button text={'Log in'}/>
+            <Button text={'Log in'}
+                    strokeType={ButtonStrokeType.BUTTON_STROKE}
+            />
         </Row>
     </header>
 )

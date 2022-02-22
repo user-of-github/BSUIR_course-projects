@@ -7,19 +7,36 @@
     font-size: 14px;
     color: black;
     border: 1px solid transparent;
-    background-color: transparent;
+
     outline: none;
     height: auto;
     margin: auto 0;
 
     text-transform: uppercase;
+    cursor: pointer;
 }
 
 .buttonStroke {
-    border: 1px solid var(--accent-main);
+    border-width: 1px;
+    border-style: solid;
 }
 
-.button:hover {
+.primary {
+    background-color: transparent;
+    color: black;
+}
+
+.primary.buttonStroke {
+    border-color: var(--accent-main);
+}
+
+.antiPrimary {
+    background-color: white;
+    color: black;
+}
+
+
+.primary:hover {
     cursor: pointer;
     background-color: var(--accent-main);
     border-color: var(--accent-main);

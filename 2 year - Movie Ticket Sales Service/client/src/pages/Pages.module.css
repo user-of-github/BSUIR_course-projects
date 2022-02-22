@@ -1,0 +1,15 @@
+.smoothLoading {
+    animation-name: smooth;
+    animation-duration: var(--default-animation-duration);
+    animation-timing-function: ease-in-out;
+}
+
+
+@keyframes smooth {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

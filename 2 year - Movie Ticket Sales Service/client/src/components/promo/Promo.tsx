@@ -1,6 +1,6 @@
 import Style from './Promo.module.css'
-import PromoBackground from '../../images/promo-bgc.png'
-import {Button} from '../UI/button/Button'
+import {Button, ButtonType} from '../UI/button/Button'
+import {Link} from 'react-router-dom'
 
 
 export const Promo = (): JSX.Element => (
@@ -17,7 +17,12 @@ export const Promo = (): JSX.Element => (
                 to use
             </p>
 
-            <Button text={'Explore tickets now !'} />
+            <Link to={"/movies"}>
+                <Button text={'Explore tickets now !'}
+                        type={ButtonType.BUTTON_ANTI_PRIMARY}
+                        styles={{marginTop: '30px'}}
+                />
+            </Link>
         </section>
     </div>
 )
