@@ -4,8 +4,4 @@
 
 
 
-###### _Copyright © 2021_
-
-###### **Slutski Nikita**
-
-###### _BSUIR | Faculty of Computer Systems & Networks | Computer Science & Programming Technologies_
+###### _Copyright © 2021 - 2022_

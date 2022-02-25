@@ -50,9 +50,3 @@
   &nbsp;
 
 ###### _Copyright © 2021 | All rights reserved_
-
-###### **Slutski Nikita**
-
-###### _Student of group 053501_
-
-###### _BSUIR | Faculty of Computer Systems & Networks | Computer Science & Programming Technologies_
