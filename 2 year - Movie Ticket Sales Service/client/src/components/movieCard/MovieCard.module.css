@@ -7,8 +7,6 @@
     cursor: default;
     transition-property: box-shadow, transform;
     transition-duration: var(--default-animation-duration);
-
-
 }
 
 .card:hover {

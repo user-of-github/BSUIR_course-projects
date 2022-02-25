@@ -7,7 +7,6 @@ import {Link} from 'react-router-dom'
 
 export const Navigation = (props: {styles?: React.CSSProperties}): JSX.Element => (
     <nav className={Style.nav} style={props.styles}>
-        <Row>
             <Link to={'/'}><Button text={'Homepage'} strokeType={ButtonStrokeType.BUTTON_NO_STROKE}/></Link>
             <Link to={'/movies'}>
                 <Button text={'Movies'}
@@ -27,6 +26,5 @@ export const Navigation = (props: {styles?: React.CSSProperties}): JSX.Element =
                         styles={{marginLeft: '7px'}}
                 />
             </Link>
-        </Row>
     </nav>
 )

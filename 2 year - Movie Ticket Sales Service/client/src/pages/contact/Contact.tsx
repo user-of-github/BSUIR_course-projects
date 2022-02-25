@@ -1,8 +1,19 @@
-import Style from '../Pages.module.css'
+import StylePages from '../Pages.module.css'
+import React from 'react'
 
 
-export const Contact = (): JSX.Element => (
-    <div className={Style.smoothLoading}>
-        CONTACT
-    </div>
-)
+export const Contact = (): JSX.Element => {
+    React.useEffect((): void => window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+    }), [])
+
+    return (
+        <div className={StylePages.smoothLoading}>
+            <main className={StylePages.main}>
+
+            </main>
+        </div>
+    )
+}
