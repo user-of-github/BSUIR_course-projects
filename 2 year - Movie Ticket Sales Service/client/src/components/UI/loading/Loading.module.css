@@ -1,0 +1,61 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+}
+
+.container h3 {
+    text-transform: uppercase;
+    margin: auto;
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: 100;
+}
+
+
+.inner, .outer {
+    animation-timing-function: cubic-bezier(.8,-0.08,.43,1.47);
+    animation-iteration-count: infinite;
+    transform-origin: center;
+}
+
+.inner {
+    animation-duration: 2.5s;
+    animation-name: innerLoading;
+}
+
+.outer {
+    animation-duration: 3s;
+    animation-name: outerLoading;
+}
+
+
+@keyframes innerLoading {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    50% {
+        transform: rotate(180deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes outerLoading {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    50% {
+        transform: rotate(-180deg);
+    }
+
+    100% {
+        transform: rotate(-360deg);
+    }
+}

@@ -1,9 +1,8 @@
-import Style from '../Pages.module.css'
 import StylePages from '../Pages.module.css'
 import React from 'react'
 
 
-export const MovieTheaters = (): JSX.Element => {
+export const ContactPage = (): JSX.Element => {
     React.useEffect((): void => window.scrollTo({
         top: 0,
         left: 0,
@@ -11,8 +10,10 @@ export const MovieTheaters = (): JSX.Element => {
     }), [])
 
     return (
-        <div className={Style.smoothLoading}>
-            <main className={StylePages.main}>MOVIE THEATERS</main>
+        <div className={StylePages.smoothLoading}>
+            <main className={StylePages.main}>
+
+            </main>
         </div>
     )
 }

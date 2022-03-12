@@ -1,24 +1,31 @@
 import React from 'react'
-import {Main} from '../pages/main/Main'
+import {MainPage} from '../pages/main/MainPage'
 import {Route, BrowserRouter as Router, Routes} from 'react-router-dom'
-import {Contact} from '../pages/contact/Contact'
-import {Movies} from '../pages/movies/Movies'
-import {MovieTheaters} from '../pages/movieTheaters/MovieTheaters'
+import {ContactPage} from '../pages/contact/ContactPage'
+import {MoviesPage} from '../pages/movies/MoviesPage'
+import {MovieTheatersPage} from '../pages/movieTheaters/MovieTheatersPage'
 import {Header} from './header/Header'
 import {Container} from './layout/container/Container'
+import {MoviePage} from '../pages/movie/MoviePage'
+import {Core} from '../types/Core'
 
 
-export const App = (): JSX.Element => (
-    <Container>
-        <Router>
-            <Header/>
-            <Routes>
-                <Route path={'/'} element={<Main/>}/>
-                <Route path={'/contact'} element={<Contact/>}/>
-                <Route path={'/movies'} element={<Movies/>}/>
-                <Route path={'/movie-theaters'} element={<MovieTheaters/>}/>
-            </Routes>
+export const App = (): JSX.Element => {
+    const appController: React.MutableRefObject<Core> = React.useRef(new Core())
 
-        </Router>
-    </Container>
-)
+    return (
+        <Container>
+            <Router>
+                <Header/>
+                <Routes>
+                    <Route path={'/'} element={<MainPage controller={appController.current}/>}/>
+                    <Route path={'/contact'} element={<ContactPage/>}/>
+                    <Route path={'/movies'} element={<MoviesPage controller={appController.current}/>}/>
+                    <Route path={'/movie'} element={<MoviePage controller={appController.current}/>}/>
+                    <Route path={'/movie-theaters'} element={<MovieTheatersPage controller={appController.current}/>}/>
+                </Routes>
+
+            </Router>
+        </Container>
+    )
+}
