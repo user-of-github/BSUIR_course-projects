@@ -1,12 +1,12 @@
 import {Promo} from '../../components/promo/Promo'
 import StylePages from '../Pages.module.css'
-import {Grid} from '../../components/layout/grid/Grid'
-import {MovieCard} from '../../components/movieCard/MovieCard'
 import {Movie} from '../../types/Movie'
 import React from 'react'
 import {Core} from '../../types/Core'
 import {LoadingState} from '../../types/LoadingState'
 import {MovieGrid} from '../../components/movieGrid/MovieGrid'
+import {ServerResponse} from '../../types/ServerResponse'
+import {RequestCallback} from '../../types/RequestCallback'
 
 
 export const MainPage = (props: { controller: Core }): JSX.Element => {
@@ -16,10 +16,20 @@ export const MainPage = (props: { controller: Core }): JSX.Element => {
     React.useEffect((): void => {
         window.scrollTo({top: 0, left: 0, behavior: 'smooth'})
 
-        window.setTimeout((): void => {
-            setPopularMovies(props.controller.getPopularMovies())
+        const onPopularMoviesLoad: RequestCallback = (data, error) => {
             setLoading(LoadingState.LOADED)
-        }, 3000)
+
+            if (error) throw new Error(error.message)
+
+            const parsedResponse: ServerResponse = JSON.parse(data!)
+
+            if (parsedResponse.success) // @ts-ignore
+                setPopularMovies(Array.from(parsedResponse.data))
+            else
+                setPopularMovies([])
+        }
+
+        props.controller.getPopularMovies(onPopularMoviesLoad)
     }, [])
 
 

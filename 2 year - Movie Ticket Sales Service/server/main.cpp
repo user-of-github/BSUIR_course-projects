@@ -4,13 +4,13 @@
 
 int main()
 {
-	Service::Types::Movie test_data[]
-		{{ "Batman", "etjg", { "123", "588" }, 5, "", 12, 6 }, { "Batman", "etjg", { "123", "588" }, 5, "", 12, 6 },
-		 { "Batman", "etjg", { "123", "588" }, 5, "", 12, 6 }};
+  Service::Types::Movie test_data[]
+	  {{"Batman", "etjg", {"123", "588"}, 5, "", 12, 6}, {"Batman", "etjg", {"123", "588"}, 5, "", 12, 6},
+	   {"Batman", "etjg", {"123", "588"}, 5, "", 12, 6}};
 
-	Service::TicketSalesService app{};
+  Service::TicketSalesService app{};
 
-	app.Run();
+  app.Run();
 
-	return 0;
+  return 0;
 }

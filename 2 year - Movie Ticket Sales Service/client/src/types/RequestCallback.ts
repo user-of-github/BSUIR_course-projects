@@ -1,0 +1,1 @@
+export type RequestCallback = (data: string | null, error: Error | undefined) => void

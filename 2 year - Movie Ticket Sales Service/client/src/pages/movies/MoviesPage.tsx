@@ -4,6 +4,8 @@ import React from 'react'
 import {Core} from '../../types/Core'
 import {LoadingState} from '../../types/LoadingState'
 import {MovieGrid} from '../../components/movieGrid/MovieGrid'
+import {ServerResponse} from "../../types/ServerResponse";
+import {RequestCallback} from "../../types/RequestCallback";
 
 
 export const MoviesPage = (props: { controller: Core }): JSX.Element => {
@@ -13,10 +15,20 @@ export const MoviesPage = (props: { controller: Core }): JSX.Element => {
     React.useEffect((): void => {
         window.scrollTo({top: 0, left: 0, behavior: 'smooth'})
 
-        window.setTimeout((): void => {
-            setMovies(props.controller.getMovies(0, 4))
+        const onMoviesLoad: RequestCallback = (data, error) => {
             setLoading(LoadingState.LOADED)
-        }, 2000)
+
+            if (error) throw new Error(error.message)
+
+            const parsedResponse: ServerResponse = JSON.parse(data!)
+
+            if (parsedResponse.success)  // @ts-ignore
+                setMovies(Array.from(parsedResponse.data))
+            else
+                setMovies([])
+        }
+
+        props.controller.getMovies(onMoviesLoad)
     }, [])
 
 

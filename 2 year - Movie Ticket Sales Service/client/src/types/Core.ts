@@ -1,21 +1,24 @@
-import {Movie, testMovies} from './Movie'
+import {requestToServer} from "../utils/requestToServer";
+
 
 export class Core {
-    private serverDomain: string = ''
+    private serverDomain: string = 'http://0.0.0.0:8000/'
+    private getMovieRoute: string = 'movie-id'
+    private getAllMoviesRoute: string = 'movies'
 
-    public Core() {
+
+    public getMovieById(id: string, callback: any): void {
+        const fullUrl: string = `${this.serverDomain}${this.getMovieRoute}=${id}`
+        requestToServer({url: fullUrl, method: 'GET', callback: callback})
     }
 
-    public getMovieById(id: string): Movie | null {
-        const response: Movie | undefined = testMovies.find((movie: Movie) => movie.id === id)
-        return response === undefined ? null : response
+    public getPopularMovies(callback: any): void {
+        const fullUrl: string = `${this.serverDomain}${this.getAllMoviesRoute}/${0}/${3}`
+        requestToServer({url: fullUrl, method: 'GET', callback: callback})
     }
 
-    public getPopularMovies(): Array<Movie> {
-        return testMovies.slice(0, 3)
-    }
-
-    public getMovies(from: number = 0, to: number = 8): Array<Movie> {
-        return testMovies.slice(from, to)
+    public getMovies(callback: any, from: number = 0, to: number = 8): void {
+        const fullUrl: string = `${this.serverDomain}${this.getAllMoviesRoute}/${from}/${to}`
+        requestToServer({url: fullUrl, method: 'GET', callback: callback})
     }
 }
