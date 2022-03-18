@@ -16,7 +16,8 @@
 ### _Developed in:_
 
 * _JetBrains Clion_
-* _Mozilla Firefox (?) xD_
+* _Mozilla Firefox (?) xD_  
+* _OS Linux Ubuntu_
 
 &nbsp;
 

@@ -15,7 +15,8 @@
 
 ### _Developed in:_  
 * _[JetBrains WebStorm](https://www.jetbrains.com/webstorm/)_  
-* _[Microsoft Edge](https://www.microsoft.com/en-us/edge) & [Mozilla Firefox](https://www.mozilla.org/en-US/exp/firefox/new/)_ 
+* _[Microsoft Edge](https://www.microsoft.com/en-us/edge) & [Mozilla Firefox](https://www.mozilla.org/en-US/exp/firefox/new/)_  
+* _OS Linux Ubuntu_
 
 &nbsp;  
 

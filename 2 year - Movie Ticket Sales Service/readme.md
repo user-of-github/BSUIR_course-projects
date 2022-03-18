@@ -1,5 +1,5 @@
 ## _Subject: __Object oriented programming___  
-# Movie ticket sales service
+# _Movie ticket sales service_
 
 
 &nbsp;
@@ -11,9 +11,10 @@ _Web-service for selling tickets to the cinema_
 
 #### Developed in:
 
-* JetBrains Clion  
-* JetBrains WebStorm
-* OS: Linux
+* _JetBrains Clion_  
+* _JetBrains WebStorm_  
+* _OS Linux Ubuntu_  
+
 
 ###### Copyright © 2022 | All rights reserved
 
