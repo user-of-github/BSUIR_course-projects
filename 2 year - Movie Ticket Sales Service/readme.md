@@ -4,11 +4,16 @@
 
 &nbsp;
 
+_Web-application written on C++ and TypeScript_  
+_Web-service for selling tickets to the cinema_
+
+&nbsp;  
+
 #### Developed in:
 
 * JetBrains Clion  
 * JetBrains WebStorm
-* OS: Linux & Windows
+* OS: Linux
 
-###### _Copyright © 2022 | All rights reserved_
+###### Copyright © 2022 | All rights reserved
 
