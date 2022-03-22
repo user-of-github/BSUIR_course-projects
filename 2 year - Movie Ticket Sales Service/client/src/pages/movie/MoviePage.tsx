@@ -1,19 +1,19 @@
 import React from 'react'
 import StylePages from '../Pages.module.css'
-import {Core} from '../../types/Core'
+import {TicketSalesServiceCore} from '../../types/TicketSalesServiceCore'
 import {ServerResponse} from '../../types/ServerResponse'
 import {LoadingState} from '../../types/LoadingState'
 import {Loading} from '../../components/UI/loading/Loading'
 import {RequestCallback} from '../../types/RequestCallback'
 
 
-export const MoviePage = (props: { controller: Core }): JSX.Element => {
+export const MoviePage = (props: { controller: TicketSalesServiceCore }): JSX.Element => {
     const [loading, setLoading] = React.useState<LoadingState>(LoadingState.LOADING)
 
     React.useEffect((): void => {
         window.scrollTo({top: 0, left: 0, behavior: 'smooth'})
 
-        const id: string = new URLSearchParams(window.location.search).get('movie-id') || ''
+        const id: string = new URLSearchParams(window.location.search).get('id') || ''
 
         const onMovieLoad: RequestCallback = (data, error) => {
             setLoading(LoadingState.LOADED)

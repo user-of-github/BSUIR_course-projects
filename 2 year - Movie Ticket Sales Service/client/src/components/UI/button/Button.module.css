@@ -26,6 +26,11 @@
     color: black;
 }
 
+.filled {
+    background-color: var(--accent-main);
+    color: white;
+}
+
 .primary.buttonStroke {
     border-color: var(--accent-main);
 }

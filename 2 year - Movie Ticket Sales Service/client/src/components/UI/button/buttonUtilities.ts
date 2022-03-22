@@ -8,8 +8,10 @@ export const getClassesStringForButton = (type: ButtonType = ButtonType.BUTTON_P
 
     response += stroke === ButtonStrokeType.BUTTON_NO_STROKE ? '' : ' ' + Style.buttonStroke
     response += ' '
-    response += type === ButtonType.BUTTON_ANTI_PRIMARY ? Style.antiPrimary : Style.primary
-
+    response += type === ButtonType.BUTTON_ANTI_PRIMARY
+        ? Style.antiPrimary :
+        type === ButtonType.BUTTON_PRIMARY
+            ? Style.primary : `${Style.primary} ${Style.filled}`
 
     return response
 }

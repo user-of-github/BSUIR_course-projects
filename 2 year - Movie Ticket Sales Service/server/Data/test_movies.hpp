@@ -22,6 +22,7 @@ const std::vector<Service::Types::Movie> kTestMovies{
 	{"Shazam", "shazam2019", {"25", "25"}, 6,
 	 "https://cdn.europosters.eu/image/1300/posters/shazam-one-sheet-i71939.jpg", 122, 6},
 	{"Deadpool", "Deadpool", {"25", "25"}, 6, "https://i.ebayimg.com/images/g/QEYAAOSw4DJYmmOQ/s-l400.jpg", 122, 6},
+	{"Captain America: Civil War", "CaptainAmerica32016", {"25", "25"}, 6, "https://m.media-amazon.com/images/M/MV5BMjQ0MTgyNjAxMV5BMl5BanBnXkFtZTgwNjUzMDkyODE@._V1_.jpg", 122, 6},
 };
 
 #endif //MOVIE_TICKET_SALES_SERVICE_SERVER_DATA_TEST_MOVIES_HPP_

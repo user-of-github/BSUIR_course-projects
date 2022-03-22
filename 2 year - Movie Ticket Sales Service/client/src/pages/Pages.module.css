@@ -2,6 +2,8 @@
     animation-name: smooth;
     animation-duration: var(--default-animation-duration);
     animation-timing-function: ease-in-out;
+    width: 100%;
+    margin: 0 auto;
 }
 
 
@@ -9,6 +11,9 @@
     width: 100%;
     margin-top: 30px;
     padding-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 @keyframes smooth {

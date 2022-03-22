@@ -1,45 +1,45 @@
 import StylePages from '../Pages.module.css'
-import {Movie} from '../../types/Movie'
 import React from 'react'
-import {Core} from '../../types/Core'
 import {LoadingState} from '../../types/LoadingState'
+import {Loading} from '../../components/UI/loading/Loading'
 import {MovieGrid} from '../../components/movieGrid/MovieGrid'
-import {ServerResponse} from "../../types/ServerResponse";
-import {RequestCallback} from "../../types/RequestCallback";
+import {Center} from '../../components/layout/center/Center'
+import {Button, ButtonType} from '../../components/UI/button/Button'
+import {observer} from 'mobx-react-lite'
+import {MainState} from '../../types/MainState/MainState'
 
 
-export const MoviesPage = (props: { controller: Core }): JSX.Element => {
-    const [loading, setLoading] = React.useState<LoadingState>(LoadingState.LOADING)
-    const [movies, setMovies] = React.useState<Array<Movie>>([])
-
+export const MoviesPage = observer((props: { state: MainState }): JSX.Element => {
     React.useEffect((): void => {
         window.scrollTo({top: 0, left: 0, behavior: 'smooth'})
-
-        const onMoviesLoad: RequestCallback = (data, error) => {
-            setLoading(LoadingState.LOADED)
-
-            if (error) throw new Error(error.message)
-
-            const parsedResponse: ServerResponse = JSON.parse(data!)
-
-            if (parsedResponse.success)  // @ts-ignore
-                setMovies(Array.from(parsedResponse.data))
-            else
-                setMovies([])
-        }
-
-        props.controller.getMovies(onMoviesLoad)
+        props.state.moviesPageState.showLoadMoreButton && props.state.loadMoreMovies(4)
     }, [])
 
 
     return (
         <div className={StylePages.smoothLoading}>
             <main className={StylePages.main}>
-                <MovieGrid loadingState={loading}
-                           movies={movies}
-                           styles={{gridRowGap: '30px'}}
-                />
+                <MovieGrid movies={props.state.moviesPageState.cardsLoaded} styles={{gridRowGap: '30px'}}/>
+
+                {
+                    props.state.moviesPageState.loading === LoadingState.LOADING
+                    &&
+                    <Center><Loading/></Center>
+                }
+
+                {
+                    props.state.moviesPageState.loading !== LoadingState.LOADING
+                    &&
+                    props.state.moviesPageState.showLoadMoreButton
+                    &&
+                    <Center>
+                        <Button text={'Load more'}
+                                type={ButtonType.BUTTON_PRIMARY_FILLED}
+                                onClick={() => props.state.loadMoreMovies(8)}
+                        />
+                    </Center>
+                }
             </main>
         </div>
     )
-}
+})

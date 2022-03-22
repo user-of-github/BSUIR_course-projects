@@ -10,7 +10,8 @@ add_executable(
         main.cpp
         Types/movie.hpp Types/range.hpp
         Core/ticket_sales_service.cpp Core/ticket_sales_service.hpp
-        Types/movie.cpp Data/test_movies.hpp Types/serializable.hpp)
+        Types/movie.cpp Data/test_movies.hpp Types/serializable.hpp
+)
 
 target_link_libraries(movie-ticket-sales-service-server PUBLIC Crow::Crow)
 target_link_libraries(movie-ticket-sales-service-server PRIVATE nlohmann_json::nlohmann_json)

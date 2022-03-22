@@ -4,9 +4,8 @@
 
 int main()
 {
-  Service::TicketSalesService app{};
+	Service::TicketSalesService app{};
+	app.Run();
 
-  app.Run();
-
-  return 0;
+	return 0;
 }
