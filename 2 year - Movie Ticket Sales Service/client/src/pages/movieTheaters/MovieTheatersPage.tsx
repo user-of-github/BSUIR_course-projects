@@ -1,10 +1,10 @@
 import Style from '../Pages.module.css'
 import StylePages from '../Pages.module.css'
 import React from 'react'
-import {TicketSalesServiceCore} from '../../types/TicketSalesServiceCore'
+import {MainState} from '../../types/mainState/MainState'
 
 
-export const MovieTheatersPage = (props: {controller: TicketSalesServiceCore}): JSX.Element => {
+export const MovieTheatersPage = (props: {state: MainState}): JSX.Element => {
     React.useEffect((): void => window.scrollTo({
         top: 0,
         left: 0,

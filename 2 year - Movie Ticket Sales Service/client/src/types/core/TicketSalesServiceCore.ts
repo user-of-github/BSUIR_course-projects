@@ -1,4 +1,4 @@
-import {requestToServer} from '../utils/requestToServer'
+import {requestToServer} from '../../utils/requestToServer'
 
 
 export class TicketSalesServiceCore {
@@ -15,17 +15,17 @@ export class TicketSalesServiceCore {
     }
 
     public getMovieById(id: string, callback: any): void {
-        const fullUrl: string = `${TicketSalesServiceCore.DEFAULT_SERVER_DOMAIN}${TicketSalesServiceCore.SINGLE_MOVIE_ROUTE}=${id}`
+        const fullUrl: string = `${this.serverDomain}${TicketSalesServiceCore.SINGLE_MOVIE_ROUTE}=${id}`
         requestToServer({url: fullUrl, method: 'GET', callback: callback})
     }
 
     public getPopularMovies(callback: any): void {
-        const fullUrl: string = `${TicketSalesServiceCore.DEFAULT_SERVER_DOMAIN}${TicketSalesServiceCore.POPULAR_MOVIES_LIST_ROUTE}`
+        const fullUrl: string = `${this.serverDomain}${TicketSalesServiceCore.POPULAR_MOVIES_LIST_ROUTE}`
         requestToServer({url: fullUrl, method: 'GET', callback: callback})
     }
 
     public getMovies(callback: any, from: number, to: number): void {
-        const fullUrl: string = `${TicketSalesServiceCore.DEFAULT_SERVER_DOMAIN}${TicketSalesServiceCore.MOVIES_LIST_ROUTE}/${from}/${to}`
+        const fullUrl: string = `${this.serverDomain}${TicketSalesServiceCore.MOVIES_LIST_ROUTE}/${from}/${to}`
         requestToServer({url: fullUrl, method: 'GET', callback: callback})
     }
 }

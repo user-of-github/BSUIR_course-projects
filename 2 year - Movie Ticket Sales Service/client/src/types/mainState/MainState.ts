@@ -1,10 +1,11 @@
 import {makeAutoObservable} from 'mobx'
-import {TicketSalesServiceCore} from '../TicketSalesServiceCore'
+import {TicketSalesServiceCore} from '../core/TicketSalesServiceCore'
 import {MoviesPageState} from './MoviesPageState'
 import {LoadingState} from '../LoadingState'
 import {RequestCallback} from '../RequestCallback'
 import {ServerResponse} from '../ServerResponse'
 import {MainPageState} from './MainPageState'
+import {MoviePageState} from './MoviePageState'
 
 
 export class MainState {
@@ -13,6 +14,7 @@ export class MainState {
     public readonly controller: TicketSalesServiceCore
     public readonly moviesPageState: MoviesPageState
     public readonly mainPageState: MainPageState
+    public readonly moviePageState: MoviePageState
 
 
     public constructor() {
@@ -20,6 +22,7 @@ export class MainState {
 
         this.moviesPageState = {cardsLoaded: [], loading: LoadingState.LOADING, showLoadMoreButton: true}
         this.mainPageState = {loadedPopularMovies: [], loading: LoadingState.LOADING}
+        this.moviePageState = {loading: LoadingState.LOADING, movie: null}
 
         makeAutoObservable(this, {}, {deep: true})
     }
@@ -29,8 +32,6 @@ export class MainState {
 
         const currentLoadedTo: number = this.moviesPageState.cardsLoaded.length
         const newLoadedTo: number = currentLoadedTo + howMany - 1
-
-        console.log(currentLoadedTo, newLoadedTo)
 
         const onMoviesLoad: RequestCallback = (data, error) => {
             window.setTimeout(() => {
@@ -64,8 +65,6 @@ export class MainState {
 
             const parsedResponse: ServerResponse = JSON.parse(data!)
 
-            console.log(parsedResponse)
-
             if (parsedResponse.success) // @ts-ignore
                 this.mainPageState.loadedPopularMovies = Array.from(parsedResponse.data)
             else
@@ -73,5 +72,24 @@ export class MainState {
         }
 
         this.controller.getPopularMovies(onPopularMoviesLoad)
+    }
+
+    public loadMovie(id: string): void {
+        this.moviePageState.loading = LoadingState.LOADING
+
+        const onMovieLoad: RequestCallback = (data, error) => {
+            this.moviePageState.loading = LoadingState.LOADED
+
+            if (error) throw new Error(error.message)
+
+            const parsedResponse: ServerResponse = JSON.parse(data!)
+
+            if (parsedResponse.success) // @ts-ignore
+                this.moviePageState.movie = JSON.parse(parsedResponse.data)
+            else
+                throw new Error('Something went wrong (parsedResponse.success = false)')
+        }
+
+        this.controller.getMovieById(id, onMovieLoad)
     }
 }

@@ -6,7 +6,7 @@ import {MovieGrid} from '../../components/movieGrid/MovieGrid'
 import {Center} from '../../components/layout/center/Center'
 import {Button, ButtonType} from '../../components/UI/button/Button'
 import {observer} from 'mobx-react-lite'
-import {MainState} from '../../types/MainState/MainState'
+import {MainState} from '../../types/mainState/MainState'
 
 
 export const MoviesPage = observer((props: { state: MainState }): JSX.Element => {
@@ -24,7 +24,7 @@ export const MoviesPage = observer((props: { state: MainState }): JSX.Element =>
                 {
                     props.state.moviesPageState.loading === LoadingState.LOADING
                     &&
-                    <Center><Loading/></Center>
+                    <Center styles={{marginTop: '35px'}}><Loading/></Center>
                 }
 
                 {
@@ -32,7 +32,7 @@ export const MoviesPage = observer((props: { state: MainState }): JSX.Element =>
                     &&
                     props.state.moviesPageState.showLoadMoreButton
                     &&
-                    <Center>
+                    <Center styles={{marginTop: '35px'}}>
                         <Button text={'Load more'}
                                 type={ButtonType.BUTTON_PRIMARY_FILLED}
                                 onClick={() => props.state.loadMoreMovies(8)}

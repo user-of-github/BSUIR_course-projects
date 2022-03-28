@@ -1,5 +1,7 @@
 # _Movie Ticket Sales Service [server]_
 
+#### _Internal (back-end) part for my project_  
+
 ### _Technologies stack:_
 
 * _C++_
@@ -12,7 +14,10 @@
 
 * _Object-oriented style_
 * _[Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html)_  
-* _Partial extradition of movies_
+* _Partial extradition of movies_  
+
+
+### [May be interesting] [Some my current tasks and features:](todo.md)
 
 ### _Developed in:_
 

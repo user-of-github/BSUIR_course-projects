@@ -1,32 +1,17 @@
 import React from 'react'
 import StylePages from '../Pages.module.css'
-import {TicketSalesServiceCore} from '../../types/TicketSalesServiceCore'
-import {ServerResponse} from '../../types/ServerResponse'
 import {LoadingState} from '../../types/LoadingState'
 import {Loading} from '../../components/UI/loading/Loading'
-import {RequestCallback} from '../../types/RequestCallback'
+import {MainState} from '../../types/mainState/MainState'
+import {MovieInfoModule} from '../../components/movieInfoModule/MovieInfoModule'
+import {observer} from 'mobx-react-lite'
 
 
-export const MoviePage = (props: { controller: TicketSalesServiceCore }): JSX.Element => {
-    const [loading, setLoading] = React.useState<LoadingState>(LoadingState.LOADING)
-
+export const MoviePage = observer((props: { state: MainState }): JSX.Element => {
     React.useEffect((): void => {
         window.scrollTo({top: 0, left: 0, behavior: 'smooth'})
-
         const id: string = new URLSearchParams(window.location.search).get('id') || ''
-
-        const onMovieLoad: RequestCallback = (data, error) => {
-            setLoading(LoadingState.LOADED)
-
-            if (error) throw new Error(error.message)
-
-            const parsedResponse: ServerResponse = JSON.parse(data!)
-
-            if (parsedResponse.success)
-                console.log(JSON.parse(parsedResponse.data))
-        }
-
-        props.controller.getMovieById(id, onMovieLoad)
+        props.state.loadMovie(id)
     }, [])
 
 
@@ -34,13 +19,13 @@ export const MoviePage = (props: { controller: TicketSalesServiceCore }): JSX.El
         <div className={StylePages.smoothLoading}>
             <main className={StylePages.main}>
                 {
-                    loading === LoadingState.LOADING
+                    props.state.moviePageState.loading === LoadingState.LOADING
                         ?
                         <Loading/>
                         :
-                        <></>
+                        <MovieInfoModule movie={props.state.moviePageState.movie!}/>
                 }
             </main>
         </div>
     )
-}
+})

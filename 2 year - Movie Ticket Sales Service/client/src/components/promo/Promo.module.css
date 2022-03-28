@@ -28,8 +28,13 @@
     background-image: url("../../images/promo-bgc.png");
     transform: rotate(30deg);
     background-size: 375px;
-    background-position: right 30px center;
+    transition: 0.75s transform;
+    background-position: right center;
     background-repeat: no-repeat;
+}
+
+.promo:hover::after {
+    transform: rotate(40deg) scale(1.05);
 }
 
 .title {
@@ -99,6 +104,10 @@
 @media (max-width: 500px) {
     .promo::after {
         display: none;
+    }
+
+    .promo {
+        padding: 35px 35px 25px 15px;
     }
 
     .text {

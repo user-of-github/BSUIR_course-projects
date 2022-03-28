@@ -14,6 +14,7 @@ namespace Service::Types
   {
   public:
 	  std::string title;
+	  unsigned short year;
 	  std::string id;
 	  Range<std::string> dates;
 	  unsigned char rating;
@@ -21,7 +22,7 @@ namespace Service::Types
 	  unsigned short duration;
 	  unsigned char age_restriction;
 
-	  Movie(const std::string &, const std::string &, const Range<std::string> &,
+	  Movie(const std::string &, const unsigned short, const std::string &, const Range<std::string> &,
 			const unsigned char, const std::string &, const unsigned short,
 			const unsigned char);
 

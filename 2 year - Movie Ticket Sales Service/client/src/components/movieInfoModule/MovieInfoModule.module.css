@@ -1,0 +1,50 @@
+.container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    padding: 20px 30px;
+}
+
+.baseInfoCard {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    border-radius: 7px;
+    margin: auto;
+}
+
+.poster {
+    width: 300px;
+    border-radius: 7px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+}
+
+.title {
+    font-size: 35px;
+    margin-bottom: 30px;
+    font-weight: 900;
+    color: black;
+    width: 100%;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--accent-main);
+}
+
+.textInfo {
+    width: 100%;
+    padding-left: 30px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+}
+
+.textInfoRow {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+    color: black;
+    font-weight: 900;
+    border-bottom: 1px solid rgba(0, 0, 0, .1);
+    padding: 7px 0;
+}

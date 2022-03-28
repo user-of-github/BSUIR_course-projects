@@ -3,15 +3,15 @@
 
 namespace Service::Types
 {
-  Movie::Movie(const std::string &title, const std::string &id, const Range<std::string> &dates,
+  Movie::Movie(const std::string &title, const unsigned short year, const std::string &id, const Range<std::string> &dates,
 			   const unsigned char rating, const std::string &poster_image_link,
 			   const unsigned short duration, const unsigned char age_restriction)
   {
 	  std::tie(
-		  this->title, this->id, this->dates, this->rating,
+		  this->title, this->year, this->id, this->dates, this->rating,
 		  this->poster_image_link, this->duration, this->age_restriction
 	  ) = std::tie(
-		  title, id, dates, rating,
+		  title, year, id, dates, rating,
 		  poster_image_link, duration, age_restriction
 	  );
   }
@@ -21,6 +21,7 @@ namespace Service::Types
 	  nlohmann::json response{};
 
 	  response["title"] = this->title;
+	  response["year"] = this->year;
 	  response["id"] = this->id;
 	  response["cover"] = this->poster_image_link;
 	  response["rating"] = this->rating;

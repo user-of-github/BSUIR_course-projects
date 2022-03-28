@@ -10,9 +10,10 @@
 
 
 ### _Features:_  
+* _Fully single page application_
 * _Maximum types coverage_  
 * _Object-oriented style_  
-* _Storing of already loaded data locally => so no necessarity to fetch data again_
+* _Storing of already loaded data locally => so no necessity to fetch data again_
 * _Partial fetching of data in movies list_ 
 
 
@@ -26,8 +27,8 @@
 
 
 ### To run my application:  
-`yarn` or `npm install`  
-`yarn start` or `npm run start`  
+1. `yarn` or `npm install`  
+2. `yarn start` or `npm run start`  
 &nbsp;  
 
 ###### © 2022 | All Rights Reserved

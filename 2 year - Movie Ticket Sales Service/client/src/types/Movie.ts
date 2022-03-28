@@ -1,5 +1,6 @@
 export interface Movie {
     title: string
+    year: number
     dates: {
         from: number
         to: number
