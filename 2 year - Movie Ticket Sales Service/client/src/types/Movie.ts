@@ -1,13 +1,11 @@
 export interface Movie {
     title: string
     year: number
-    dates: {
-        from: number
-        to: number
-    }
+    date_from: string
+    date_to: string
     id: string
     rating: number
-    cover: string
+    poster_image_link: string
     duration: number
-    ageRestriction: number
+    age_restriction: number
 }

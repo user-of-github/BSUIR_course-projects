@@ -2,8 +2,8 @@ import {requestToServer} from '../../utils/requestToServer'
 
 
 export class TicketSalesServiceCore {
-    private static readonly DEFAULT_SERVER_DOMAIN: string = 'http://0.0.0.0:8000/'
-    private static readonly SINGLE_MOVIE_ROUTE: string = 'movies/id'
+    private static readonly DEFAULT_SERVER_DOMAIN: string = 'http://127.0.0.1:8000/api/'
+    private static readonly SINGLE_MOVIE_ROUTE: string = 'movie'
     private static readonly MOVIES_LIST_ROUTE: string = 'movies'
     private static readonly POPULAR_MOVIES_LIST_ROUTE: string = 'popular/movies'
 
@@ -15,7 +15,7 @@ export class TicketSalesServiceCore {
     }
 
     public getMovieById(id: string, callback: any): void {
-        const fullUrl: string = `${this.serverDomain}${TicketSalesServiceCore.SINGLE_MOVIE_ROUTE}=${id}`
+        const fullUrl: string = `${this.serverDomain}${TicketSalesServiceCore.SINGLE_MOVIE_ROUTE}?id=${id}`
         requestToServer({url: fullUrl, method: 'GET', callback: callback})
     }
 
@@ -25,7 +25,7 @@ export class TicketSalesServiceCore {
     }
 
     public getMovies(callback: any, from: number, to: number): void {
-        const fullUrl: string = `${this.serverDomain}${TicketSalesServiceCore.MOVIES_LIST_ROUTE}/${from}/${to}`
+        const fullUrl: string = `${this.serverDomain}${TicketSalesServiceCore.MOVIES_LIST_ROUTE}/${from}/${to}/`
         requestToServer({url: fullUrl, method: 'GET', callback: callback})
     }
 }

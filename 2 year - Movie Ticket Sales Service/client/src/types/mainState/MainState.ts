@@ -34,21 +34,19 @@ export class MainState {
         const newLoadedTo: number = currentLoadedTo + howMany - 1
 
         const onMoviesLoad: RequestCallback = (data, error) => {
-            window.setTimeout(() => {
-                this.moviesPageState.loading = LoadingState.LOADED
+            this.moviesPageState.loading = LoadingState.LOADED
 
-                if (error) throw new Error(error.message)
+            if (error) throw new Error(error.message)
 
-                const parsedResponse: ServerResponse = JSON.parse(data!)
+            const parsedResponse: ServerResponse = JSON.parse(data!)
 
-                if (parsedResponse.success) {// @ts-ignore
-                    this.moviesPageState.cardsLoaded.push(...Array.from(parsedResponse.data.movies))
-                    // @ts-ignore
-                    this.moviesPageState.showLoadMoreButton = parsedResponse.data.howManyLeft !== 0
-                } else {
-                    throw new Error('Something went wrong (parsedResponse.success = false)')
-                }
-            }, 3000)
+            if (parsedResponse.success) { //@ts-ignore
+                this.moviesPageState.cardsLoaded.push(...Array.from(parsedResponse.data))
+                this.moviesPageState.showLoadMoreButton = parsedResponse.howManyLeft !== 0
+            } else {
+                throw new Error(`Something went wrong (parsedResponse.success = false). 
+                                    Error from server: ${parsedResponse.status}`)
+            }
         }
 
         this.controller.getMovies(onMoviesLoad, currentLoadedTo, newLoadedTo)
@@ -80,7 +78,11 @@ export class MainState {
         const onMovieLoad: RequestCallback = (data, error) => {
             this.moviePageState.loading = LoadingState.LOADED
 
+            console.log(data)
+
             if (error) throw new Error(error.message)
+
+            console.log(data)
 
             const parsedResponse: ServerResponse = JSON.parse(data!)
 

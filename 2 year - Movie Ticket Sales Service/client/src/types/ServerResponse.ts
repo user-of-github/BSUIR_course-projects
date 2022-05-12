@@ -1,4 +1,6 @@
 export interface ServerResponse {
+    howManyLeft: number
     success: boolean
-    data: string
+    data: any
+    status: string
 }
