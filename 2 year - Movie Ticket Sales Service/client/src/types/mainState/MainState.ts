@@ -1,26 +1,27 @@
 import {makeAutoObservable} from 'mobx'
-import {TicketSalesServiceCore} from '../core/TicketSalesServiceCore'
+import {MoviesServiceCore} from '../core/MoviesServiceCore'
 import {MoviesPageState} from './MoviesPageState'
 import {LoadingState} from '../LoadingState'
 import {RequestCallback} from '../RequestCallback'
-import {ServerResponse} from '../ServerResponse'
+import {ServerResponseForFullMovie, ServerResponseForMoviesList} from '../ServerResponse'
 import {MainPageState} from './MainPageState'
 import {MoviePageState} from './MoviePageState'
+import {Movie, MovieShorten} from '../Movie'
 
 
 export class MainState {
     private static readonly HOW_MANY_TO_LOAD: number = 4
 
-    public readonly controller: TicketSalesServiceCore
+    public readonly controller: MoviesServiceCore
     public readonly moviesPageState: MoviesPageState
     public readonly mainPageState: MainPageState
     public readonly moviePageState: MoviePageState
 
 
     public constructor() {
-        this.controller = new TicketSalesServiceCore()
+        this.controller = new MoviesServiceCore()
 
-        this.moviesPageState = {cardsLoaded: [], loading: LoadingState.LOADING, showLoadMoreButton: true}
+        this.moviesPageState = {moviesCardsLoaded: [], loading: LoadingState.LOADING, showLoadMoreButton: true}
         this.mainPageState = {loadedPopularMovies: [], loading: LoadingState.LOADING}
         this.moviePageState = {loading: LoadingState.LOADING, movie: null}
 
@@ -30,7 +31,7 @@ export class MainState {
     public loadMoreMovies(howMany: number = MainState.HOW_MANY_TO_LOAD): void {
         this.moviesPageState.loading = LoadingState.LOADING
 
-        const currentLoadedTo: number = this.moviesPageState.cardsLoaded.length
+        const currentLoadedTo: number = this.moviesPageState.moviesCardsLoaded.length
         const newLoadedTo: number = currentLoadedTo + howMany - 1
 
         const onMoviesLoad: RequestCallback = (data, error) => {
@@ -38,14 +39,13 @@ export class MainState {
 
             if (error) throw new Error(error.message)
 
-            const parsedResponse: ServerResponse = JSON.parse(data!)
+            const parsedResponse: ServerResponseForMoviesList = JSON.parse(data!)
 
-            if (parsedResponse.success) { //@ts-ignore
-                this.moviesPageState.cardsLoaded.push(...Array.from(parsedResponse.data))
+            if (parsedResponse.success) {
+                this.moviesPageState.moviesCardsLoaded.push(...Array.from(parsedResponse.data || []))
                 this.moviesPageState.showLoadMoreButton = parsedResponse.howManyLeft !== 0
             } else {
-                throw new Error(`Something went wrong (parsedResponse.success = false). 
-                                    Error from server: ${parsedResponse.status}`)
+                throw new Error(`Something went wrong. Error from server: ${parsedResponse.status}`)
             }
         }
 
@@ -54,19 +54,14 @@ export class MainState {
 
 
     public loadPopular(): void {
-        if (this.mainPageState.loading === LoadingState.LOADED) return
-
         const onPopularMoviesLoad: RequestCallback = (data, error) => {
             this.mainPageState.loading = LoadingState.LOADED
 
             if (error) throw new Error(error.message)
 
-            const parsedResponse: ServerResponse = JSON.parse(data!)
+            const parsedResponse: ServerResponseForMoviesList = JSON.parse(data!)
 
-            if (parsedResponse.success) // @ts-ignore
-                this.mainPageState.loadedPopularMovies = Array.from(parsedResponse.data)
-            else
-                throw new Error('Something went wrong (parsedResponse.success = false)')
+            this.mainPageState.loadedPopularMovies = Array.from(parsedResponse.data as [])
         }
 
         this.controller.getPopularMovies(onPopularMoviesLoad)
@@ -78,16 +73,12 @@ export class MainState {
         const onMovieLoad: RequestCallback = (data, error) => {
             this.moviePageState.loading = LoadingState.LOADED
 
-            console.log(data)
-
             if (error) throw new Error(error.message)
 
-            console.log(data)
+            const parsedResponse: ServerResponseForFullMovie = JSON.parse(data!)
 
-            const parsedResponse: ServerResponse = JSON.parse(data!)
-
-            if (parsedResponse.success) // @ts-ignore
-                this.moviePageState.movie = JSON.parse(parsedResponse.data)
+            if (parsedResponse.success)
+                this.moviePageState.movie = parsedResponse.data
             else
                 throw new Error('Something went wrong (parsedResponse.success = false)')
         }

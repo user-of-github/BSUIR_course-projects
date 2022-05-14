@@ -19,7 +19,7 @@ export const MoviesPage = observer((props: { state: MainState }): JSX.Element =>
     return (
         <div className={StylePages.smoothLoading}>
             <main className={StylePages.main}>
-                <MovieGrid movies={props.state.moviesPageState.cardsLoaded} styles={{gridRowGap: '30px'}}/>
+                <MovieGrid movies={props.state.moviesPageState.moviesCardsLoaded} styles={{gridRowGap: '30px'}}/>
 
                 {
                     props.state.moviesPageState.loading === LoadingState.LOADING

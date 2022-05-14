@@ -1,9 +1,9 @@
 import {LoadingState} from '../LoadingState'
-import {Movie} from '../Movie'
+import {MovieShorten} from '../Movie'
 
 
 export interface MoviesPageState {
-    cardsLoaded: Array<Movie>
+    moviesCardsLoaded: Array<MovieShorten>
     loading: LoadingState
     showLoadMoreButton: boolean
 }

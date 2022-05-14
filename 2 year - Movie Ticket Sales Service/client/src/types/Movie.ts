@@ -1,3 +1,12 @@
+export interface MovieShorten {
+    title: string
+    date_from: string
+    date_to: string
+    movie_id: string
+    poster_image_link: string
+}
+
+
 export interface Movie {
     title: string
     year: number

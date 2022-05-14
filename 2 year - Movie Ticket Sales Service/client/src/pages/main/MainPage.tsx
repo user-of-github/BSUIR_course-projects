@@ -21,7 +21,7 @@ export const MainPage = observer((props: { state: MainState }): JSX.Element => {
                 <Promo/>
 
                 <h2 style={{color: 'black', fontSize: '30px', marginTop: '50px', textAlign: 'left', marginRight: 'auto'}}>
-                    Popular today:
+                    Frequently viewed movies:
                 </h2>
 
                 {

@@ -1,6 +1,18 @@
-export interface ServerResponse {
+import {Movie, MovieShorten} from './Movie'
+
+
+export interface ServerResponseForMoviesList {
     howManyLeft: number
     success: boolean
-    data: any
+    data: Array<MovieShorten> | undefined | null
     status: string
+}
+
+export interface ServerResponseForFullMovie {
+    success: boolean
+    data: Movie | null
+}
+
+export interface ServerResponseForPopulars {
+    data: Array<MovieShorten>
 }
