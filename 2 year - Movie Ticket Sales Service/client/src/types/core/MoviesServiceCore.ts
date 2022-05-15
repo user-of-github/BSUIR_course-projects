@@ -28,4 +28,8 @@ export class MoviesServiceCore {
         const fullUrl: string = `${this.serverDomain}${MoviesServiceCore.MOVIES_LIST_ROUTE}/${from}/${to}/`
         requestToServer({url: fullUrl, method: 'GET', callback: callback})
     }
+
+    public getMovieTheaters(callback: any): void {
+
+    }
 }

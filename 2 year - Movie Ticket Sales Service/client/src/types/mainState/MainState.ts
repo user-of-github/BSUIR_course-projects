@@ -6,7 +6,7 @@ import {RequestCallback} from '../RequestCallback'
 import {ServerResponseForFullMovie, ServerResponseForMoviesList} from '../ServerResponse'
 import {MainPageState} from './MainPageState'
 import {MoviePageState} from './MoviePageState'
-import {Movie, MovieShorten} from '../Movie'
+import {MovieTheatersPageState} from './MovieTheatersPageState'
 
 
 export class MainState {
@@ -16,6 +16,7 @@ export class MainState {
     public readonly moviesPageState: MoviesPageState
     public readonly mainPageState: MainPageState
     public readonly moviePageState: MoviePageState
+    public readonly movieTheatersPagesState: MovieTheatersPageState
 
 
     public constructor() {
@@ -24,6 +25,7 @@ export class MainState {
         this.moviesPageState = {moviesCardsLoaded: [], loading: LoadingState.LOADING, showLoadMoreButton: true}
         this.mainPageState = {loadedPopularMovies: [], loading: LoadingState.LOADING}
         this.moviePageState = {loading: LoadingState.LOADING, movie: null}
+        this.movieTheatersPagesState = {loading: LoadingState.LOADING, movieTheatersLoaded: []}
 
         makeAutoObservable(this, {}, {deep: true})
     }
@@ -51,7 +53,6 @@ export class MainState {
 
         this.controller.getMovies(onMoviesLoad, currentLoadedTo, newLoadedTo)
     }
-
 
     public loadPopular(): void {
         const onPopularMoviesLoad: RequestCallback = (data, error) => {
@@ -84,5 +85,19 @@ export class MainState {
         }
 
         this.controller.getMovieById(id, onMovieLoad)
+    }
+
+    public loadMovieTheatersList(): void {
+        const onTheatersLoad: RequestCallback = (data: string | null, error: Error | undefined) => {
+            this.movieTheatersPagesState.loading = LoadingState.LOADED
+
+            if (error) throw new Error(error.message)
+
+            const parsedResponse: ServerResponseForMoviesList = JSON.parse(data!)
+
+            this.movieTheatersPagesState.movieTheatersLoaded = Array.from(parsedResponse.data as [])
+        }
+
+        this.controller.getPopularMovies(onTheatersLoad)
     }
 }

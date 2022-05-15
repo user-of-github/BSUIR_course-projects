@@ -1,4 +1,5 @@
 import {Movie, MovieShorten} from './Movie'
+import {MovieTheater} from './MovieTheater'
 
 
 export interface ServerResponseForMoviesList {
@@ -15,4 +16,8 @@ export interface ServerResponseForFullMovie {
 
 export interface ServerResponseForPopulars {
     data: Array<MovieShorten>
+}
+
+export interface ServerResponseForTheatersList {
+    data: Array<MovieTheater>
 }
