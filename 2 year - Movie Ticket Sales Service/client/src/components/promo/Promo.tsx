@@ -6,9 +6,9 @@ import {Link} from 'react-router-dom'
 export const Promo = (): JSX.Element => (
     <div className={Style.promoContainer}>
         <section className={Style.promo}>
-            <h1 className={Style.title}>Movie tickets sales online service</h1>
+            <h1 className={Style.title}>MARVEL/DC Movies online service</h1>
             <h2 className={Style.subtitle}>
-                Now all movie screenings and ticket purchases are concentrated in one place&nbsp;!
+                Now all movies are concentrated in one place&nbsp;!
             </h2>
 
             <p className={Style.text}>

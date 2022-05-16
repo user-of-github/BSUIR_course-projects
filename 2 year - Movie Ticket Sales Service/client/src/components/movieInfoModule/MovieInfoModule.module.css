@@ -17,7 +17,12 @@
 .poster {
     width: 300px;
     border-radius: 7px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .3);
+    transition: 0.5s all;
+}
+
+.poster:hover {
+    transform: scale(1.05);
 }
 
 .title {
@@ -47,4 +52,8 @@
     font-weight: 900;
     border-bottom: 1px solid rgba(0, 0, 0, .1);
     padding: 7px 0;
+}
+
+.textInfoRow span {
+    color: var(--inactive-font-color);
 }

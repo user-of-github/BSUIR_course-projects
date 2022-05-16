@@ -1,6 +1,6 @@
 export interface MovieTheater {
     title: string
     address: string
-    map: string
+    location: string
     photo: string
 }

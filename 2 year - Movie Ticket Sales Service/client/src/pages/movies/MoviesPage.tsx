@@ -7,6 +7,7 @@ import {Center} from '../../components/layout/center/Center'
 import {Button, ButtonType} from '../../components/UI/button/Button'
 import {observer} from 'mobx-react-lite'
 import {MainState} from '../../types/mainState/MainState'
+import {DEFAULT_H2_PAGE_TITLE} from '../../utils/defaults'
 
 
 export const MoviesPage = observer((props: { state: MainState }): JSX.Element => {
@@ -19,7 +20,11 @@ export const MoviesPage = observer((props: { state: MainState }): JSX.Element =>
     return (
         <div className={StylePages.smoothLoading}>
             <main className={StylePages.main}>
-                <MovieGrid movies={props.state.moviesPageState.moviesCardsLoaded} styles={{gridRowGap: '30px'}}/>
+                <h2 style={DEFAULT_H2_PAGE_TITLE}>Available movies list</h2>
+
+                <MovieGrid movies={props.state.moviesPageState.moviesCardsLoaded}
+                           styles={{gridRowGap: '30px', marginTop: "50px"}}
+                />
 
                 {
                     props.state.moviesPageState.loading === LoadingState.LOADING

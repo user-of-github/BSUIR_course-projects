@@ -21,3 +21,8 @@ export interface ServerResponseForPopulars {
 export interface ServerResponseForTheatersList {
     data: Array<MovieTheater>
 }
+
+export interface ServerResponseForMovieTheater {
+    success: boolean
+    data: MovieTheater
+}

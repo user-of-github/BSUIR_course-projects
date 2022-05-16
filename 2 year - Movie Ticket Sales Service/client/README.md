@@ -13,11 +13,11 @@
 * _Fully single page application_
 * _Maximum types coverage_  
 * _Object-oriented style_  
-* _Storing of already loaded data locally => so no necessity to fetch data again_
+* _Storing of already loaded data locally (like forced caching) => so no necessity to fetch data again_
 * _Partial fetching of data in movies list_ 
 
-
-### [May be interesting] [Some my current tasks and features:](todo.md)
+### Demo (actual for 16 May 2022)  
+![demo](demo.gif)
 
 
 ### _Developed in:_  

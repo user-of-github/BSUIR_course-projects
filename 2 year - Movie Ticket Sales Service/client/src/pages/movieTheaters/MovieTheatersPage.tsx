@@ -5,37 +5,30 @@ import {MainState} from '../../types/mainState/MainState'
 import {MovieTheatersList} from '../../components/movieTheatersList/MovieTheatersList'
 import {LoadingState} from '../../types/LoadingState'
 import {Loading} from '../../components/UI/loading/Loading'
-import {MovieGrid} from '../../components/movieGrid/MovieGrid'
+import {observer} from 'mobx-react-lite'
+import {DEFAULT_H2_PAGE_TITLE} from '../../utils/defaults'
 
 
-export const MovieTheatersPage = (props: { state: MainState }): JSX.Element => {
-    React.useEffect((): void => window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: 'smooth'
-    }), [])
+export const MovieTheatersPage = observer((props: { state: MainState }): JSX.Element => {
+    React.useEffect((): void => {
+        window.scrollTo({top: 0, left: 0, behavior: 'smooth'})
+        props.state.loadMovieTheatersList()
+    }, [])
 
     return (
         <div className={Style.smoothLoading}>
             <main className={StylePages.main}>
-                <h2 style={{
-                    color: 'black',
-                    fontSize: '30px',
-                    marginTop: '50px',
-                    textAlign: 'left',
-                    marginRight: 'auto'
-                }}>
-                    All movie theaters:
-                </h2>
+                <h2 style={DEFAULT_H2_PAGE_TITLE}>All movie theaters</h2>
 
                 {
-                    props.state.movieTheatersPagesState.loading === LoadingState.LOADING
+                    props.state.movieTheatersPageState.loading === LoadingState.LOADING
                         ? <Loading/>
                         :
-                        <MovieTheatersList cinemas={props.state.movieTheatersPagesState.movieTheatersLoaded}/>
+                        <MovieTheatersList cinemas={props.state.movieTheatersPageState.movieTheatersLoaded}
+                                           styles={{marginTop: '50px'}}
+                        />
                 }
-                <MovieTheatersList cinemas={props.state.movieTheatersPagesState.movieTheatersLoaded}/>
             </main>
         </div>
     )
-}
+})

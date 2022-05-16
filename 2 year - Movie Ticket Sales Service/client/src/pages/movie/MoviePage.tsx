@@ -5,6 +5,7 @@ import {Loading} from '../../components/UI/loading/Loading'
 import {MainState} from '../../types/mainState/MainState'
 import {MovieInfoModule} from '../../components/movieInfoModule/MovieInfoModule'
 import {observer} from 'mobx-react-lite'
+import {NotFound} from '../../components/notFound/NotFound'
 
 
 export const MoviePage = observer((props: { state: MainState }): JSX.Element => {
@@ -23,7 +24,11 @@ export const MoviePage = observer((props: { state: MainState }): JSX.Element => 
                         ?
                         <Loading/>
                         :
-                        <MovieInfoModule movie={props.state.moviePageState.movie!}/>
+                        props.state.moviePageState.movie === null
+                            ?
+                            <NotFound/>
+                            :
+                            <MovieInfoModule movie={props.state.moviePageState.movie!}/>
                 }
             </main>
         </div>

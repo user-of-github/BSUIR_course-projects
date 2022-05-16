@@ -3,10 +3,11 @@ import {MoviesServiceCore} from '../core/MoviesServiceCore'
 import {MoviesPageState} from './MoviesPageState'
 import {LoadingState} from '../LoadingState'
 import {RequestCallback} from '../RequestCallback'
-import {ServerResponseForFullMovie, ServerResponseForMoviesList} from '../ServerResponse'
+import {ServerResponseForFullMovie, ServerResponseForMoviesList, ServerResponseForMovieTheater} from '../ServerResponse'
 import {MainPageState} from './MainPageState'
 import {MoviePageState} from './MoviePageState'
 import {MovieTheatersPageState} from './MovieTheatersPageState'
+import {MovieTheaterPageState} from './MovieTheaterPageState'
 
 
 export class MainState {
@@ -16,7 +17,8 @@ export class MainState {
     public readonly moviesPageState: MoviesPageState
     public readonly mainPageState: MainPageState
     public readonly moviePageState: MoviePageState
-    public readonly movieTheatersPagesState: MovieTheatersPageState
+    public readonly movieTheatersPageState: MovieTheatersPageState
+    public readonly movieTheaterPageState: MovieTheaterPageState
 
 
     public constructor() {
@@ -25,7 +27,8 @@ export class MainState {
         this.moviesPageState = {moviesCardsLoaded: [], loading: LoadingState.LOADING, showLoadMoreButton: true}
         this.mainPageState = {loadedPopularMovies: [], loading: LoadingState.LOADING}
         this.moviePageState = {loading: LoadingState.LOADING, movie: null}
-        this.movieTheatersPagesState = {loading: LoadingState.LOADING, movieTheatersLoaded: []}
+        this.movieTheatersPageState = {loading: LoadingState.LOADING, movieTheatersLoaded: []}
+        this.movieTheaterPageState = {loading: LoadingState.LOADING, theater: null}
 
         makeAutoObservable(this, {}, {deep: true})
     }
@@ -81,7 +84,7 @@ export class MainState {
             if (parsedResponse.success)
                 this.moviePageState.movie = parsedResponse.data
             else
-                throw new Error('Something went wrong (parsedResponse.success = false)')
+                this.moviePageState.movie = null
         }
 
         this.controller.getMovieById(id, onMovieLoad)
@@ -89,15 +92,34 @@ export class MainState {
 
     public loadMovieTheatersList(): void {
         const onTheatersLoad: RequestCallback = (data: string | null, error: Error | undefined) => {
-            this.movieTheatersPagesState.loading = LoadingState.LOADED
+            this.movieTheatersPageState.loading = LoadingState.LOADED
 
             if (error) throw new Error(error.message)
 
             const parsedResponse: ServerResponseForMoviesList = JSON.parse(data!)
 
-            this.movieTheatersPagesState.movieTheatersLoaded = Array.from(parsedResponse.data as [])
+            this.movieTheatersPageState.movieTheatersLoaded = Array.from(parsedResponse.data as [])
         }
 
-        this.controller.getPopularMovies(onTheatersLoad)
+        this.controller.getMovieTheaters(onTheatersLoad)
+    }
+
+    public loadMovieTheater(title: string): void {
+        this.movieTheaterPageState.loading = LoadingState.LOADING
+
+        const onTheaterLoad: RequestCallback = (data, error) => {
+            this.movieTheaterPageState.loading = LoadingState.LOADED
+
+            if (error) throw new Error(error.message)
+
+            const parsedResponse: ServerResponseForMovieTheater = JSON.parse(data!)
+
+            if (parsedResponse.success)
+                this.movieTheaterPageState.theater = parsedResponse.data
+            else
+                this.movieTheaterPageState.theater = null
+        }
+
+        this.controller.getMovieTheaterByTitle(title, onTheaterLoad)
     }
 }

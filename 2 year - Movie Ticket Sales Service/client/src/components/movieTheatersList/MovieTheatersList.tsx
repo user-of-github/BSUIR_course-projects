@@ -7,10 +7,13 @@ import React from 'react'
 
 export const MovieTheatersList = observer(
     (props: { cinemas: Array<MovieTheater>, styles?: React.CSSProperties }): JSX.Element => (
-        <div style={props.styles}>
+        <div className={Style.container} style={props.styles}>
             {
                 props.cinemas.map((movieTheater: MovieTheater): JSX.Element => (
-                    <MovieTheaterCard theater={movieTheater}/>
+                    <MovieTheaterCard theater={movieTheater}
+                                      key={`movietheater${movieTheater.title}`}
+                                      styles={{marginBottom: '20px'}}
+                    />
                 ))
             }
         </div>

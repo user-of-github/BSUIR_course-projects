@@ -3,9 +3,42 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, .2);
-    margin-bottom: 30px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .05);
     cursor: pointer;
+    overflow: hidden;
+
+    transition: 0.2s all;
+    transform-origin: left;
+    padding-right: 50px;
+}
+
+.container:hover {
+    box-shadow: 0 0 15px rgba(0, 0, 0, .07);
+}
+
+.container:active {
+    transform: scale(0.9);
+}
+
+.image {
+    flex-basis: 15%;
+    overflow: hidden;
+    object-fit: cover;
+    height: 90px;
+}
+
+.title {
+    font-size: 25px;
+    font-weight: 100;
+    color: black;
+    margin-left: 30px;
+}
+
+
+.address {
+    margin-left: auto;
+    font-size: 20px;
+    color: var(--inactive-font-color);
+    font-weight: 100;
 }

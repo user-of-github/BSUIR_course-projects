@@ -16,6 +16,13 @@ export const MovieInfoModule = observer((props: { movie: Movie }): JSX.Element =
                     <span className={Style.textInfoRow}>Age restriction: <span>{props.movie.age_restriction}+</span></span>
                     <span className={Style.textInfoRow}>Duration: <span>{props.movie.duration} min</span></span>
                     <span className={Style.textInfoRow}>Rating: <span>{'⭐'.repeat(props.movie.rating)}</span></span>
+                    <span className={Style.textInfoRow}>Lasts:
+                        <span>
+                            {new Date(props.movie.date_from).toDateString()}
+                            {' —> '}
+                            {new Date(props.movie.date_to).toDateString()}
+                        </span>
+                    </span>
                 </div>
             </div>
         </div>

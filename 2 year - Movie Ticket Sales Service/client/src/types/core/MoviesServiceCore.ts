@@ -6,6 +6,7 @@ export class MoviesServiceCore {
     private static readonly SINGLE_MOVIE_ROUTE: string = 'movie'
     private static readonly MOVIES_LIST_ROUTE: string = 'movies'
     private static readonly POPULAR_MOVIES_LIST_ROUTE: string = 'movies/popular'
+    private static readonly MOVIE_THEATERS_LIST_ROUTE: string = 'movietheaters'
 
     private readonly serverDomain: string
 
@@ -30,6 +31,12 @@ export class MoviesServiceCore {
     }
 
     public getMovieTheaters(callback: any): void {
+        const fullUrl: string = `${this.serverDomain}${MoviesServiceCore.MOVIE_THEATERS_LIST_ROUTE}/`
+        requestToServer({url: fullUrl, method: 'GET', callback: callback})
+    }
 
+    public getMovieTheaterByTitle(title: string, callback: any): void {
+        const fullUrl: string = `${this.serverDomain}${MoviesServiceCore.MOVIE_THEATERS_LIST_ROUTE}/${title}/`
+        requestToServer({url: fullUrl, method: 'GET', callback: callback})
     }
 }

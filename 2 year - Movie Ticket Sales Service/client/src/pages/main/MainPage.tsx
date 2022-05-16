@@ -6,6 +6,7 @@ import {Loading} from '../../components/UI/loading/Loading'
 import {MovieGrid} from '../../components/movieGrid/MovieGrid'
 import {MainState} from '../../types/mainState/MainState'
 import {observer} from 'mobx-react-lite'
+import {DEFAULT_H2_PAGE_TITLE} from '../../utils/defaults'
 
 
 export const MainPage = observer((props: { state: MainState }): JSX.Element => {
@@ -20,15 +21,13 @@ export const MainPage = observer((props: { state: MainState }): JSX.Element => {
             <main className={StylePages.main}>
                 <Promo/>
 
-                <h2 style={{color: 'black', fontSize: '30px', marginTop: '50px', textAlign: 'left', marginRight: 'auto'}}>
-                    Frequently viewed movies:
-                </h2>
+                <h2 style={{...DEFAULT_H2_PAGE_TITLE, marginTop: "30px"}}>Frequently viewed movies</h2>
 
                 {
                     props.state.mainPageState.loading === LoadingState.LOADING
                         ? <Loading/>
                         :
-                        <MovieGrid movies={props.state.mainPageState.loadedPopularMovies} styles={{marginTop: '30px'}}/>
+                        <MovieGrid movies={props.state.mainPageState.loadedPopularMovies} styles={{marginTop: '40px'}}/>
                 }
             </main>
         </div>

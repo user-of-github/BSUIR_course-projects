@@ -8,6 +8,8 @@ import {Header} from './header/Header'
 import {Container} from './layout/container/Container'
 import {MoviePage} from '../pages/movie/MoviePage'
 import {MainState} from '../types/mainState/MainState'
+import {NotFoundDefaultPage} from '../pages/notFoundDefaultPage/NotFoundDefaultPage'
+import {MovieTheaterPage} from '../pages/movieTheaterPage/MovieTheaterPage'
 
 
 export const App = (): JSX.Element => {
@@ -23,6 +25,8 @@ export const App = (): JSX.Element => {
                     <Route path={'/movies'} element={<MoviesPage state={mainState.current}/>}/>
                     <Route path={'/movie'} element={<MoviePage state={mainState.current}/>}/>
                     <Route path={'/movie-theaters'} element={<MovieTheatersPage state={mainState.current}/>}/>
+                    <Route path={'/movie-theater'} element={<MovieTheaterPage state={mainState.current}/>}/>
+                    <Route path={'*'} element={<NotFoundDefaultPage/>}/>
                 </Routes>
             </Router>
         </Container>
