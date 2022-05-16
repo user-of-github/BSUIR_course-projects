@@ -3,7 +3,12 @@ import {MoviesServiceCore} from '../core/MoviesServiceCore'
 import {MoviesPageState} from './MoviesPageState'
 import {LoadingState} from '../LoadingState'
 import {RequestCallback} from '../RequestCallback'
-import {ServerResponseForFullMovie, ServerResponseForMoviesList, ServerResponseForMovieTheater} from '../ServerResponse'
+import {
+    ServerResponseForFullMovie,
+    ServerResponseForMoviesList,
+    ServerResponseForMovieTheater,
+    ServerResponseForTheatersList
+} from '../ServerResponse'
 import {MainPageState} from './MainPageState'
 import {MoviePageState} from './MoviePageState'
 import {MovieTheatersPageState} from './MovieTheatersPageState'
@@ -25,7 +30,10 @@ export class MainState {
         this.controller = new MoviesServiceCore()
 
         this.moviesPageState = {moviesCardsLoaded: [], loading: LoadingState.LOADING, showLoadMoreButton: true}
-        this.mainPageState = {loadedPopularMovies: [], loading: LoadingState.LOADING}
+        this.mainPageState = {
+            popularMovies: {loadedPopularMovies: [], loading: LoadingState.LOADING},
+            popularMovieTheaters: {loadedPopularMovieTheaters: [], loading: LoadingState.LOADING}
+        }
         this.moviePageState = {loading: LoadingState.LOADING, movie: null}
         this.movieTheatersPageState = {loading: LoadingState.LOADING, movieTheatersLoaded: []}
         this.movieTheaterPageState = {loading: LoadingState.LOADING, theater: null}
@@ -57,18 +65,32 @@ export class MainState {
         this.controller.getMovies(onMoviesLoad, currentLoadedTo, newLoadedTo)
     }
 
-    public loadPopular(): void {
+    public loadPopularMovies(): void {
         const onPopularMoviesLoad: RequestCallback = (data, error) => {
-            this.mainPageState.loading = LoadingState.LOADED
+            this.mainPageState.popularMovies.loading = LoadingState.LOADED
 
             if (error) throw new Error(error.message)
 
             const parsedResponse: ServerResponseForMoviesList = JSON.parse(data!)
 
-            this.mainPageState.loadedPopularMovies = Array.from(parsedResponse.data as [])
+            this.mainPageState.popularMovies.loadedPopularMovies = Array.from(parsedResponse.data as [])
         }
 
         this.controller.getPopularMovies(onPopularMoviesLoad)
+    }
+
+    public loadPopularTheaters(): void {
+        const onPopularTheaterLoad: RequestCallback = (data, error) => {
+            this.mainPageState.popularMovieTheaters.loading = LoadingState.LOADED
+
+            if (error) throw new Error(error.message)
+
+            const parsedResponse: ServerResponseForTheatersList = JSON.parse(data!)
+
+            this.mainPageState.popularMovieTheaters.loadedPopularMovieTheaters = parsedResponse.data
+        }
+
+        this.controller.getPopularTheaters(onPopularTheaterLoad)
     }
 
     public loadMovie(id: string): void {
@@ -97,6 +119,8 @@ export class MainState {
             if (error) throw new Error(error.message)
 
             const parsedResponse: ServerResponseForMoviesList = JSON.parse(data!)
+
+            console.log(parsedResponse)
 
             this.movieTheatersPageState.movieTheatersLoaded = Array.from(parsedResponse.data as [])
         }

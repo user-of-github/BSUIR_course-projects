@@ -1,4 +1,4 @@
-# _Movie Ticket Sales Service [client]_  
+# _Movie Service [client]_  
 #### _UI (client) web-part for my project_
 
 &nbsp;  

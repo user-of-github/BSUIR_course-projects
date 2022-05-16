@@ -26,3 +26,4 @@ export interface ServerResponseForMovieTheater {
     success: boolean
     data: MovieTheater
 }
+

@@ -7,6 +7,7 @@ export class MoviesServiceCore {
     private static readonly MOVIES_LIST_ROUTE: string = 'movies'
     private static readonly POPULAR_MOVIES_LIST_ROUTE: string = 'movies/popular'
     private static readonly MOVIE_THEATERS_LIST_ROUTE: string = 'movietheaters'
+    private static readonly POPULAR_MOVIE_THEATERS: string = 'movietheaters/popular'
 
     private readonly serverDomain: string
 
@@ -22,6 +23,11 @@ export class MoviesServiceCore {
 
     public getPopularMovies(callback: any): void {
         const fullUrl: string = `${this.serverDomain}${MoviesServiceCore.POPULAR_MOVIES_LIST_ROUTE}/`
+        requestToServer({url: fullUrl, method: 'GET', callback: callback})
+    }
+
+    public getPopularTheaters(callback: any): void {
+        const fullUrl: string = `${this.serverDomain}${MoviesServiceCore.POPULAR_MOVIE_THEATERS}/`
         requestToServer({url: fullUrl, method: 'GET', callback: callback})
     }
 
