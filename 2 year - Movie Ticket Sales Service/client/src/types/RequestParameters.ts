@@ -6,4 +6,5 @@ export interface RequestParameters {
     callback: RequestCallback
     method: 'GET' | 'POST'
     contentType?: string
+    body?: any
 }

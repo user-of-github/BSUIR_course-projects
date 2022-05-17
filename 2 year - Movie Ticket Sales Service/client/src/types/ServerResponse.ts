@@ -24,6 +24,11 @@ export interface ServerResponseForTheatersList {
 
 export interface ServerResponseForMovieTheater {
     success: boolean
-    data: MovieTheater
+    data: any
 }
 
+
+export interface ServerResponseForMoviesForTheater {
+    success: boolean
+    data: Array<MovieShorten>
+}

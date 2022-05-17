@@ -4,7 +4,7 @@ import {MoviesPageState} from './MoviesPageState'
 import {LoadingState} from '../LoadingState'
 import {RequestCallback} from '../RequestCallback'
 import {
-    ServerResponseForFullMovie,
+    ServerResponseForFullMovie, ServerResponseForMoviesForTheater,
     ServerResponseForMoviesList,
     ServerResponseForMovieTheater,
     ServerResponseForTheatersList
@@ -138,12 +138,28 @@ export class MainState {
 
             const parsedResponse: ServerResponseForMovieTheater = JSON.parse(data!)
 
-            if (parsedResponse.success)
+            if (parsedResponse.success) {
                 this.movieTheaterPageState.theater = parsedResponse.data
+                this.loadMoviesForTheater(parsedResponse.data.movies as [])
+            }
             else
                 this.movieTheaterPageState.theater = null
         }
 
         this.controller.getMovieTheaterByTitle(title, onTheaterLoad)
+    }
+
+    public loadMoviesForTheater(movies: Array<string>): void {
+        const onTheaterLoad: RequestCallback = (data, error) => {
+            this.movieTheaterPageState.loading = LoadingState.LOADED
+
+            if (error) throw new Error(error.message)
+
+            const parsedResponse: ServerResponseForMoviesForTheater = JSON.parse(data!)
+
+            this.movieTheaterPageState.theater!.movies = parsedResponse.data
+        }
+
+        this.controller.getMoviesForTheater(movies, onTheaterLoad)
     }
 }

@@ -8,7 +8,7 @@ export const requestToServer = (parameters: RequestParameters): XMLHttpRequest =
         if (this.status < 400)
             parameters.callback(this.responseText, undefined)
         else
-            parameters.callback(null, new Error('Failed: ' + this.statusText))
+            parameters.callback(null, new Error('Failed (error from requestToServer()): ' + this.statusText))
     }
 
     request.open(parameters.method, parameters.url, true)
