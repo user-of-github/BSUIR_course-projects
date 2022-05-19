@@ -40,7 +40,7 @@ export const MoviesPage = observer((props: { state: MainState }): JSX.Element =>
                     <Center styles={{marginTop: '35px'}}>
                         <Button text={'Load more'}
                                 type={ButtonType.BUTTON_PRIMARY_FILLED}
-                                onClick={() => props.state.loadMoreMovies(8)}
+                                onClick={() => props.state.loadMoreMovies(4)}
                         />
                     </Center>
                 }

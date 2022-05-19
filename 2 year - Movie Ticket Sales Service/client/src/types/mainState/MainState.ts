@@ -4,7 +4,8 @@ import {MoviesPageState} from './MoviesPageState'
 import {LoadingState} from '../LoadingState'
 import {RequestCallback} from '../RequestCallback'
 import {
-    ServerResponseForFullMovie, ServerResponseForMoviesForTheater,
+    ServerResponseForFullMovie,
+    ServerResponseForMoviesForTheater,
     ServerResponseForMoviesList,
     ServerResponseForMovieTheater,
     ServerResponseForTheatersList
@@ -34,7 +35,7 @@ export class MainState {
             popularMovies: {loadedPopularMovies: [], loading: LoadingState.LOADING},
             popularMovieTheaters: {loadedPopularMovieTheaters: [], loading: LoadingState.LOADING}
         }
-        this.moviePageState = {loading: LoadingState.LOADING, movie: null}
+        this.moviePageState = {loading: LoadingState.LOADING, movie: null, theatersList: []}
         this.movieTheatersPageState = {loading: LoadingState.LOADING, movieTheatersLoaded: []}
         this.movieTheaterPageState = {loading: LoadingState.LOADING, theater: null}
 
@@ -97,16 +98,18 @@ export class MainState {
         this.moviePageState.loading = LoadingState.LOADING
 
         const onMovieLoad: RequestCallback = (data, error) => {
-            this.moviePageState.loading = LoadingState.LOADED
-
             if (error) throw new Error(error.message)
 
             const parsedResponse: ServerResponseForFullMovie = JSON.parse(data!)
 
-            if (parsedResponse.success)
+            if (parsedResponse.success) {
                 this.moviePageState.movie = parsedResponse.data
-            else
+                this.loadTheatersForMovie(id)
+            }
+            else {
+                this.moviePageState.loading = LoadingState.LOADING
                 this.moviePageState.movie = null
+            }
         }
 
         this.controller.getMovieById(id, onMovieLoad)
@@ -161,5 +164,19 @@ export class MainState {
         }
 
         this.controller.getMoviesForTheater(movies, onTheaterLoad)
+    }
+
+    public loadTheatersForMovie(movieId: string): void {
+        const onTheatersLoad: RequestCallback = (data, error) => {
+            this.moviePageState.loading = LoadingState.LOADED
+
+            if (error) throw new Error(error.message)
+
+            const parsedResponse: ServerResponseForTheatersList = JSON.parse(data!)
+
+            this.moviePageState.theatersList = parsedResponse.data as []
+        }
+
+        this.controller.getTheatersForMovie(movieId, onTheatersLoad)
     }
 }

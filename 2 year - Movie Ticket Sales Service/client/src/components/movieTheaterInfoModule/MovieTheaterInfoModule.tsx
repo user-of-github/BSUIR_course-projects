@@ -14,7 +14,8 @@ export const MovieTheaterInfoModule = observer((props: { theater: MovieTheater }
                 <img src={props.theater.photo} alt={props.theater.title} className={Style.poster}/>
                 <div className={Style.textInfo}>
                     <h2 className={Style.title}>{props.theater.title}</h2>
-                    <span className={Style.textInfoRow}>Address: <span>{props.theater.address}</span></span>
+                    <span className={Style.textInfoRow}>Address <span>{props.theater.address}</span></span>
+                    <span className={Style.textInfoRow}>Telephone <span>+{props.theater.telephone}</span></span>
                     <span className={Style.textInfoRow}>
                         <iframe src={props.theater.location} width="100%" height="200"
                                 style={{border: 0}} loading="lazy" referrerPolicy="no-referrer-when-downgrade"

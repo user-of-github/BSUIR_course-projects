@@ -19,6 +19,9 @@
     border-radius: 7px;
     box-shadow: 0 0 10px rgba(0, 0, 0, .3);
     transition: 0.5s all;
+    position: sticky;
+    top: 50px;
+    margin-bottom: auto;
 }
 
 .poster:hover {

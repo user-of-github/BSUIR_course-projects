@@ -10,6 +10,6 @@
   * [x] _Responsive promo_ [28.03.2022]
 * [x] _"Perfomance problem": movies are loaded fully in list and then separate movies are also loaded again each time_ [16.05.2022]
 * [ ] _Some promos (links) on main page like SberBank has_  
-* [ ] _Movies connected to cinemas and cinemas connected to movies_  
+* [x] _Movies connected to cinemas and cinemas connected to movies_  
 * [ ] _Search_  
 * [ ] _Login_
