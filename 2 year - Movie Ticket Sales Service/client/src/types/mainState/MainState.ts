@@ -7,6 +7,7 @@ import {
     ServerResponseForFullMovie,
     ServerResponseForMoviesForTheater,
     ServerResponseForMoviesList,
+    ServerResponseForMoviesSearch,
     ServerResponseForMovieTheater,
     ServerResponseForTheatersList
 } from '../ServerResponse'
@@ -14,6 +15,7 @@ import {MainPageState} from './MainPageState'
 import {MoviePageState} from './MoviePageState'
 import {MovieTheatersPageState} from './MovieTheatersPageState'
 import {MovieTheaterPageState} from './MovieTheaterPageState'
+import {SearchPageState} from './SearchPageState'
 
 
 export class MainState {
@@ -25,6 +27,7 @@ export class MainState {
     public readonly moviePageState: MoviePageState
     public readonly movieTheatersPageState: MovieTheatersPageState
     public readonly movieTheaterPageState: MovieTheaterPageState
+    public readonly searchPageState: SearchPageState
 
 
     public constructor() {
@@ -38,6 +41,7 @@ export class MainState {
         this.moviePageState = {loading: LoadingState.LOADING, movie: null, theatersList: []}
         this.movieTheatersPageState = {loading: LoadingState.LOADING, movieTheatersLoaded: []}
         this.movieTheaterPageState = {loading: LoadingState.LOADING, theater: null}
+        this.searchPageState = {loading: LoadingState.LOADING, foundMovies: []}
 
         makeAutoObservable(this, {}, {deep: true})
     }
@@ -178,5 +182,21 @@ export class MainState {
         }
 
         this.controller.getTheatersForMovie(movieId, onTheatersLoad)
+    }
+
+    public searchByQuery(query: string): void {
+        this.searchPageState.loading = LoadingState.LOADING
+
+        const onMoviesSearchLoad: RequestCallback = (data, error) => {
+            this.searchPageState.loading = LoadingState.LOADED
+
+            if (error) throw new Error(error.message)
+
+            const parsedResponse: ServerResponseForMoviesSearch = JSON.parse(data!)
+
+            this.searchPageState.foundMovies = parsedResponse.data as []
+        }
+
+        this.controller.searchMovies(query, onMoviesSearchLoad)
     }
 }

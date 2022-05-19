@@ -5,9 +5,10 @@ import Logo from '../../images/logo.png'
 import {Navigation} from '../navigation/Navigation'
 import {Button, ButtonStrokeType} from '../UI/button/Button'
 import {Link} from 'react-router-dom'
+import {InputCallback} from '../../types/CallbackForInput'
 
 
-export const Header = (): JSX.Element => (
+export const Header = (props: {callbackForSearch: InputCallback}): JSX.Element => (
     <header className={Style.header}>
         <Row styles={{alignItems: 'center', justifyContent: 'flex-start'}}>
             <Link to={'/'}>
@@ -21,6 +22,7 @@ export const Header = (): JSX.Element => (
             <Navigation styles={{marginLeft: '20px', marginRight: '30px'}}/>
             <Input placeholder={'Search movies'}
                    styles={{marginRight: 'auto'}}
+                   callback={(value: string): void => props.callbackForSearch(value)}
             />
             <Button text={'Log in'}
                     strokeType={ButtonStrokeType.BUTTON_STROKE}

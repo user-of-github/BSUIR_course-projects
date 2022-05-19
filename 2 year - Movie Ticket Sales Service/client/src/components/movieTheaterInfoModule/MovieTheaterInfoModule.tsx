@@ -27,7 +27,7 @@ export const MovieTheaterInfoModule = observer((props: { theater: MovieTheater }
                         &&
                         <>
                             <h2 style={{...DEFAULT_H2_PAGE_TITLE, marginBottom: '20px', marginTop: '30px', fontSize: '25px', color: 'var(--accent-main)'}}>
-                                Movies that you can (or could) watch here
+                                What to watch ?
                             </h2>
                             <MovieGrid movies={props.theater.movies}
                                        prefixKey={'inexacttheatre'}

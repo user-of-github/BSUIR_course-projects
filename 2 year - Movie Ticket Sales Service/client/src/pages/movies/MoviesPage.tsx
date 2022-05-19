@@ -13,7 +13,7 @@ import {DEFAULT_H2_PAGE_TITLE} from '../../utils/defaults'
 export const MoviesPage = observer((props: { state: MainState }): JSX.Element => {
     React.useEffect((): void => {
         window.scrollTo({top: 0, left: 0, behavior: 'smooth'})
-        props.state.moviesPageState.showLoadMoreButton && props.state.loadMoreMovies(4)
+        props.state.moviesPageState.moviesCardsLoaded.length === 0 &&  props.state.loadMoreMovies(4)
     }, [])
 
 

@@ -1,0 +1,1 @@
+export type InputCallback = (value: string) => void

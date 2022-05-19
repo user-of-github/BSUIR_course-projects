@@ -10,6 +10,7 @@ export class MoviesServiceCore {
     private static readonly POPULAR_MOVIE_THEATERS: string = 'movietheaters/popular'
     private static readonly LIST_OF_MOVIES_BY_IDS: string = 'movies/getmovieslistbyids/?ids='
     private static readonly THEATERS_FOR_EXACT_MOVIE: string = 'theatersformovie/'
+    private static readonly SEARCH_MOVIES: string = 'searchmovie/'
 
     private readonly serverDomain: string
 
@@ -56,6 +57,11 @@ export class MoviesServiceCore {
 
     public getTheatersForMovie(movieId: string, callback: any): void {
         const fullUrl: string = `${this.serverDomain}${MoviesServiceCore.THEATERS_FOR_EXACT_MOVIE}${movieId}/`
+        requestToServer({url: fullUrl, method: 'GET', callback: callback})
+    }
+
+    public searchMovies(query: string, callback: any): void {
+        const fullUrl: string = `${this.serverDomain}${MoviesServiceCore.SEARCH_MOVIES}${query}/`
         requestToServer({url: fullUrl, method: 'GET', callback: callback})
     }
 }
