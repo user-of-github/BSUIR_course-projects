@@ -22,11 +22,14 @@ export const Header = (props: {callbackForSearch: InputCallback}): JSX.Element =
             <Navigation styles={{marginLeft: '20px', marginRight: '30px'}}/>
             <Input placeholder={'Search movies'}
                    styles={{marginRight: 'auto'}}
-                   callback={(value: string): void => props.callbackForSearch(value)}
+                   onEnter={(value: string): void => props.callbackForSearch(value)}
             />
-            <Button text={'Log in'}
-                    strokeType={ButtonStrokeType.BUTTON_STROKE}
-            />
+            <Link to={'/login'} style={{marginRight: 20}}>
+                <Button text={'Log in'} strokeType={ButtonStrokeType.BUTTON_STROKE}/>
+            </Link>
+            <Link to={'/signin'}>
+                <Button text={'Sign in'} strokeType={ButtonStrokeType.BUTTON_STROKE}/>
+            </Link>
         </Row>
     </header>
 )

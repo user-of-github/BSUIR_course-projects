@@ -3,17 +3,21 @@ import React from 'react'
 import {InputCallback} from '../../../types/CallbackForInput'
 
 
-export const Input = (props: { placeholder: string, callback: InputCallback, styles?: React.CSSProperties }): JSX.Element => {
+export const Input = (props: { placeholder: string, type?: string, onEnter?: InputCallback, onChange?: InputCallback, styles?: React.CSSProperties }): JSX.Element => {
     const [state, setState] = React.useState<string>('')
 
-    const inputChanged = (event: React.ChangeEvent<HTMLInputElement>): void => setState(event.target.value)
+    const inputChanged = (event: React.ChangeEvent<HTMLInputElement>): void => {
+        setState(event.target.value)
+        props.onChange && props.onChange(event.target.value)
+    }
 
     const onEnterPressed = (event: React.KeyboardEvent<HTMLInputElement>): void => {
-        event.key == 'Enter' && props.callback(state)
+
+        props.onEnter && (event.key == 'Enter' && props.onEnter(state))
     }
 
     return (
-        <input type="text"
+        <input type={props.type || 'text'}
                className={Style.input}
                style={props.styles}
                placeholder={props.placeholder}

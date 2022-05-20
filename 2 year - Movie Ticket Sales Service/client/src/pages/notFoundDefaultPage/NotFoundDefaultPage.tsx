@@ -2,7 +2,7 @@ import {observer} from 'mobx-react-lite'
 import React from 'react'
 import Style from '../Pages.module.css'
 import StylePages from '../Pages.module.css'
-import {NotFound} from '../../components/notFound/NotFound'
+import {NotFound} from '../../components/UI/notFound/NotFound'
 
 
 export const NotFoundDefaultPage = observer((): JSX.Element => {

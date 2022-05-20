@@ -19,7 +19,7 @@ export enum ButtonType {
 export const Button = (props: { text: string, styles?: React.CSSProperties, type?: ButtonType, strokeType?: ButtonStrokeType, onClick?: ButtonClickHandler }): JSX.Element => (
     <button className={getClassesStringForButton(props.type, props.strokeType)}
             style={props.styles}
-            onClick={(): void => props.onClick && props.onClick()}
+            onClick={(event: React.MouseEvent<HTMLButtonElement>): void => props.onClick && props.onClick()}
     >
         {props.text}
     </button>

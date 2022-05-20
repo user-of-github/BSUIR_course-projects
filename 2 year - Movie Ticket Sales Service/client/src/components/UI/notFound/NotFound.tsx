@@ -1,5 +1,5 @@
 import Style from './NotFound.module.css'
-import NotFoundImage from '../../images/error-404.png'
+import NotFoundImage from '../../../images/error-404.png'
 
 
 export const NotFound = (): JSX.Element => (

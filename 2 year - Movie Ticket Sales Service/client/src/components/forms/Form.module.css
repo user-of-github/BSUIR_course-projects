@@ -1,0 +1,12 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    padding: 40px 0;
+    background: rgb(72,52,212);
+    background: linear-gradient(70deg, var(--second-accent-main-for-gradient) 0%, var(--accent-main) 50%, var(--second-accent-main-for-gradient) 100%);
+    margin: 40px auto auto;
+    border-radius: 10px;
+}

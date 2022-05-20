@@ -1,0 +1,35 @@
+.informationList {
+    width: 80%;
+    margin-right: auto;
+    text-align: left;
+    margin-top: 40px;
+    padding: 0 30px;
+}
+
+.informationList li {
+    font-size: 17px;
+    margin-bottom: 20px;
+    list-style: none;
+    border-left: 7px solid var(--second-accent-main-for-gradient);
+    padding: 10px 0 10px 20px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, .07);
+    border-radius: 2px;
+    font-weight: 100;
+    transition: 0.3s all;
+    transform-origin: left center;
+}
+
+.informationList li:hover {
+    transform: scale(1.01);
+    box-shadow: 0 0 7px rgba(0, 0, 0, .09);
+    border-left-color: var(--accent-main);
+}
+
+.informationList li:active {
+    transform: scale(0.9);
+}
+
+.informationList li a {
+    text-transform: none;
+    text-decoration: none;
+}

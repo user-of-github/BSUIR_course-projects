@@ -5,7 +5,7 @@ import {Loading} from '../../components/UI/loading/Loading'
 import {MainState} from '../../types/mainState/MainState'
 import {MovieInfoModule} from '../../components/movieInfoModule/MovieInfoModule'
 import {observer} from 'mobx-react-lite'
-import {NotFound} from '../../components/notFound/NotFound'
+import {NotFound} from '../../components/UI/notFound/NotFound'
 
 
 export const MoviePage = observer((props: { state: MainState }): JSX.Element => {

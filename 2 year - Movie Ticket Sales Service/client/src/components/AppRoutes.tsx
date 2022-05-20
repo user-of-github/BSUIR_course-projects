@@ -11,6 +11,8 @@ import {SearchPage} from '../pages/search/SearchPage'
 import {NotFoundDefaultPage} from '../pages/notFoundDefaultPage/NotFoundDefaultPage'
 import React from 'react'
 import {MainState} from '../types/mainState/MainState'
+import {SignInPage} from '../pages/authorization/SignInPage'
+import {LogInPage} from '../pages/authorization/LogInPage'
 
 
 export const AppRoutes = observer(({mainState}: {mainState: MainState}): JSX.Element => {
@@ -30,6 +32,8 @@ export const AppRoutes = observer(({mainState}: {mainState: MainState}): JSX.Ele
                 <Route path={'/movie-theaters'} element={<MovieTheatersPage state={mainState}/>}/>
                 <Route path={'/movie-theater'} element={<MovieTheaterPage state={mainState}/>}/>
                 <Route path={'/search-movie'} element={<SearchPage state={mainState}/>}/>
+                <Route path={'/signin'} element={<SignInPage/>}/>
+                <Route path={'/login'} element={<LogInPage/>}/>
                 <Route path={'*'} element={<NotFoundDefaultPage/>}/>
             </Routes>
         </>
