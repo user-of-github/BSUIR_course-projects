@@ -6,13 +6,14 @@ import {ContactPage} from '../pages/contact/ContactPage'
 import {MoviesPage} from '../pages/movies/MoviesPage'
 import {MoviePage} from '../pages/movie/MoviePage'
 import {MovieTheatersPage} from '../pages/movieTheaters/MovieTheatersPage'
-import {MovieTheaterPage} from '../pages/movieTheaterPage/MovieTheaterPage'
+import {MovieTheaterPage} from '../pages/movieTheater/MovieTheaterPage'
 import {SearchPage} from '../pages/search/SearchPage'
-import {NotFoundDefaultPage} from '../pages/notFoundDefaultPage/NotFoundDefaultPage'
+import {NotFoundDefaultPage} from '../pages/notFoundDefault/NotFoundDefaultPage'
 import React from 'react'
 import {MainState} from '../types/mainState/MainState'
 import {SignInPage} from '../pages/authorization/SignInPage'
 import {LogInPage} from '../pages/authorization/LogInPage'
+import {AccountPage} from '../pages/account/AccountPage'
 
 
 export const AppRoutes = observer(({mainState}: {mainState: MainState}): JSX.Element => {
@@ -34,6 +35,7 @@ export const AppRoutes = observer(({mainState}: {mainState: MainState}): JSX.Ele
                 <Route path={'/search-movie'} element={<SearchPage state={mainState}/>}/>
                 <Route path={'/signin'} element={<SignInPage/>}/>
                 <Route path={'/login'} element={<LogInPage/>}/>
+                <Route path={'/account'} element={<AccountPage/>}/>
                 <Route path={'*'} element={<NotFoundDefaultPage/>}/>
             </Routes>
         </>

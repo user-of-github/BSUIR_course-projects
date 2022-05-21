@@ -22,6 +22,7 @@ export class MainState {
     private static readonly HOW_MANY_TO_LOAD: number = 4
 
     public readonly controller: MoviesServiceCore
+
     public readonly moviesPageState: MoviesPageState
     public readonly mainPageState: MainPageState
     public readonly moviePageState: MoviePageState
