@@ -3,12 +3,14 @@ import {Input} from '../UI/input/Input'
 import Style from './Header.module.css'
 import Logo from '../../images/logo.png'
 import {Navigation} from '../navigation/Navigation'
-import {Button, ButtonStrokeType} from '../UI/button/Button'
+import {Button, ButtonStrokeType, ButtonType} from '../UI/button/Button'
 import {Link} from 'react-router-dom'
 import {InputCallback} from '../../types/CallbackForInput'
+import {MainState} from '../../types/mainState/MainState'
+import {observer} from 'mobx-react-lite'
 
 
-export const Header = (props: {callbackForSearch: InputCallback}): JSX.Element => (
+export const Header = observer((props: { callbackForSearch: InputCallback, state: MainState }): JSX.Element => (
     <header className={Style.header}>
         <Row styles={{alignItems: 'center', justifyContent: 'flex-start'}}>
             <Link to={'/'}>
@@ -24,12 +26,31 @@ export const Header = (props: {callbackForSearch: InputCallback}): JSX.Element =
                    styles={{marginRight: 'auto'}}
                    onEnter={(value: string): void => props.callbackForSearch(value)}
             />
-            <Link to={'/login'} style={{marginRight: 20}}>
-                <Button text={'Log in'} strokeType={ButtonStrokeType.BUTTON_STROKE}/>
-            </Link>
-            <Link to={'/signin'}>
-                <Button text={'Sign in'} strokeType={ButtonStrokeType.BUTTON_STROKE}/>
-            </Link>
+            {
+                props.state.user !== null
+                    ?
+                    <>
+                        <Link to={'/account'} style={{marginRight: 5, marginLeft: 5}}>
+                            <Button text={'Profile'}
+                                    type={ButtonType.BUTTON_PRIMARY_FILLED}
+                                    strokeType={ButtonStrokeType.BUTTON_STROKE}
+                            />
+                        </Link>
+                        <Button text={'Log out'}
+                                strokeType={ButtonStrokeType.BUTTON_STROKE}
+                                onClick={(): void => props.state.logOut()}
+                        />
+                    </>
+                    :
+                    <>
+                        <Link to={'/login'} style={{marginRight: 20}}>
+                            <Button text={'Log in'} strokeType={ButtonStrokeType.BUTTON_STROKE}/>
+                        </Link>
+                        <Link to={'/signin'}>
+                            <Button text={'Sign in'} strokeType={ButtonStrokeType.BUTTON_STROKE}/>
+                        </Link>
+                    </>
+            }
         </Row>
     </header>
-)
+))

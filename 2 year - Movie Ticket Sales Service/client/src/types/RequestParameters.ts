@@ -8,3 +8,11 @@ export interface RequestParameters {
     contentType?: string
     body?: any
 }
+
+export interface RequestParameters2 {
+    url: string
+    callback: any
+    method: 'GET' | 'POST' | 'PUT' | 'DELETE'
+    headers: any
+    body: any
+}

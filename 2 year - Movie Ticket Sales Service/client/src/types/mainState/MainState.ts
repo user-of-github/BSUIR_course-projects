@@ -16,10 +16,14 @@ import {MoviePageState} from './MoviePageState'
 import {MovieTheatersPageState} from './MovieTheatersPageState'
 import {MovieTheaterPageState} from './MovieTheaterPageState'
 import {SearchPageState} from './SearchPageState'
+import jwtDecode from 'jwt-decode'
+import {User} from '../User'
 
 
 export class MainState {
     private static readonly HOW_MANY_TO_LOAD: number = 4
+    private static readonly LOCAL_STORAGE_JWT_KEY: string = 'authTokens'
+    private static readonly REFRESH_TOKEN_INTERVAL: number = 1000 * 60 * 4
 
     public readonly controller: MoviesServiceCore
 
@@ -29,6 +33,10 @@ export class MainState {
     public readonly movieTheatersPageState: MovieTheatersPageState
     public readonly movieTheaterPageState: MovieTheaterPageState
     public readonly searchPageState: SearchPageState
+
+    public user: User | null
+
+    private readonly refreshTokenIntervalID: number
 
 
     public constructor() {
@@ -43,6 +51,14 @@ export class MainState {
         this.movieTheatersPageState = {loading: LoadingState.LOADING, movieTheatersLoaded: []}
         this.movieTheaterPageState = {loading: LoadingState.LOADING, theater: null}
         this.searchPageState = {loading: LoadingState.LOADING, foundMovies: []}
+
+        this.user = null
+
+        this.checkLogIn()
+
+        this.refreshTokenIntervalID = window.setInterval((): void => {
+            this.user !== null && this.updateToken()
+        }, MainState.REFRESH_TOKEN_INTERVAL)
 
         makeAutoObservable(this, {}, {deep: true})
     }
@@ -110,8 +126,7 @@ export class MainState {
             if (parsedResponse.success) {
                 this.moviePageState.movie = parsedResponse.data
                 this.loadTheatersForMovie(id)
-            }
-            else {
+            } else {
                 this.moviePageState.loading = LoadingState.LOADING
                 this.moviePageState.movie = null
             }
@@ -149,8 +164,7 @@ export class MainState {
             if (parsedResponse.success) {
                 this.movieTheaterPageState.theater = parsedResponse.data
                 this.loadMoviesForTheater(parsedResponse.data.movies as [])
-            }
-            else
+            } else
                 this.movieTheaterPageState.theater = null
         }
 
@@ -199,5 +213,55 @@ export class MainState {
         }
 
         this.controller.searchMovies(query, onMoviesSearchLoad)
+    }
+
+    public authorize(username: string, password: string): void {
+        const onAuthorizationCheckPassed = (response: Response, data: any, error: Error | null) => {
+            if (error) throw new Error(error.message)
+
+            if (response.status === 200)
+                this.setUpLoggedInUser(data)
+            else
+                window.alert('Something went wrong')
+        }
+        this.controller.authorize(username, password, onAuthorizationCheckPassed)
+    }
+
+    private setUpLoggedInUser(data: any): void {
+        const decoded = jwtDecode(data.access)
+
+        this.user = {serverData: decoded, access: data.access, refresh: data.refresh}
+
+        localStorage.setItem(MainState.LOCAL_STORAGE_JWT_KEY, JSON.stringify(data))
+    }
+
+    public logOut(): void {
+        this.user = null
+        localStorage.removeItem(MainState.LOCAL_STORAGE_JWT_KEY)
+    }
+
+    private checkLogIn(): void {
+        const storedLocally: any = JSON.parse(localStorage.getItem(MainState.LOCAL_STORAGE_JWT_KEY) || 'null')
+        if (storedLocally !== null)
+            this.user = {
+                serverData: jwtDecode(storedLocally.access),
+                access: storedLocally.access,
+                refresh: storedLocally.access
+            }
+    }
+
+    private async updateToken(): Promise<any> {
+        const onUpdatePassed = (response: Response, data: any, error: Error | null) => {
+            if (error) throw new Error(error.message)
+
+            if (response.status === 200) {
+                this.setUpLoggedInUser(data)
+            } else {
+                window.alert('Something went wrong')
+                this.logOut()
+            }
+        }
+
+        this.user !== null && this.controller.refreshToken(this.user.refresh, onUpdatePassed)
     }
 }

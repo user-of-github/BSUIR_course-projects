@@ -1,4 +1,4 @@
-import {RequestParameters} from '../types/RequestParameters'
+import {RequestParameters, RequestParameters2} from '../types/RequestParameters'
 
 
 export const requestToServer = (parameters: RequestParameters): XMLHttpRequest => {
@@ -18,4 +18,15 @@ export const requestToServer = (parameters: RequestParameters): XMLHttpRequest =
     request.send()
 
     return request
+}
+
+
+export const requestToServer2 = async (parameters: RequestParameters2): Promise<any> => {
+    const response: Response = await fetch(parameters.url, {
+        method: parameters.method,
+        headers: parameters.headers,
+        body: JSON.stringify(parameters.body)
+    })
+    const data = await response.json()
+    await parameters.callback(response, data)
 }

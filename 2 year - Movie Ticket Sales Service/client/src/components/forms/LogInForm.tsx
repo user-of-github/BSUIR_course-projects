@@ -47,6 +47,7 @@ export const LogInForm = observer((props: {styles?: React.CSSProperties, onLogIn
                    onChange={onInputPasswordChange}
                    type={'password'}
                    styles={{width: '50%', marginBottom: 30, borderColor: 'white', backgroundColor: 'white', color: 'black'}}
+                   onEnter={(): void => onLogInButtonClick()}
             />
 
             <Button text={'log in to your profile'}

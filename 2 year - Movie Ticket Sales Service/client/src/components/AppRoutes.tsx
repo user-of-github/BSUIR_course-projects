@@ -12,19 +12,21 @@ import {NotFoundDefaultPage} from '../pages/notFoundDefault/NotFoundDefaultPage'
 import React from 'react'
 import {MainState} from '../types/mainState/MainState'
 import {SignInPage} from '../pages/authorization/SignInPage'
+import {UserPage} from '../pages/user/UserPage'
 import {LogInPage} from '../pages/authorization/LogInPage'
-import {AccountPage} from '../pages/account/AccountPage'
 
 
 export const AppRoutes = observer(({mainState}: {mainState: MainState}): JSX.Element => {
     const navigate: NavigateFunction = useNavigate()
 
+    const callbackForSearch = (value: string): void => {
+        navigate(`/search-movie?query=${value}`)
+        window.location.reload()
+    }
+
     return (
         <>
-            <Header callbackForSearch={(value: string) => {
-                navigate(`/search-movie?query=${value}`)
-                window.location.reload()
-            }}/>
+            <Header callbackForSearch={callbackForSearch} state={mainState}/>
             <Routes>
                 <Route path={'/'} element={<MainPage state={mainState}/>}/>
                 <Route path={'/contact'} element={<ContactPage/>}/>
@@ -34,8 +36,8 @@ export const AppRoutes = observer(({mainState}: {mainState: MainState}): JSX.Ele
                 <Route path={'/movie-theater'} element={<MovieTheaterPage state={mainState}/>}/>
                 <Route path={'/search-movie'} element={<SearchPage state={mainState}/>}/>
                 <Route path={'/signin'} element={<SignInPage/>}/>
-                <Route path={'/login'} element={<LogInPage/>}/>
-                <Route path={'/account'} element={<AccountPage/>}/>
+                <Route path={'/login'} element={<LogInPage state={mainState}/>}/>
+                <Route path={'/account'} element={<UserPage state={mainState}/>}/>
                 <Route path={'*'} element={<NotFoundDefaultPage/>}/>
             </Routes>
         </>

@@ -10,7 +10,8 @@
 
     outline: none;
     height: auto;
-    margin: auto 0;
+    margin: 0;
+    width: auto;
 
     text-transform: uppercase;
     cursor: pointer;

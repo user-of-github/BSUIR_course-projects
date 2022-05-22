@@ -1,4 +1,4 @@
-import {requestToServer} from '../../utils/requestToServer'
+import {requestToServer, requestToServer2} from '../../utils/requestToServer'
 
 
 export class MoviesServiceCore {
@@ -11,6 +11,8 @@ export class MoviesServiceCore {
     private static readonly LIST_OF_MOVIES_BY_IDS: string = 'movies/getmovieslistbyids/?ids='
     private static readonly THEATERS_FOR_EXACT_MOVIE: string = 'theatersformovie/'
     private static readonly SEARCH_MOVIES: string = 'searchmovie/'
+    private static readonly TOKEN_AUTHORIZATION: string = 'token/'
+    private static readonly TOKEN_REFRESH: string = 'token/refresh/'
 
     private readonly serverDomain: string
 
@@ -63,5 +65,27 @@ export class MoviesServiceCore {
     public searchMovies(query: string, callback: any): void {
         const fullUrl: string = `${this.serverDomain}${MoviesServiceCore.SEARCH_MOVIES}${query}/`
         requestToServer({url: fullUrl, method: 'GET', callback: callback})
+    }
+
+    public authorize(username: string, password: string, callback: any): void {
+        const fullUrl: string = `${this.serverDomain}${MoviesServiceCore.TOKEN_AUTHORIZATION}`
+        requestToServer2({
+            url: fullUrl,
+            method: 'POST',
+            callback: callback,
+            headers: {'Content-Type': 'application/json',},
+            body: {username: username, password: password}
+        })
+    }
+
+    public refreshToken(token: string, callback: any): void {
+        const fullUrl: string = `${this.serverDomain}${MoviesServiceCore.TOKEN_REFRESH}`
+        requestToServer2({
+            url: fullUrl,
+            method: 'POST',
+            callback: callback,
+            headers: {'Content-Type': 'application/json',},
+            body: {refresh: token}
+        })
     }
 }
