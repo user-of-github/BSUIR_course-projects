@@ -3,16 +3,18 @@ import {requestToServer, requestToServer2} from '../../utils/requestToServer'
 
 export class MoviesServiceCore {
     private static readonly DEFAULT_SERVER_DOMAIN: string = 'http://127.0.0.1:8000/api/'
+
     private static readonly SINGLE_MOVIE_ROUTE: string = 'movie'
     private static readonly MOVIES_LIST_ROUTE: string = 'movies'
     private static readonly POPULAR_MOVIES_LIST_ROUTE: string = 'movies/popular'
     private static readonly MOVIE_THEATERS_LIST_ROUTE: string = 'movietheaters'
-    private static readonly POPULAR_MOVIE_THEATERS: string = 'movietheaters/popular'
-    private static readonly LIST_OF_MOVIES_BY_IDS: string = 'movies/getmovieslistbyids/?ids='
+    private static readonly POPULAR_MOVIE_THEATERS_ROUTE: string = 'movietheaters/popular'
+    private static readonly LIST_OF_MOVIES_BY_IDS_ROUTE: string = 'movies/getmovieslistbyids/?ids='
     private static readonly THEATERS_FOR_EXACT_MOVIE: string = 'theatersformovie/'
-    private static readonly SEARCH_MOVIES: string = 'searchmovie/'
-    private static readonly TOKEN_AUTHORIZATION: string = 'token/'
-    private static readonly TOKEN_REFRESH: string = 'token/refresh/'
+    private static readonly SEARCH_MOVIES_ROUTE: string = 'searchmovie/'
+    private static readonly TOKEN_AUTHORIZATION_ROUTE: string = 'token/'
+    private static readonly TOKEN_REFRESH_ROUTE: string = 'token/refresh/'
+    private static readonly REGISTER_ROUTE: string = 'register/'
 
     private readonly serverDomain: string
 
@@ -32,7 +34,7 @@ export class MoviesServiceCore {
     }
 
     public getPopularTheaters(callback: any): void {
-        const fullUrl: string = `${this.serverDomain}${MoviesServiceCore.POPULAR_MOVIE_THEATERS}/`
+        const fullUrl: string = `${this.serverDomain}${MoviesServiceCore.POPULAR_MOVIE_THEATERS_ROUTE}/`
         requestToServer({url: fullUrl, method: 'GET', callback: callback})
     }
 
@@ -53,7 +55,7 @@ export class MoviesServiceCore {
 
     public getMoviesForTheater(ids: Array<string>, callback: any): void {
         const ids_string: string = ids.join(',')
-        const fullUrl: string = `${this.serverDomain}${MoviesServiceCore.LIST_OF_MOVIES_BY_IDS}${ids_string}`
+        const fullUrl: string = `${this.serverDomain}${MoviesServiceCore.LIST_OF_MOVIES_BY_IDS_ROUTE}${ids_string}`
         requestToServer({url: fullUrl, method: 'GET', callback: callback, body: ids})
     }
 
@@ -63,29 +65,40 @@ export class MoviesServiceCore {
     }
 
     public searchMovies(query: string, callback: any): void {
-        const fullUrl: string = `${this.serverDomain}${MoviesServiceCore.SEARCH_MOVIES}${query}/`
+        const fullUrl: string = `${this.serverDomain}${MoviesServiceCore.SEARCH_MOVIES_ROUTE}${query}/`
         requestToServer({url: fullUrl, method: 'GET', callback: callback})
     }
 
     public authorize(username: string, password: string, callback: any): void {
-        const fullUrl: string = `${this.serverDomain}${MoviesServiceCore.TOKEN_AUTHORIZATION}`
+        const fullUrl: string = `${this.serverDomain}${MoviesServiceCore.TOKEN_AUTHORIZATION_ROUTE}`
         requestToServer2({
             url: fullUrl,
             method: 'POST',
             callback: callback,
             headers: {'Content-Type': 'application/json',},
-            body: {username: username, password: password}
+            body: JSON.stringify({username: username, password: password})
         })
     }
 
     public refreshToken(token: string, callback: any): void {
-        const fullUrl: string = `${this.serverDomain}${MoviesServiceCore.TOKEN_REFRESH}`
+        const fullUrl: string = `${this.serverDomain}${MoviesServiceCore.TOKEN_REFRESH_ROUTE}`
         requestToServer2({
             url: fullUrl,
             method: 'POST',
             callback: callback,
             headers: {'Content-Type': 'application/json',},
-            body: {refresh: token}
+            body: JSON.stringify({refresh: token})
+        })
+    }
+
+    public register(formData: FormData, callback: any): void {
+        const fullUrl: string = `${this.serverDomain}${MoviesServiceCore.REGISTER_ROUTE}`
+        requestToServer2({
+            url: fullUrl,
+            method: 'POST',
+            callback: callback,
+            headers: {},
+            body: formData
         })
     }
 }

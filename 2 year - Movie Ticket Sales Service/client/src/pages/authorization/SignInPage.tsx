@@ -3,11 +3,12 @@ import {SignInForm} from '../../components/forms/SignInForm'
 import {DEFAULT_H2_PAGE_TITLE} from '../../utils/defaults'
 import {FormSignInCallback} from '../../types/FormCallback'
 import StylePages from '../Pages.module.css'
+import {MainState} from '../../types/mainState/MainState'
 
 
-export const SignInPage = observer((): JSX.Element => {
+export const SignInPage = observer(({state}: {state: MainState}): JSX.Element => {
     const onSignInCallback: FormSignInCallback = (login: string, password: string, email: string): void => {
-        window.alert('Signing in')
+        state.register(login, password, email)
     }
 
     return (

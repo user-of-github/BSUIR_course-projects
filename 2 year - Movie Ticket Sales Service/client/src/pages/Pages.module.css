@@ -1,6 +1,6 @@
 .smoothLoading {
     animation-name: smooth;
-    animation-duration: var(--default-animation-duration);
+    animation-duration: 0.5s;
     animation-timing-function: ease-in-out;
     width: 100%;
     margin: 0 auto;

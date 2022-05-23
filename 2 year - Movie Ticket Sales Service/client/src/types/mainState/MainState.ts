@@ -222,7 +222,7 @@ export class MainState {
             if (response.status === 200)
                 this.setUpLoggedInUser(data)
             else
-                window.alert('Something went wrong')
+                window.alert(response.statusText)
         }
         this.controller.authorize(username, password, onAuthorizationCheckPassed)
     }
@@ -250,7 +250,7 @@ export class MainState {
             }
     }
 
-    private async updateToken(): Promise<any> {
+    private updateToken(): void {
         const onUpdatePassed = (response: Response, data: any, error: Error | null) => {
             if (error) throw new Error(error.message)
 
@@ -263,5 +263,25 @@ export class MainState {
         }
 
         this.user !== null && this.controller.refreshToken(this.user.refresh, onUpdatePassed)
+    }
+
+    public register(username: string, password: string, email: string): void {
+        const onRegistrationTryPassed = (response: Response, data: any, error: Error | null) => {
+            if (error) throw new Error(error.message)
+
+            if (response.status === 200)
+                window.alert('Registered successfully !')
+            else
+                window.alert(response.statusText)
+
+            //window.location.reload()
+        }
+
+        const formData: FormData = new FormData()
+        formData.append('username', username)
+        formData.append('password', password)
+        formData.append('email', email)
+
+        this.controller.register(formData, onRegistrationTryPassed)
     }
 }

@@ -25,7 +25,7 @@ export const requestToServer2 = async (parameters: RequestParameters2): Promise<
     const response: Response = await fetch(parameters.url, {
         method: parameters.method,
         headers: parameters.headers,
-        body: JSON.stringify(parameters.body)
+        body: parameters.body
     })
     const data = await response.json()
     await parameters.callback(response, data)

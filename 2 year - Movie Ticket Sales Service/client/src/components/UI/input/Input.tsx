@@ -12,8 +12,7 @@ export const Input = (props: { placeholder: string, type?: string, onEnter?: Inp
     }
 
     const onEnterPressed = (event: React.KeyboardEvent<HTMLInputElement>): void => {
-
-        props.onEnter && (event.key == 'Enter' && props.onEnter(state))
+        props.onEnter && (event.key === 'Enter' && props.onEnter(state))
     }
 
     return (

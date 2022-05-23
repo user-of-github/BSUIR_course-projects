@@ -35,7 +35,7 @@ export const AppRoutes = observer(({mainState}: {mainState: MainState}): JSX.Ele
                 <Route path={'/movie-theaters'} element={<MovieTheatersPage state={mainState}/>}/>
                 <Route path={'/movie-theater'} element={<MovieTheaterPage state={mainState}/>}/>
                 <Route path={'/search-movie'} element={<SearchPage state={mainState}/>}/>
-                <Route path={'/signin'} element={<SignInPage/>}/>
+                <Route path={'/signin'} element={<SignInPage state={mainState}/>}/>
                 <Route path={'/login'} element={<LogInPage state={mainState}/>}/>
                 <Route path={'/account'} element={<UserPage state={mainState}/>}/>
                 <Route path={'*'} element={<NotFoundDefaultPage/>}/>
