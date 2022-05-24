@@ -18,6 +18,7 @@ import {MovieTheaterPageState} from './MovieTheaterPageState'
 import {SearchPageState} from './SearchPageState'
 import jwtDecode from 'jwt-decode'
 import {User} from '../User'
+import {UserPageState} from './UserPageState'
 
 
 export class MainState {
@@ -33,6 +34,7 @@ export class MainState {
     public readonly movieTheatersPageState: MovieTheatersPageState
     public readonly movieTheaterPageState: MovieTheaterPageState
     public readonly searchPageState: SearchPageState
+    public readonly userPageState: UserPageState
 
     public user: User | null
 
@@ -47,10 +49,11 @@ export class MainState {
             popularMovies: {loadedPopularMovies: [], loading: LoadingState.LOADING},
             popularMovieTheaters: {loadedPopularMovieTheaters: [], loading: LoadingState.LOADING}
         }
-        this.moviePageState = {loading: LoadingState.LOADING, movie: null, theatersList: []}
+        this.moviePageState = {loading: LoadingState.LOADING, movie: null, theatersList: [], isFavourite: false}
         this.movieTheatersPageState = {loading: LoadingState.LOADING, movieTheatersLoaded: []}
         this.movieTheaterPageState = {loading: LoadingState.LOADING, theater: null}
         this.searchPageState = {loading: LoadingState.LOADING, foundMovies: []}
+        this.userPageState = {favourites: []}
 
         this.user = null
 
@@ -126,6 +129,7 @@ export class MainState {
             if (parsedResponse.success) {
                 this.moviePageState.movie = parsedResponse.data
                 this.loadTheatersForMovie(id)
+                this.checkIfInFavourite(id)
             } else {
                 this.moviePageState.loading = LoadingState.LOADING
                 this.moviePageState.movie = null
@@ -273,8 +277,6 @@ export class MainState {
                 window.alert('Registered successfully !')
             else
                 window.alert(response.statusText)
-
-            //window.location.reload()
         }
 
         const formData: FormData = new FormData()
@@ -283,5 +285,53 @@ export class MainState {
         formData.append('email', email)
 
         this.controller.register(formData, onRegistrationTryPassed)
+    }
+
+    public addOrRemoveMovieToFavourite(movieId: string, add: boolean = true): void {
+        if (add) {
+            const onAddingTryPassed = (response: Response, data: any, error: Error | null) => {
+                if (error) throw new Error(error.message)
+                window.alert(data.status)
+                window.location.reload()
+            }
+
+            if (this.user !== null)
+                this.controller.addToFavourites(movieId, this.user.access, onAddingTryPassed)
+            else
+                window.alert('Unable. Unauthorized !')
+        } else { // => to remove
+            const onRemovingTryPassed = (response: Response, data: any, error: Error | null) => {
+                if (error) throw new Error(error.message)
+                window.alert(data.status)
+                window.location.reload()
+            }
+
+            if (this.user !== null)
+                this.controller.removeFromFavourites(movieId, this.user.access, onRemovingTryPassed)
+            else
+                window.alert('Unable. Unauthorized !')
+        }
+    }
+
+    public getUsersFavourites(): void {
+        const onGettingFavourites = (response: Response, data: any, error: Error | null) => {
+            if (error) throw new Error(error.message)
+            this.userPageState.favourites = data.data
+        }
+
+        if (this.user !== null)
+            this.controller.getFavourites(this.user.access, onGettingFavourites)
+        else
+            window.alert('Unable. Unauthorized !')
+    }
+
+    public checkIfInFavourite(movieId: string): void {
+        const onCheckPass = (response: Response, data: any, error: Error | null) => {
+            if (error) throw new Error(error.message)
+            this.moviePageState.isFavourite = data.result === true
+        }
+
+        if (this.user !== null)
+            this.controller.checkIfFavourite(movieId, this.user.access, onCheckPass)
     }
 }

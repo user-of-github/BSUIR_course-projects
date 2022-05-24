@@ -12,6 +12,13 @@
     flex-direction: row;
     border-radius: 7px;
     margin: auto;
+    position: relative;
+}
+
+.addToFavourites {
+    position: absolute;
+    top: -20px;
+    right: -30px;
 }
 
 .poster {

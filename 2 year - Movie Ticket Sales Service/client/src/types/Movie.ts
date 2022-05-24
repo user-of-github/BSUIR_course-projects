@@ -17,4 +17,5 @@ export interface Movie {
     poster_image_link: string
     duration: number
     age_restriction: number
+    movie_id: string
 }

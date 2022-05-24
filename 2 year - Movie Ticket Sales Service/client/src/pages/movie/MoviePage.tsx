@@ -28,7 +28,7 @@ export const MoviePage = observer((props: { state: MainState }): JSX.Element => 
                             ?
                             <NotFound/>
                             :
-                            <MovieInfoModule state={props.state.moviePageState}/>
+                            <MovieInfoModule state={props.state}/>
                 }
             </main>
         </div>

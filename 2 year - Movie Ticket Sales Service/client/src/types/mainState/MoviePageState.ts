@@ -7,4 +7,5 @@ export interface MoviePageState {
     loading: LoadingState
     movie: Movie | null
     theatersList: Array<MovieTheater>
+    isFavourite: boolean
 }
