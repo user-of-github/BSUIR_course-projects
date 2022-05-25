@@ -12,6 +12,7 @@ cmake-build-debug/
 *.bak
 
 node_modules/
+__pycache__/
 venv/
 .Python
 env/
