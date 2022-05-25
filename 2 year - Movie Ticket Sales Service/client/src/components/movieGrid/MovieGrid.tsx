@@ -1,8 +1,9 @@
-import {Movie, MovieShorten} from '../../types/Movie'
-import {Grid} from '../layout/grid/Grid'
 import React from 'react'
-import {MovieCard} from '../movieCard/MovieCard'
 import {observer} from 'mobx-react-lite'
+
+import {Grid} from '../layout/grid/Grid'
+import {Movie, MovieShorten} from '../../types/Movie'
+import {MovieCard} from '../movieCard/MovieCard'
 
 
 interface MovieGridProps {

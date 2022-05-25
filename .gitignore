@@ -12,3 +12,4 @@ cmake-build-debug/
 *.bak
 
 node_modules/
+venv/

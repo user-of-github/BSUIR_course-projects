@@ -276,7 +276,7 @@ export class MainState {
             if (response.status === 200)
                 window.alert('Registered successfully !')
             else
-                window.alert(response.statusText)
+                window.alert(`Django didn't like something ...${response.statusText}`)
         }
 
         const formData: FormData = new FormData()
