@@ -3,7 +3,15 @@ import React from 'react'
 import {InputCallback} from '../../../types/CallbackForInput'
 
 
-export const Input = (props: { placeholder: string, type?: string, onEnter?: InputCallback, onChange?: InputCallback, styles?: React.CSSProperties }): JSX.Element => {
+interface InputProps {
+    placeholder: string,
+    type?: string,
+    onEnter?: InputCallback,
+    onChange?: InputCallback,
+    styles?: React.CSSProperties
+}
+
+export const Input = (props: InputProps): JSX.Element => {
     const [state, setState] = React.useState<string>('')
 
     const inputChanged = (event: React.ChangeEvent<HTMLInputElement>): void => {
