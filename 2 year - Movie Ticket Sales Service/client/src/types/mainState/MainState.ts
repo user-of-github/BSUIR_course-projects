@@ -49,7 +49,7 @@ export class MainState {
             popularMovies: {loadedPopularMovies: [], loading: LoadingState.LOADING},
             popularMovieTheaters: {loadedPopularMovieTheaters: [], loading: LoadingState.LOADING}
         }
-        this.moviePageState = {loading: LoadingState.LOADING, movie: null, theatersList: [], isFavourite: false}
+        this.moviePageState = {loading: LoadingState.LOADING, movie: null, theatersList: [], isFavourite: false, comments: []}
         this.movieTheatersPageState = {loading: LoadingState.LOADING, movieTheatersLoaded: []}
         this.movieTheaterPageState = {loading: LoadingState.LOADING, theater: null}
         this.searchPageState = {loading: LoadingState.LOADING, foundMovies: []}
@@ -130,6 +130,7 @@ export class MainState {
                 this.moviePageState.movie = parsedResponse.data
                 this.loadTheatersForMovie(id)
                 this.checkIfInFavourite(id)
+                this.getCommentsForMovie(parsedResponse!.data!.comments as [])
             } else {
                 this.moviePageState.loading = LoadingState.LOADING
                 this.moviePageState.movie = null
@@ -147,7 +148,7 @@ export class MainState {
 
             const parsedResponse: ServerResponseForMoviesList = JSON.parse(data!)
 
-            console.log(parsedResponse)
+            //console.log(parsedResponse)
 
             this.movieTheatersPageState.movieTheatersLoaded = Array.from(parsedResponse.data as [])
         }
@@ -261,7 +262,7 @@ export class MainState {
             if (response.status === 200) {
                 this.setUpLoggedInUser(data)
             } else {
-                window.alert('Something went wrong')
+                //window.alert('Something went wrong')
                 this.logOut()
             }
         }
@@ -333,5 +334,29 @@ export class MainState {
 
         if (this.user !== null)
             this.controller.checkIfFavourite(movieId, this.user.access, onCheckPass)
+    }
+
+    public addComment(movieId: string, comment: string): void {
+        const onAddPass = (response: Response, data: any, error: Error | null) => {
+            if (error) throw new Error(error.message)
+            window.location.reload()
+        }
+
+        if (this.user !== null)
+            this.controller.sendComment(movieId, comment, this.user.access, onAddPass)
+    }
+
+    public getCommentsForMovie(ids: Array<string>): void {
+        const onCommentsLoad: RequestCallback = (data, error) => {
+            this.movieTheaterPageState.loading = LoadingState.LOADED
+
+            if (error) throw new Error(error.message)
+
+            const parsedResponse: ServerResponseForMoviesForTheater = JSON.parse(data!)
+
+            this.moviePageState!.comments! = parsedResponse.data as []
+        }
+
+        this.controller.getCommentsById(ids, onCommentsLoad)
     }
 }

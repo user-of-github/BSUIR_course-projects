@@ -1,0 +1,19 @@
+.textarea {
+    width: 100%;
+    padding: 7px 10px;
+    color: #333;
+    border: 1px solid var(--inactive-font-color);
+    border-radius: 3px;
+    font-size: var(--default-font-size);
+    background-color: transparent;
+    outline: none;
+    resize: none;
+
+    height: 100px;
+
+    transition: 0.3s all;
+}
+
+.textarea:focus {
+    border-color: var(--accent-main);
+}

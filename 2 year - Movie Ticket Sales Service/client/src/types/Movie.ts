@@ -18,4 +18,5 @@ export interface Movie {
     duration: number
     age_restriction: number
     movie_id: string
+    comments: Array<string>
 }
