@@ -49,7 +49,8 @@ export class MainState {
             popularMovies: {loadedPopularMovies: [], loading: LoadingState.LOADING},
             popularMovieTheaters: {loadedPopularMovieTheaters: [], loading: LoadingState.LOADING}
         }
-        this.moviePageState = {loading: LoadingState.LOADING, movie: null, theatersList: [], isFavourite: false, comments: []}
+        this.moviePageState =
+            {loading: LoadingState.LOADING, movie: null, theatersList: [], isFavourite: false, comments: []}
         this.movieTheatersPageState = {loading: LoadingState.LOADING, movieTheatersLoaded: []}
         this.movieTheaterPageState = {loading: LoadingState.LOADING, theater: null}
         this.searchPageState = {loading: LoadingState.LOADING, foundMovies: []}
@@ -274,10 +275,7 @@ export class MainState {
         const onRegistrationTryPassed = (response: Response, data: any, error: Error | null) => {
             if (error) throw new Error(error.message)
 
-            if (response.status === 200)
-                window.alert('Registered successfully !')
-            else
-                window.alert(`Django didn't like something ...${response.statusText}`)
+            window.alert(`Django's response: ${response.statusText}`)
         }
 
         const formData: FormData = new FormData()

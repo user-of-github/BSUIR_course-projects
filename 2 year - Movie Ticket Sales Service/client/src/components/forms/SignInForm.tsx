@@ -6,6 +6,7 @@ import {InputCallback} from '../../types/CallbackForInput'
 import Style from './Form.module.css'
 import {FormSignInCallback} from '../../types/FormCallback'
 import {DEFAULT_H2_PAGE_TITLE} from '../../utils/defaults'
+import * as EmailValidator from 'email-validator'
 
 
 export const SignInForm = observer((props: {styles?: React.CSSProperties, onSignIn: FormSignInCallback}): JSX.Element => {
@@ -17,7 +18,7 @@ export const SignInForm = observer((props: {styles?: React.CSSProperties, onSign
     const onInputPasswordChange: InputCallback = (value: string): void => setPassword(value)
     const onInputEmailChange: InputCallback = (value: string): void => setEmail(value)
 
-    const checkEmail = (): boolean => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
+    const checkEmail = (): boolean => EmailValidator.validate(email)
     const checkPassword = (): boolean => /[A-Za-z0-9]{4,}/.test(password)
     const checkNickname = (): boolean => nickname.trim() !== ''
 
