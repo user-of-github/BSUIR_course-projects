@@ -21,6 +21,7 @@ export class MoviesServiceCore {
     private static readonly REMOVE_FROM_FAVOURITE_ROUTE: string = 'removefromfavourite/'
     private static readonly ADD_COMMENT_ROUTE: string = 'addcomment/'
     private static readonly LIST_OF_COMMENTS_BY_IDS_ROUTE: string = 'comments/getcommentslistbyids/?ids='
+    private static readonly LIST_OF_NOTIFICATIONS_ROUTE: string = 'getusersnotifications/'
 
     private readonly serverDomain: string
 
@@ -169,5 +170,16 @@ export class MoviesServiceCore {
         const ids_string: string = ids.join(',')
         const fullUrl: string = `${this.serverDomain}${MoviesServiceCore.LIST_OF_COMMENTS_BY_IDS_ROUTE}${ids_string}`
         requestToServer({url: fullUrl, method: 'GET', callback: callback, body: ids})
+    }
+
+    public getUserHistory(userToken: string, callback: any): void {
+        const fullUrl: string = `${this.serverDomain}${MoviesServiceCore.LIST_OF_NOTIFICATIONS_ROUTE}`
+        requestToServer2({
+            url: fullUrl,
+            method: 'GET',
+            callback: callback,
+            headers: {'Authorization': `Bearer ${userToken}`},
+            body: null
+        })
     }
 }

@@ -21,18 +21,21 @@ export const Header = observer((props: { callbackForSearch: InputCallback, state
                 />
             </Link>
 
-            <Navigation styles={{marginLeft: '20px', marginRight: '30px'}}/>
+            <Navigation styles={{marginLeft: 20, marginRight: 10}}/>
             <Input placeholder={'Search movies'}
-                   styles={{marginRight: 'auto'}}
+                   styles={{marginRight: 10}}
                    onEnter={(value: string): void => props.callbackForSearch(value)}
             />
             {
                 props.state.user !== null
                     ?
                     <>
+                        <Link to={'/history'}>
+                            <Button text={'🔔'} type={ButtonType.BUTTON_PRIMARY} />
+                        </Link>
                         <Link to={'/account'} style={{marginRight: 5, marginLeft: 5}}>
-                            <Button text={'Profile'}
-                                    type={ButtonType.BUTTON_PRIMARY_FILLED}
+                            <Button text={'👤'}
+                                    type={ButtonType.BUTTON_PRIMARY}
                                     strokeType={ButtonStrokeType.BUTTON_STROKE}
                             />
                         </Link>
@@ -43,7 +46,7 @@ export const Header = observer((props: { callbackForSearch: InputCallback, state
                     </>
                     :
                     <>
-                        <Link to={'/login'} style={{marginRight: 20}}>
+                        <Link to={'/login'} style={{marginRight: 10}}>
                             <Button text={'Log in'} strokeType={ButtonStrokeType.BUTTON_STROKE}/>
                         </Link>
                         <Link to={'/signin'}>

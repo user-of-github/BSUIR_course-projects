@@ -14,6 +14,7 @@ import {MainState} from '../types/mainState/MainState'
 import {SignInPage} from '../pages/authorization/SignInPage'
 import {UserPage} from '../pages/user/UserPage'
 import {LogInPage} from '../pages/authorization/LogInPage'
+import {HistoryOfActions} from '../pages/actionsHistory/HistoryOfActions'
 
 
 export const AppRoutes = observer(({mainState}: {mainState: MainState}): JSX.Element => {
@@ -38,6 +39,7 @@ export const AppRoutes = observer(({mainState}: {mainState: MainState}): JSX.Ele
                 <Route path={'/signin'} element={<SignInPage state={mainState}/>}/>
                 <Route path={'/login'} element={<LogInPage state={mainState}/>}/>
                 <Route path={'/account'} element={<UserPage state={mainState}/>}/>
+                <Route path={'/history'} element={<HistoryOfActions state={mainState}/> }/>
                 <Route path={'*'} element={<NotFoundDefaultPage/>}/>
             </Routes>
         </>

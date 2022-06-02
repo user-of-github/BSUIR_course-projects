@@ -19,6 +19,7 @@ import {SearchPageState} from './SearchPageState'
 import jwtDecode from 'jwt-decode'
 import {User} from '../User'
 import {UserPageState} from './UserPageState'
+import {HistoryPageState} from './HistoryPageState'
 
 
 export class MainState {
@@ -35,6 +36,7 @@ export class MainState {
     public readonly movieTheaterPageState: MovieTheaterPageState
     public readonly searchPageState: SearchPageState
     public readonly userPageState: UserPageState
+    public readonly usersHistoryPageState: HistoryPageState
 
     public user: User | null
 
@@ -55,6 +57,7 @@ export class MainState {
         this.movieTheaterPageState = {loading: LoadingState.LOADING, theater: null}
         this.searchPageState = {loading: LoadingState.LOADING, foundMovies: []}
         this.userPageState = {favourites: []}
+        this.usersHistoryPageState = {loading: LoadingState.LOADING, notifications: []}
 
         this.user = null
 
@@ -290,7 +293,7 @@ export class MainState {
         if (add) {
             const onAddingTryPassed = (response: Response, data: any, error: Error | null) => {
                 if (error) throw new Error(error.message)
-                window.alert(data.status)
+                //window.alert(data.status)
                 window.location.reload()
             }
 
@@ -301,7 +304,7 @@ export class MainState {
         } else { // => to remove
             const onRemovingTryPassed = (response: Response, data: any, error: Error | null) => {
                 if (error) throw new Error(error.message)
-                window.alert(data.status)
+                //window.alert(data.status)
                 window.location.reload()
             }
 
@@ -356,5 +359,17 @@ export class MainState {
         }
 
         this.controller.getCommentsById(ids, onCommentsLoad)
+    }
+
+    public getUsersNotifications(): void {
+        const onLoad = (response: Response, data: any, error: Error | null) => {
+            if (error) throw new Error(error.message)
+            this.usersHistoryPageState.loading = LoadingState.LOADED
+            //console.log(data)
+            this.usersHistoryPageState.notifications = data.data
+        }
+
+        if (this.user !== null)
+            this.controller.getUserHistory(this.user.access, onLoad)
     }
 }
