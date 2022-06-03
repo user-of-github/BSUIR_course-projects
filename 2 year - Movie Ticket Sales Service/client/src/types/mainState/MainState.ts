@@ -25,6 +25,7 @@ import {HistoryPageState} from './HistoryPageState'
 export class MainState {
     private static readonly HOW_MANY_TO_LOAD: number = 4
     private static readonly LOCAL_STORAGE_JWT_KEY: string = 'authTokens'
+    private static readonly ASKING_FOR_RELOGIN: string = 'It seems, that your authorization time ended. Please login again'
     private static readonly REFRESH_TOKEN_INTERVAL: number = 1000 * 60 * 4
 
     public readonly controller: MoviesServiceCore
@@ -318,7 +319,12 @@ export class MainState {
     public getUsersFavourites(): void {
         const onGettingFavourites = (response: Response, data: any, error: Error | null) => {
             if (error) throw new Error(error.message)
-            this.userPageState.favourites = data.data
+            if (response.status < 400) {
+                this.userPageState.favourites = data.data
+            } else {
+                window.alert(MainState.ASKING_FOR_RELOGIN)
+                this.logOut()
+            }
         }
 
         if (this.user !== null)
@@ -365,8 +371,15 @@ export class MainState {
         const onLoad = (response: Response, data: any, error: Error | null) => {
             if (error) throw new Error(error.message)
             this.usersHistoryPageState.loading = LoadingState.LOADED
-            //console.log(data)
-            this.usersHistoryPageState.notifications = data.data
+            if (response.status < 400) {
+                this.usersHistoryPageState.notifications = data.data
+            }
+            else {
+                if (response.status == 401) {
+                    window.alert(MainState.ASKING_FOR_RELOGIN)
+                    this.logOut()
+                }
+            }
         }
 
         if (this.user !== null)
