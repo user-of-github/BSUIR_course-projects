@@ -26,14 +26,15 @@
 * _OS Linux Ubuntu_
 
 
-### To run my application:  
-1. `yarn` or `npm install`  
-2. `yarn start` or `npm run start`  
+### To run my application locally:  
+1. Set `PRODUCTION` variable to `false` in `configuration.ts` (the same in server)
+2. `yarn` or `npm install`  
+3. `yarn start` or `npm run start`  
 &nbsp;   
 
 
 ### To deploy my application:  
-1. Set `PRODUCTION` variable to `true` in `configuration.ts`  
+1. Set `PRODUCTION` variable to `true` in `configuration.ts`  (the same in server)
 2. `yarn`  
 3. `yarn build`  
 4. `cd build`  
