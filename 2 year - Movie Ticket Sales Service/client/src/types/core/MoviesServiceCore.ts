@@ -1,8 +1,9 @@
 import {requestToServer, requestToServer2} from '../../utils/requestToServer'
 
 
+
 export class MoviesServiceCore {
-    private static readonly DEFAULT_SERVER_DOMAIN: string = 'http://127.0.0.1:8000/api/'
+    private static readonly DEFAULT_SERVER_DOMAIN: string = 'https://marvel-dc-movies-service.herokuapp.com/api/'
 
     private static readonly SINGLE_MOVIE_ROUTE: string = 'movie'
     private static readonly MOVIES_LIST_ROUTE: string = 'movies'

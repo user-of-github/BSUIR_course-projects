@@ -20,6 +20,8 @@ import jwtDecode from 'jwt-decode'
 import {User} from '../User'
 import {UserPageState} from './UserPageState'
 import {HistoryPageState} from './HistoryPageState'
+import {LOCAL_SERVER_URL, PRODUCTION, SERVER_URL} from '../../configuration'
+
 
 
 export class MainState {
@@ -44,16 +46,15 @@ export class MainState {
     private readonly refreshTokenIntervalID: number
 
 
-    public constructor() {
-        this.controller = new MoviesServiceCore()
+    public constructor(production: boolean = false) {
+        this.controller = new MoviesServiceCore(production ? SERVER_URL : LOCAL_SERVER_URL)
 
         this.moviesPageState = {moviesCardsLoaded: [], loading: LoadingState.LOADING, showLoadMoreButton: true}
         this.mainPageState = {
             popularMovies: {loadedPopularMovies: [], loading: LoadingState.LOADING},
             popularMovieTheaters: {loadedPopularMovieTheaters: [], loading: LoadingState.LOADING}
         }
-        this.moviePageState =
-            {loading: LoadingState.LOADING, movie: null, theatersList: [], isFavourite: false, comments: []}
+        this.moviePageState = {loading: LoadingState.LOADING, movie: null, theatersList: [], isFavourite: false, comments: []}
         this.movieTheatersPageState = {loading: LoadingState.LOADING, movieTheatersLoaded: []}
         this.movieTheaterPageState = {loading: LoadingState.LOADING, theater: null}
         this.searchPageState = {loading: LoadingState.LOADING, foundMovies: []}
@@ -375,7 +376,7 @@ export class MainState {
                 this.usersHistoryPageState.notifications = data.data
             }
             else {
-                if (response.status == 401) {
+                if (response.status === 401) {
                     window.alert(MainState.ASKING_FOR_RELOGIN)
                     this.logOut()
                 }

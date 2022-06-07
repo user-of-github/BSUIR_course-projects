@@ -31,6 +31,14 @@
 2. `yarn start` or `npm run start`  
 &nbsp;   
 
+
+### To deploy my application:  
+1. Set `PRODUCTION` variable to `true` in `configuration.ts`  
+2. `yarn`  
+3. `yarn build`  
+4. `cd build`  
+5. `surge`  (url: `movies-service-project.surge.sh`)
+
 [Link: ]()
 
 ###### © 2022 | All Rights Reserved

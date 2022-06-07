@@ -8,6 +8,7 @@ import {observer} from 'mobx-react-lite'
 import {NotFound} from '../../components/UI/notFound/NotFound'
 import {AddComment} from '../../components/addComment/AddComment'
 import {CommentBlock} from '../../components/comment/CommentBlock'
+import {DEFAULT_H2_PAGE_TITLE} from '../../utils/defaults'
 
 
 export const MoviePage = observer((props: { state: MainState }): JSX.Element => {
@@ -36,7 +37,15 @@ export const MoviePage = observer((props: { state: MainState }): JSX.Element => 
                             :
                             <>
                                 <MovieInfoModule state={props.state}/>
-                                <AddComment onSend={addComment}/>
+                                {
+                                    props.state.user !== null
+                                        ?
+                                        <AddComment onSend={addComment}/>
+                                        :
+                                        <h2 style={{...DEFAULT_H2_PAGE_TITLE, fontWeight: 100, fontSize: 30}}>
+                                            Only authorized users can leave comments
+                                        </h2>
+                                }
                                 <br/>
                                 <br/>
                                 {
