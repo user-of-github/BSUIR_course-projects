@@ -1,5 +1,7 @@
-# _Movie Service [client]_  
-#### _UI (client) web-part for my project_
+# _Movie Service [client]_   
+### Client part of my full-stack project
+## FULL-APP: [movies-service-project.surge.sh](http://movies-service-project.surge.sh/)
+
 
 &nbsp;  
 
@@ -10,7 +12,8 @@
 
 
 ### _Features:_  
-* _Fully single page application_
+* _Fully single page application_  
+* _Minimum page refreshes (reloads)_
 * _Maximum types coverage_  
 * _Object-oriented style_  
 * _Storing of already loaded data locally (like forced caching) => so no necessity to fetch data again_
@@ -26,11 +29,18 @@
 * _OS Linux Ubuntu_
 
 
-### To run my application locally:  
+### To run my application locally (no docker):  
 1. Set `PRODUCTION` variable to `false` in `configuration.ts` (the same in server)
 2. `yarn` or `npm install`  
 3. `yarn start` or `npm run start`  
 &nbsp;   
+
+
+### To run my application locally (with docker):  
+1. Set `PRODUCTION` variable to `false` in `configuration.ts` (the same in server)  
+2. `docker-compose build`  
+3. `docker-compose up -d`  
+4. `docker-compose up` 
 
 
 ### To deploy my application:  
@@ -40,6 +50,6 @@
 4. `cd build`  
 5. `surge`  (url: `movies-service-project.surge.sh`)
 
-[Link: ]()
+[Link: ](http://movies-service-project.surge.sh/)
 
 ###### © 2022 | All Rights Reserved
