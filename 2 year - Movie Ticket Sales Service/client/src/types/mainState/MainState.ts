@@ -279,7 +279,6 @@ export class MainState {
     public register(username: string, password: string, email: string): void {
         const onRegistrationTryPassed = (response: Response, data: any, error: Error | null) => {
             if (error) throw new Error(error.message)
-
             window.alert(`Django's response: ${response.statusText}`)
         }
 
