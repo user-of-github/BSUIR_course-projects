@@ -15,16 +15,21 @@ jobs:
       with:
         node-version: '16.2.0'
 
-    - name: Build and deploy
+    - name: move to folder
       run: |
         cd 2\ year\ -\ Movie\ Ticket\ Sales\ Service/
         cd client
+
+    - name: Install dependencies
+      run: |
         npm install
         npm install surge
-        npm cache clean --force
-        rm -rf node_modules
-        npm install
+
+    - name: Build
+      run: |  
         npm run build
         cd build
 
+    - name: Deploy
+      run: | 
         surge . ${{secrets.SURGE_URL_FOR_MOVIES_SERVICE}} --token ${{secrets.SURGE_TOKEN}}
