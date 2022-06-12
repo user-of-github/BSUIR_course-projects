@@ -10,10 +10,10 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
-      # Install node version 12
+      # Install node version 16.2.0
     - uses: actions/setup-node@v2-beta
       with:
-        node-version: '12'
+        node-version: '16.2.0'
 
     - name: Build and deploy
       run: |
