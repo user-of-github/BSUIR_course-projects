@@ -1,0 +1,28 @@
+name: Build React-App and deploy to Surge
+
+on:
+  push:
+    paths:
+      - 2\ year\ -\ Movie\ Ticket\ Sales\ Service/*
+
+jobs:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
+      # Install node version 12
+    - uses: actions/setup-node@v2-beta
+      with:
+        node-version: '12'
+
+    - name: Build and deploy
+      run: |
+        cd 2\ year\ -\ Movie\ Ticket\ Sales\ Service/
+        cd client
+        npm install
+        npm install -g surge
+        npm run build
+        cd build
+
+        surge . ${{secrets.SURGE_URL_FOR_MOVIES_SERVICE}} --token ${{secrets.SURGE_TOKEN}}
