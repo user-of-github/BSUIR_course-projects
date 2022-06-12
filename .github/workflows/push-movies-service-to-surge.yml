@@ -33,4 +33,5 @@ jobs:
         cd 2\ year\ -\ Movie\ Ticket\ Sales\ Service/
         cd client
         cd build 
-        surge . ${{secrets.SURGE_URL_FOR_MOVIES_SERVICE}} --token ${{secrets.SURGE_TOKEN}}
+        npm install surge
+        surge ./ ${{secrets.SURGE_URL_FOR_MOVIES_SERVICE}} --token ${{secrets.SURGE_TOKEN}}
