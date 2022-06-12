@@ -20,7 +20,10 @@ jobs:
         cd 2\ year\ -\ Movie\ Ticket\ Sales\ Service/
         cd client
         npm install
-        npm install -g surge
+        npm install surge
+        npm cache clean --force
+        rm -rf node_modules
+        npm install
         npm run build
         cd build
 
