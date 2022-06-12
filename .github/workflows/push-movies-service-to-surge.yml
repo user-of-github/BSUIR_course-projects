@@ -34,4 +34,4 @@ jobs:
         cd client
         cd build 
         npm install surge
-        surge ./ ${{secrets.SURGE_URL_FOR_MOVIES_SERVICE}} --token ${{secrets.SURGE_TOKEN}}
+        npx surge ./ ${{secrets.SURGE_URL_FOR_MOVIES_SERVICE}} --token ${{secrets.SURGE_TOKEN}}
