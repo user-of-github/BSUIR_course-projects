@@ -1,6 +1,9 @@
 name: Build docker image and push to Docker Hub
 
-on: [push]
+on:
+  push:
+    paths:
+      - 2\ year\ -\ Movie\ Ticket\ Sales\ Service/*
 
 jobs:
 

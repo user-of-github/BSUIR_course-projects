@@ -3,7 +3,7 @@ name: Build React-App and deploy to Surge
 on:
   push:
     paths:
-      - 2\ year\ -\ Movie\ Ticket\ Sales\ Service/**
+      - 2\ year\ -\ Movie\ Ticket\ Sales\ Service/*
     
 
 jobs:
