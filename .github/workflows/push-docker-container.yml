@@ -1,0 +1,32 @@
+name: Build docker image and push to Docker Hub
+
+on: [push]
+
+jobs:
+
+  build-and-push:
+    name: Authorize, build and push
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Authorize
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+    - name: Build
+      run: |
+        cd 2\ year\ -\ Movie\ Ticket\ Sales\ Service/
+        cd client
+        docker build . -t moviesservice
+
+    - name: Push
+      run: |
+        cd 2\ year\ -\ Movie\ Ticket\ Sales\ Service/
+        cd client
+        docker tag moviesservice ${{ secrets.DOCKER_HUB_USERNAME }}/${{ DOCKER_HUB_REPOSITORY }}
+        docker push ${{ secrets.DOCKER_HUB_USERNAME }}/${{ DOCKER_HUB_REPOSITORY }} 
