@@ -1,5 +1,4 @@
 import {observer} from 'mobx-react-lite'
-import {SearchPageState} from '../../types/mainState/SearchPageState'
 import {LoadingState} from '../../types/LoadingState'
 import {Loading} from '../../components/UI/loading/Loading'
 import {MovieGrid} from '../../components/movieGrid/MovieGrid'
@@ -23,7 +22,7 @@ export const SearchPage = observer((props: { state: MainState }): JSX.Element =>
         else
             props.state.searchPageState.loading = LoadingState.LOADED
 
-    }, [])
+    }, [props.state])
 
     return (
         <>

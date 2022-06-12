@@ -17,7 +17,7 @@ export const MainPage = observer((props: { state: MainState }): JSX.Element => {
         window.scrollTo({top: 0, left: 0, behavior: 'smooth'})
         props.state.loadPopularMovies()
         props.state.loadPopularTheaters()
-    }, [])
+    }, [props.state])
 
 
     return (

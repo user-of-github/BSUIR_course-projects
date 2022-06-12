@@ -16,7 +16,7 @@ export const MoviePage = observer((props: { state: MainState }): JSX.Element => 
         window.scrollTo({top: 0, left: 0, behavior: 'smooth'})
         const id: string = new URLSearchParams(window.location.search).get('id') || ''
         props.state.loadMovie(id)
-    }, [])
+    }, [props.state])
 
     const addComment = (comment: string): void => {
         props.state.user !== null && props.state.addComment(props.state.moviePageState.movie!.movie_id, comment)

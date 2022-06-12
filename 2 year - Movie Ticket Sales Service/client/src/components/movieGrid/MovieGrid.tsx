@@ -2,7 +2,7 @@ import React from 'react'
 import {observer} from 'mobx-react-lite'
 
 import {Grid} from '../layout/grid/Grid'
-import {Movie, MovieShorten} from '../../types/Movie'
+import {MovieShorten} from '../../types/Movie'
 import {MovieCard} from '../movieCard/MovieCard'
 
 

@@ -14,7 +14,7 @@ export const MoviesPage = observer((props: { state: MainState }): JSX.Element =>
     React.useEffect((): void => {
         window.scrollTo({top: 0, left: 0, behavior: 'smooth'})
         props.state.moviesPageState.moviesCardsLoaded.length === 0 &&  props.state.loadMoreMovies(4)
-    }, [])
+    }, [props.state])
 
 
     return (

@@ -19,6 +19,7 @@ export const MovieTheaterInfoModule = observer((props: { theater: MovieTheater }
                     <span className={Style.textInfoRow}>
                         <iframe src={props.theater.location} width="100%" height="200"
                                 style={{border: 0}} loading="lazy" referrerPolicy="no-referrer-when-downgrade"
+                                title={props.theater.title}
                         />
                     </span>
 

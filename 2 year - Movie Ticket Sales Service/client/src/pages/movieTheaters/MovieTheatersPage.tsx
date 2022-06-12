@@ -13,7 +13,7 @@ export const MovieTheatersPage = observer((props: { state: MainState }): JSX.Ele
     React.useEffect((): void => {
         window.scrollTo({top: 0, left: 0, behavior: 'smooth'})
         props.state.loadMovieTheatersList()
-    }, [])
+    }, [props.state])
 
     return (
         <div className={Style.smoothLoading}>

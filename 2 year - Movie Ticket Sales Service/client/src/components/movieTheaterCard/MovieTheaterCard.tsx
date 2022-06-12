@@ -8,7 +8,7 @@ import React from 'react'
 export const MovieTheaterCard = observer((props: {theater: MovieTheater, styles?: React.CSSProperties}): JSX.Element => (
    <Link to={`/movie-theater?cinema-name=${props.theater.title}`} style={{textDecoration: 'none', width: '100%'}}>
        <div className={Style.container} style={props.styles}>
-           <img className={Style.image} src={props.theater.photo} alt="photo"/>
+           <img className={Style.image} src={props.theater.photo} alt="theater"/>
            <h4 className={Style.title}>{props.theater.title}</h4>
            <span className={Style.address}>{props.theater.address}</span>
        </div>

@@ -4,7 +4,6 @@ import StylePages from '../Pages.module.css'
 import {LoadingState} from '../../types/LoadingState'
 import {Loading} from '../../components/UI/loading/Loading'
 import {NotFound} from '../../components/UI/notFound/NotFound'
-import {MovieInfoModule} from '../../components/movieInfoModule/MovieInfoModule'
 import {MainState} from '../../types/mainState/MainState'
 import {MovieTheaterInfoModule} from '../../components/movieTheaterInfoModule/MovieTheaterInfoModule'
 
@@ -14,7 +13,7 @@ export const MovieTheaterPage = observer((props: {state: MainState}): JSX.Elemen
         window.scrollTo({top: 0, left: 0, behavior: 'smooth'})
         const title: string = new URLSearchParams(window.location.search).get('cinema-name') || 'default-id-unknown'
         props.state.loadMovieTheater(title)
-    }, [])
+    }, [props.state])
 
 
     return (

@@ -20,7 +20,7 @@ import jwtDecode from 'jwt-decode'
 import {User} from '../User'
 import {UserPageState} from './UserPageState'
 import {HistoryPageState} from './HistoryPageState'
-import {LOCAL_SERVER_URL, PRODUCTION, SERVER_URL} from '../../configuration'
+import {LOCAL_SERVER_URL, SERVER_URL} from '../../configuration'
 
 
 

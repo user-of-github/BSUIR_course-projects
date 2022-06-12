@@ -12,7 +12,7 @@ export const HistoryOfActions = observer(({state}: { state: MainState }): JSX.El
     React.useEffect((): void => {
         window.scrollTo({top: 0, left: 0, behavior: 'smooth'})
         state.getUsersNotifications()
-    }, [])
+    }, [state])
 
     if (state.user === null) return <Navigate to="/login"/>
 

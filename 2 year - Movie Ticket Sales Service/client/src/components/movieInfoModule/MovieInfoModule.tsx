@@ -2,7 +2,7 @@ import Style from './MovieInfoModule.module.css'
 import {observer} from 'mobx-react-lite'
 import {MovieTheatersList} from '../movieTheatersList/MovieTheatersList'
 import {DEFAULT_H2_PAGE_TITLE} from '../../utils/defaults'
-import {Button, ButtonType} from '../UI/button/Button'
+import {Button} from '../UI/button/Button'
 import {MainState} from '../../types/mainState/MainState'
 
 

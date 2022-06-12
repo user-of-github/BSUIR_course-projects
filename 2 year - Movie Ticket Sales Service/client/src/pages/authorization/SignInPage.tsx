@@ -1,6 +1,5 @@
 import {observer} from 'mobx-react-lite'
 import {SignInForm} from '../../components/forms/SignInForm'
-import {DEFAULT_H2_PAGE_TITLE} from '../../utils/defaults'
 import {FormSignInCallback} from '../../types/FormCallback'
 import StylePages from '../Pages.module.css'
 import {MainState} from '../../types/mainState/MainState'
