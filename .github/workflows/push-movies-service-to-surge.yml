@@ -6,9 +6,10 @@ on:
       - 2\ year\ -\ Movie\ Ticket\ Sales\ Service/
 
 jobs:
-  runs-on: ubuntu-latest
+  buildAndDeploy:
+    runs-on: ubuntu-latest
 
-  steps:
+    steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
       # Install node version 12
