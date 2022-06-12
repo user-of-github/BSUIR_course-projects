@@ -4,7 +4,7 @@
 
 &nbsp;
 
-_Web-application written on C++ and TypeScript_  
+_Web-application written on C++ and TypeScript_  `// in 1st edition :)`   
 _Web-service for selling tickets to the cinema_
 
 &nbsp;  
