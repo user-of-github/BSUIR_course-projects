@@ -1,3 +1,5 @@
+.486
+
 FORMAT PE Console
 
 ENTRY main
@@ -55,6 +57,6 @@ action_for_negative_numbers:
             pop dx
             add dx, 30h
             mov [number], dx
-            invoke printf, number
+            ;invoke printf, number
             loop print_digits
 endp
