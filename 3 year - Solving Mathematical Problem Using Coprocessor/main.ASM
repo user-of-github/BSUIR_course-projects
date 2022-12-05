@@ -1,4 +1,4 @@
-.486
+
 
 FORMAT PE Console
 
@@ -6,57 +6,60 @@ ENTRY main
 
 INCLUDE 'win32a.inc'
 
+
 SECTION '.data' data readable writeable
-        hello db 'hello world!', 0
-        number_to_print dw 65
-        number dw ?
+        minus db '-', 0 ; 0 => string end
+        digit_temp dd 65
+        temp dd 0
 
 SECTION '.code' code readable writeable executable
         main:
-                mov ax, [number_to_print]
-                stdcall myproc
+                stdcall print_signed_integer, -27766889
+
                 invoke getch
                 invoke ExitProcess, 0
 
+proc print_signed_integer, number
+        mov eax, [number]
+
+        action_for_negative_numbers:
+            cmp eax, 0
+            jge output_preparation ; if (ax > 0) goto count_digits
+            neg eax ; ax = (-1) * ax
+            mov [temp], eax
+            invoke printf, minus
+            mov eax, [temp]
+            pop ecx
+
+        output_preparation:
+            xor ecx, ecx ; <=> mov cx, 0
+            xor edx, edx ; <=> mov dx, 0
+            xor ebx, ebx
+            mov ebx, 10 ; for dividing on bxs
+
+        count_digits:
+            div ebx ; div <=> (dx+ax) / 10 => num / 10 -> ax, num % 10 -> dx
+            push edx ; remember received digit
+            xor edx, edx ; made dx = 0
+            inc ecx ; increased counter of digits
+            test eax, eax ; ax === 0 ?
+            jnz count_digits ; if yes, will repeat and get another digit
+
+
+        print_digits:
+            pop edx
+            add edx, 30h
+            mov [digit_temp], edx
+            push ecx
+            invoke printf, digit_temp
+            pop edx
+            pop ecx
+            loop print_digits
+
+     ret
+endp
 
 SECTION '.idata' data import readable
         library kernel, 'kernel32.dll',msvcrt, 'msvcrt.dll'
         import kernel, ExitProcess, 'ExitProcess'
         import msvcrt,printf, 'printf', getch, '_getch'
-
-
-proc myproc
-action_for_negative_numbers:
-            cmp ax, 0
-            jge output_preparation ; if (ax > 0) goto count_digits
-            neg ax ; ax = (-1) * ax
-            mov bx, ax ; save ax, because we need ah (part of ax) for output '-'
-            mov ah, 02h
-            mov dl, '-'
-            int 21h
-            mov ax, bx ; restore it. We can do it with stack, but MOV for registers is much faster
-        
-        output_preparation:
-            xor cx, cx ; <=> mov cx, 0
-            xor dx, dx ; <=> mov dx, 0
-            xor bx, bx
-            mov bx, 10 ; for dividing on bxs
-        
-        count_digits:
-            div bx ; div <=> (dx+ax) / 10 => num / 10 -> ax, num % 10 -> dx
-            push dx ; remember received digit
-            xor dx, dx ; made dx = 0
-            inc cx ; increased counter of digits
-            test ax, ax ; ax === 0 ?
-            jnz count_digits ; if yes, will repeat and get another digit
-
-        before_print:
-            mov ah, 02h
-            
-        print_digits:
-            pop dx
-            add dx, 30h
-            mov [number], dx
-            ;invoke printf, number
-            loop print_digits
-endp
