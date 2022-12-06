@@ -12,6 +12,7 @@ SECTION '.data' data readable writeable
         digit_temp dd 65
         temp dd 0
 
+
 SECTION '.code' code readable writeable executable
         main:
                 stdcall print_signed_integer, -27766889
@@ -26,9 +27,9 @@ proc print_signed_integer, number
             cmp eax, 0
             jge output_preparation ; if (ax > 0) goto count_digits
             neg eax ; ax = (-1) * ax
-            mov [temp], eax
+            mov [temp], eax ; printf spoils registers => need to remember EAX
             invoke printf, minus
-            mov eax, [temp]
+            mov eax, [temp] ; restore EAX
             pop ecx
 
         output_preparation:
@@ -47,17 +48,18 @@ proc print_signed_integer, number
 
 
         print_digits:
-            pop edx
-            add edx, 30h
+            pop edx ; take digit
+            add edx, 30h ; += 30h to convert it in ASCII view for printing
             mov [digit_temp], edx
-            push ecx
+            push ecx ; printf spoils registers => so need to save it
             invoke printf, digit_temp
-            pop edx
-            pop ecx
+            pop edx ; printf also pushes addresses of used parameters => so need to clear pushed parameters
+            pop ecx ; restore ECX, because I need it for loop
             loop print_digits
 
      ret
 endp
+
 
 SECTION '.idata' data import readable
         library kernel, 'kernel32.dll',msvcrt, 'msvcrt.dll'
