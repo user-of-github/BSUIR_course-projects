@@ -1,24 +1,41 @@
-
-
 FORMAT PE Console
+
 
 ENTRY main
 
+
 INCLUDE 'win32a.inc'
+INCLUDE 'C:\Users\User\Downloads\fasmw17330\INCLUDE\API\kernel32.inc'
+INCLUDE 'C:\Users\User\Downloads\fasmw17330\INCLUDE\API\user32.inc'
 
 
 SECTION '.data' data readable writeable
-        minus db '-', 0 ; 0 => string end
-        digit_temp dd 65
-        temp dd 0
+        minus_symbol db '-', 0 ; 0 => string end
+
+        digit_temp dd ?
+        X dq 1.57
+
+        format_string_just_for_double db  '%.10f', 0
 
 
 SECTION '.code' code readable writeable executable
         main:
-                stdcall print_signed_integer, -27766889
+                ;stdcall print_signed_integer, -27766889
+                finit ; initialize FPU module
 
+                fld [X]
+                fsin
+                fstp [X]
+                invoke print_double, QWORD[X]
+
+        finish_program:
                 invoke getch
                 invoke ExitProcess, 0
+
+proc print_double number: QWORD
+     cinvoke printf, format_string_just_for_double, DWORD[number], DWORD[number + 4]
+     ret
+endp
 
 proc print_signed_integer, number
         mov eax, [number]
@@ -28,7 +45,7 @@ proc print_signed_integer, number
             jge output_preparation ; if (ax > 0) goto count_digits
             neg eax ; ax = (-1) * ax
             mov [temp], eax ; printf spoils registers => need to remember EAX
-            invoke printf, minus
+            invoke printf, minus_symbol
             mov eax, [temp] ; restore EAX
             pop ecx
 
@@ -62,6 +79,6 @@ endp
 
 
 SECTION '.idata' data import readable
-        library kernel, 'kernel32.dll',msvcrt, 'msvcrt.dll'
+        library kernel, 'kernel32.dll', msvcrt, 'msvcrt.dll'
         import kernel, ExitProcess, 'ExitProcess'
-        import msvcrt,printf, 'printf', getch, '_getch'
+        import msvcrt, printf, 'printf', getch, '_getch'
