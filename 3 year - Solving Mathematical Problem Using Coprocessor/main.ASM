@@ -13,27 +13,34 @@ SECTION '.data' data readable writeable
         minus_symbol db '-', 0 ; 0 => string end
 
         digit_temp dd ?
-        X dq 1.57
-
+        X dq 1.0
+        Y dq 2.0
+        answer dq ?
         format_string_just_for_double db  '%.10f', 0
 
 
-SECTION '.code' code readable writeable executable
+SECTION '.code' code readable executable
         main:
                 ;stdcall print_signed_integer, -27766889
                 finit ; initialize FPU module
 
                 fld [X]
-                fsin
-                fstp [X]
-                invoke print_double, QWORD[X]
+                fld [Y]
+                fdivp
+                fst [answer]
+
+                stdcall print_double, answer
 
         finish_program:
                 invoke getch
                 invoke ExitProcess, 0
 
-proc print_double number: QWORD
-     cinvoke printf, format_string_just_for_double, DWORD[number], DWORD[number + 4]
+
+proc print_double number
+     push eax
+     mov eax, [number]
+     cinvoke printf, format_string_just_for_double, DWORD[eax], DWORD[eax + 4]
+     pop eax
      ret
 endp
 
@@ -78,7 +85,7 @@ proc print_signed_integer, number
 endp
 
 
-SECTION '.idata' data import readable
+SECTION '.idata' data import readable writable
         library kernel, 'kernel32.dll', msvcrt, 'msvcrt.dll'
         import kernel, ExitProcess, 'ExitProcess'
         import msvcrt, printf, 'printf', getch, '_getch'
