@@ -5,31 +5,57 @@ ENTRY main
 
 
 INCLUDE 'win32a.inc'
+; link to these files on other machine
 INCLUDE 'C:\Users\User\Downloads\fasmw17330\INCLUDE\API\kernel32.inc'
 INCLUDE 'C:\Users\User\Downloads\fasmw17330\INCLUDE\API\user32.inc'
 
 
+
 SECTION '.data' data readable writeable
+        ; constants for output
+        format_string_double db  '%.10f', 0
+        format_string_text db '%s', 0
+        format_string_endline db 13, 10, 0
         minus_symbol db '-', 0 ; 0 => string end
 
         digit_temp dd ?
-        X dq 1.0
-        Y dq 2.0
-        answer dq ?
-        format_string_just_for_double db  '%.10f', 0
+
+        ; input constants for equation
+        x0 dq 0.0
+        y0 dq 0.0
+
+        m dq 1.0
+        a dq 0.7747844
+        temp dq ?
+
+        interval_left_border dq 0.0
+        interval_right_border dq 1.0
+
+        ; constants for solving
+        number_of_split_segments dw 20
+        step dq ?
+
+        ;some comments output strings
+        found_step_message db 'Grid splitting step size: ', 0
+
 
 
 SECTION '.code' code readable executable
         main:
-                ;stdcall print_signed_integer, -27766889
+                fwait ; wait for mathematics co-processor
                 finit ; initialize FPU module
 
-                fld [X]
-                fld [Y]
-                fdivp
-                fst [answer]
+                define_step_size:
+                        fld [interval_right_border]
+                        fld [interval_left_border]
+                        fsubp
+                        fild [number_of_split_segments]
+                        fdivp
+                        fst [step]
 
-                stdcall print_double, answer
+                        stdcall print_string, found_step_message
+                        stdcall print_double, step
+                        stdcall print_endline
 
         finish_program:
                 invoke getch
@@ -39,12 +65,40 @@ SECTION '.code' code readable executable
 proc print_double number
      push eax
      mov eax, [number]
-     cinvoke printf, format_string_just_for_double, DWORD[eax], DWORD[eax + 4]
+     cinvoke printf, format_string_double, DWORD[eax], DWORD[eax + 4]
      pop eax
      ret
 endp
 
-proc print_signed_integer, number
+proc print_endline
+     cinvoke printf, format_string_endline
+     ret
+endp
+
+proc print_string string
+     cinvoke printf, format_string_text, [string]
+     ret
+endp
+
+
+proc copy_qword_variable from, to
+     pusha
+     mov ecx, [from]
+     mov edx, [to]
+
+     mov eax, DWORD[ecx]
+     mov DWORD[edx], eax
+     mov eax, DWORD[ecx + 4]
+     mov DWORD[edx + 4], eax
+
+     popa
+     ret
+endp
+
+
+
+
+proc print_signed_integer, number ; uses ebx ecx      // to
         mov eax, [number]
 
         action_for_negative_numbers:
