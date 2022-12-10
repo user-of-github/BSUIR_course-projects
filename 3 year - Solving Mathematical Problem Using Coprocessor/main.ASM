@@ -12,10 +12,10 @@ INCLUDE 'C:\Users\User\Downloads\fasmw17330\INCLUDE\API\user32.inc'
 
 SECTION '.data' data readable writeable
         ; constants for output
-        format_string_double db  '%g', 0
+        format_string_double db  '%.3f', 0
         format_string_integer db '%d', 0
         format_string_text db '%s', 0
-        format_string_whitespace db ' ', 0
+        format_string_whitespace db '  ', 0
         format_string_endline db 13, 10, 0
         minus_symbol db '-', 0 ; 0 => string end
 
@@ -26,7 +26,7 @@ SECTION '.data' data readable writeable
         y0 dq 0.0
 
         m dq 1.0
-        a dq 0.7747844
+        a dq 0.7
 
         interval_left_border dq 0.0
         interval_right_border dq 1.0
@@ -35,7 +35,7 @@ SECTION '.data' data readable writeable
         number_of_split_segments dd 20
         step dq ?
         x_values dq 24 dup(?)
-        y_values dq 21 dup(123.123)
+        y_values dq 21 dup(0.0)
         x_prev dq ?
 
         ;some comments output strings
@@ -45,7 +45,13 @@ SECTION '.data' data readable writeable
 
         temp_integer dd ?
         temp_double dq ?
-        zero_double dq 0
+        temp_x dq ? ; used in y' = f(x, y)
+        temp_y dq ?
+        temp_numerator dq ? ; for a * (1 - y^2)
+        temp_denominator dq ? ; for (1 + m)*x^2 + y^2 + 1
+        temp_derrivative_output dq ? ; for total value of y' = f(x, y)
+        y_previous dq ? ; to put here y[i-1]
+        current_y_total dq ?
 
         counter dd 0
 
@@ -71,37 +77,153 @@ SECTION '.code' code readable executable
                         stdcall copy_qword_variable, x0, x_values  ; x0 --> x_values[0]
 
                         mov ecx, [number_of_split_segments] ; iterations count (for filling x_values)
+                        inc ecx ; N ranges <=> N + 1 points
 
                         mov eax, x_values
                         add eax, 8
                         initialize_current_x:
                                 finit
-                                ; load x[i - 1] to temp_double
+                                ; load x[i - 1] --> temp_double
                                 mov edx, eax
                                 sub edx, 8
                                 stdcall copy_qword_variable, edx, temp_double
 
-                                ; x[i - 1] + step, and put to temp_double
+                                ; (x[i - 1] + step) --> temp_double
                                 fld [temp_double]
                                 fld [step]
                                 faddp
                                 fst [temp_double]
 
-                                ; move result to x[i]
+                                ; move result --> x[i]
                                 stdcall copy_qword_variable, temp_double, eax
 
-                                add eax, 8
+                                add eax, 8  ;  <=> ++index
 
                                 loop  initialize_current_x
 
-                stdcall print_string, x_values_message
-                stdcall print_x_values_array
+
+                compute_y_values:
+
+                        ;stdcall print_string, x_values_message
+                        ;stdcall print_x_values_array
+                        ;stdcall print_endline
+                        mov ecx, [number_of_split_segments]
+                        ;inc ecx    ; here only for [1..N-1], 0th point already computed
+
+                        mov edx, 8
+
+                        compute_current_y:
+                                finit
+                                mov [temp_integer], edx
+
+                                stdcall compute_derrivative_in_point
+                                mov eax, y_values
+                                add eax, edx
+                                sub eax, 8 ; to get [i - 1]
+                                stdcall copy_qword_variable, eax, y_previous
+
+                                fld [step]
+                                fld [temp_derrivative_output]
+                                fmulp
+                                fld [y_previous]
+                                faddp
+                                fst [current_y_total]
+                                add eax, 8
+                                stdcall copy_qword_variable, current_y_total, eax
+                                add edx, 8
+
+                                ;stdcall print_endline
+                                ;stdcall print_y_values_array
+                                ;stdcall print_endline
+                                ;stdcall print_endline
+                                loop compute_current_y
+
                 stdcall print_endline
+                stdcall print_y_values_array
+
 
         finish_program:
                 invoke getch
                 invoke ExitProcess, 0
 
+
+proc compute_derrivative_in_point ; need to have index (shift) in temp_integer !!
+     pusha
+
+     mov ecx, [temp_integer] ; shift / index I of CURRENT x[i] or y[i]
+     sub ecx, 8 ; we need x[i - 1] and y[i - 1]
+
+     ; we need x[i - 1] and y[i - 1], so:
+     mov eax, x_values
+     add eax, ecx ; so now EAX points to x_values[i - 1]
+
+     mov ebx, y_values
+     add ebx, ecx ; so now EBX points to y_values[i - 1]
+
+     stdcall copy_qword_variable, eax, temp_x
+     stdcall copy_qword_variable, ebx, temp_y
+     ; so now we have x and y for computing f(x, y) = y'
+     stdcall print_double, temp_x
+     stdcall print_string, format_string_whitespace
+     stdcall print_double, temp_y
+     stdcall print_string, format_string_whitespace
+
+     ; y^2
+     fld [temp_y]
+     fld [temp_y]
+     fmulp
+
+     ; 1 - y^2
+     fld1 ; load +1.0
+     fsubp
+
+     ; a * (1 - y^2)
+     fld [a]
+     fmulp
+     fst [temp_numerator]
+     stdcall print_double, temp_numerator
+     stdcall print_string, format_string_whitespace
+
+     ; 1 + m
+     fld1
+     fld [m]
+     faddp
+     ; x^2
+     fld [temp_x]
+     fld [temp_x]
+     fmulp
+     ; (1+m)*x^2
+     fmulp
+     ;y^2
+     fld [temp_y]
+     fld[temp_y]
+     fmulp
+     ; (1+m)*x^2 + y^2
+     faddp
+     ; 1
+     fld1
+     ; (1+m)*x^2 + y^2 + 1
+     faddp
+     fst [temp_denominator]
+     stdcall print_double, temp_denominator
+     stdcall print_string, format_string_whitespace
+
+
+
+     ; final f(x, y)
+     fld [temp_numerator]
+     fld [temp_denominator]
+     fdivp
+     fst [temp_derrivative_output]
+
+     stdcall print_double, temp_derrivative_output
+
+     stdcall print_endline
+
+     popa
+
+     ret
+endp
 
 
 proc print_double number ; prints a floating number, stored in dq variable
@@ -142,6 +264,7 @@ endp
 
 proc copy_qword_variable from, to
      pusha
+
      mov ecx, [from]
      mov edx, [to]
 
@@ -151,11 +274,14 @@ proc copy_qword_variable from, to
      mov DWORD[edx + 4], eax
 
      popa
+
      ret
 endp
 
 
 proc print_x_values_array
+     pusha
+
      mov ecx, [number_of_split_segments]
      mov eax, x_values
 
@@ -165,6 +291,26 @@ proc print_x_values_array
         stdcall print_string, format_string_whitespace
         add eax, 8
         loop print_current
+
+     popa
+
+     ret
+endp
+
+proc print_y_values_array
+     pusha
+
+     mov ecx, [number_of_split_segments]
+     mov eax, y_values
+
+     print_current:
+        stdcall copy_qword_variable, eax, temp_double
+        stdcall print_double, temp_double
+        stdcall print_string, format_string_whitespace
+        add eax, 8
+        loop print_current
+
+     popa
 
      ret
 endp
