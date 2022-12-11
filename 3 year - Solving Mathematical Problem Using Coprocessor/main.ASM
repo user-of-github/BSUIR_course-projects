@@ -34,7 +34,7 @@ SECTION '.data' data readable writeable
         interval_right_border dq 1.0
 
         ; constants and variables for solving
-        number_of_split_segments dd 20
+        number_of_split_segments dd 27 ; works for 2..27
         step dq ?
         x_values dq 24 dup(?)
         y_values dq 21 dup(0.0)
@@ -42,10 +42,12 @@ SECTION '.data' data readable writeable
 
         ;some comments output strings
         found_step_message db 'Grid splitting step size: ', 0
+        number_of_nodes_message db 'Number of nodes: ', 0
         current_index_message db 'Index = ', 0
         x_values_message db 'Array of X: ', 0
         output_table_message db 'Table of values of the grid function on the interval', 0
         table_header_text db ' x          y', 0
+        exit_program_message db 'Press Enter to close console window or just close it yourself   ', 0
 
         ; variables, needed for storing temporary (intermediate) data
         temp_integer dd ?
@@ -65,8 +67,14 @@ SECTION '.data' data readable writeable
 
 SECTION '.code' code readable executable
         main:
-                fwait ; wait for mathematics co-processor
-                finit ; initialize FPU module
+                initial_data_ouput:
+                        stdcall print_string, number_of_nodes_message
+                        stdcall print_integer, number_of_split_segments
+                        stdcall print_endline
+
+                prepare_fpu:
+                        fwait ; wait for mathematics co-processor
+                        finit ; initialize FPU module
 
                 define_step_size:
                         fld [interval_right_border]
@@ -137,20 +145,30 @@ SECTION '.code' code readable executable
 
                                 loop compute_current_y
 
-                stdcall print_endline
-                stdcall print_string, output_table_message
-                stdcall print_string, whitespace_text
-                stdcall print_double_unformatted, interval_left_border
-                stdcall print_string, interval_divider_text
-                stdcall print_double_unformatted, interval_right_border
-                stdcall print_endline
-                stdcall print_endline
-                stdcall print_result_function_table
+                stdcall print_algorithm_full_response
 
 
         finish_program:
+                stdcall print_string, exit_program_message
                 invoke getch
                 invoke ExitProcess, 0
+
+
+proc print_algorithm_full_response
+     stdcall print_endline
+     stdcall print_string, output_table_message
+     stdcall print_string, whitespace_text
+     stdcall print_double_unformatted, interval_left_border
+     stdcall print_string, interval_divider_text
+     stdcall print_double_unformatted, interval_right_border
+     stdcall print_endline
+     stdcall print_endline
+     stdcall print_result_function_table
+     stdcall print_endline
+     stdcall print_endline
+
+     ret
+endp
 
 
 proc compute_derivative_in_point ; need to have index (shift) in temp_integer !!

@@ -3,8 +3,8 @@
 
 ## Used: 
 * 8087 mathematics coprocessor  
-* FPU - Floating Point Unit  
-* Flat Assembler (FASM)  
+* [FPU - Floating Point Unit](https://linasm.sourceforge.net/docs/instructions/fpu.php)  
+* [Flat Assembler (FASM)](https://flatassembler.net/)  
 * OS Windows  
 * WinAPI functions
 
