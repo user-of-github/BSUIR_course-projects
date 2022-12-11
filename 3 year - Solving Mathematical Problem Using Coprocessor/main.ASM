@@ -12,12 +12,14 @@ INCLUDE 'C:\Users\User\Downloads\fasmw17330\INCLUDE\API\user32.inc'
 
 SECTION '.data' data readable writeable
         ; constants for output
-        format_string_double db  '%.3f', 0
+        format_string_double db  '%.5f', 0
+        format_string_double_unformatted db '%g', 0
         format_string_integer db '%d', 0
         format_string_text db '%s', 0
-        format_string_whitespace db '  ', 0
+        whitespace_text db '  ', 0
         format_string_endline db 13, 10, 0
         minus_symbol db '-', 0 ; 0 => string end
+        interval_divider_text db '...', 0
 
         digit_temp dd ?
 
@@ -42,18 +44,23 @@ SECTION '.data' data readable writeable
         found_step_message db 'Grid splitting step size: ', 0
         current_index_message db 'Index = ', 0
         x_values_message db 'Array of X: ', 0
+        output_table_message db 'Table of values of the grid function on the interval', 0
+        table_header_text db ' x          y', 0
 
+        ; variables, needed for storing temporary (intermediate) data
         temp_integer dd ?
         temp_double dq ?
-        temp_x dq ? ; used in y' = f(x, y)
-        temp_y dq ?
+        temp_x dq ? ; used in y' = f(x, y)  to take x[i - 1]
+        temp_y dq ? ; used in y' = f(x, y) to take x[i]
         temp_numerator dq ? ; for a * (1 - y^2)
         temp_denominator dq ? ; for (1 + m)*x^2 + y^2 + 1
-        temp_derrivative_output dq ? ; for total value of y' = f(x, y)
+        temp_derivative_output dq ? ; for total value of y' = f(x, y)
         y_previous dq ? ; to put here y[i-1]
         current_y_total dq ?
 
         counter dd 0
+
+        SHOW_DEBUG_INFO_FLAG dd 0 ; 1 <=> show intermediate results in computing f, y | 0 <=> do not show
 
 
 SECTION '.code' code readable executable
@@ -70,7 +77,7 @@ SECTION '.code' code readable executable
                         fst [step]
 
                         stdcall print_string, found_step_message
-                        stdcall print_double, step
+                        stdcall print_double_formatted, step
                         stdcall print_endline
 
                 initialize_x_values:
@@ -103,12 +110,8 @@ SECTION '.code' code readable executable
 
 
                 compute_y_values:
-
-                        ;stdcall print_string, x_values_message
-                        ;stdcall print_x_values_array
-                        ;stdcall print_endline
                         mov ecx, [number_of_split_segments]
-                        ;inc ecx    ; here only for [1..N-1], 0th point already computed
+                        ;inc ecx    ; here only for [1..N-1], 0th point is already computed
 
                         mov edx, 8
 
@@ -116,14 +119,14 @@ SECTION '.code' code readable executable
                                 finit
                                 mov [temp_integer], edx
 
-                                stdcall compute_derrivative_in_point
+                                stdcall compute_derivative_in_point
                                 mov eax, y_values
                                 add eax, edx
                                 sub eax, 8 ; to get [i - 1]
                                 stdcall copy_qword_variable, eax, y_previous
 
                                 fld [step]
-                                fld [temp_derrivative_output]
+                                fld [temp_derivative_output]
                                 fmulp
                                 fld [y_previous]
                                 faddp
@@ -132,14 +135,17 @@ SECTION '.code' code readable executable
                                 stdcall copy_qword_variable, current_y_total, eax
                                 add edx, 8
 
-                                ;stdcall print_endline
-                                ;stdcall print_y_values_array
-                                ;stdcall print_endline
-                                ;stdcall print_endline
                                 loop compute_current_y
 
                 stdcall print_endline
-                stdcall print_y_values_array
+                stdcall print_string, output_table_message
+                stdcall print_string, whitespace_text
+                stdcall print_double_unformatted, interval_left_border
+                stdcall print_string, interval_divider_text
+                stdcall print_double_unformatted, interval_right_border
+                stdcall print_endline
+                stdcall print_endline
+                stdcall print_result_function_table
 
 
         finish_program:
@@ -147,7 +153,7 @@ SECTION '.code' code readable executable
                 invoke ExitProcess, 0
 
 
-proc compute_derrivative_in_point ; need to have index (shift) in temp_integer !!
+proc compute_derivative_in_point ; need to have index (shift) in temp_integer !!
      pusha
 
      mov ecx, [temp_integer] ; shift / index I of CURRENT x[i] or y[i]
@@ -162,11 +168,10 @@ proc compute_derrivative_in_point ; need to have index (shift) in temp_integer !
 
      stdcall copy_qword_variable, eax, temp_x
      stdcall copy_qword_variable, ebx, temp_y
+
      ; so now we have x and y for computing f(x, y) = y'
-     stdcall print_double, temp_x
-     stdcall print_string, format_string_whitespace
-     stdcall print_double, temp_y
-     stdcall print_string, format_string_whitespace
+
+     fld1 ; load +1.0
 
      ; y^2
      fld [temp_y]
@@ -174,15 +179,12 @@ proc compute_derrivative_in_point ; need to have index (shift) in temp_integer !
      fmulp
 
      ; 1 - y^2
-     fld1 ; load +1.0
      fsubp
 
      ; a * (1 - y^2)
      fld [a]
      fmulp
      fst [temp_numerator]
-     stdcall print_double, temp_numerator
-     stdcall print_string, format_string_whitespace
 
      ; 1 + m
      fld1
@@ -205,31 +207,55 @@ proc compute_derrivative_in_point ; need to have index (shift) in temp_integer !
      ; (1+m)*x^2 + y^2 + 1
      faddp
      fst [temp_denominator]
-     stdcall print_double, temp_denominator
-     stdcall print_string, format_string_whitespace
-
 
 
      ; final f(x, y)
      fld [temp_numerator]
      fld [temp_denominator]
      fdivp
-     fst [temp_derrivative_output]
+     fst [temp_derivative_output]
 
-     stdcall print_double, temp_derrivative_output
+     ; should print debug info ?
+     mov eax, [SHOW_DEBUG_INFO_FLAG]
+     cmp eax, 0
+     je  finish_computing_derrivative
 
+     stdcall print_double_formatted, temp_x
+     stdcall print_string, whitespace_text
+     stdcall print_double_formatted, temp_y
+     stdcall print_string, whitespace_text
+     stdcall print_double_formatted, temp_numerator
+     stdcall print_string, whitespace_text
+     stdcall print_double_formatted, temp_denominator
+     stdcall print_string, whitespace_text
+     stdcall print_double_formatted, temp_derivative_output
      stdcall print_endline
 
+
+     finish_computing_derrivative:
+        popa
+
+        ret
+endp
+
+
+
+; prints a floating number, stored in dq variable
+; number of signs after dot is in format string in constants
+proc print_double_formatted number
+     pusha
+     mov eax, [number]
+     cinvoke printf, format_string_double, DWORD[eax], DWORD[eax + 4]
      popa
 
      ret
 endp
 
 
-proc print_double number ; prints a floating number, stored in dq variable
+proc print_double_unformatted number
      pusha
      mov eax, [number]
-     cinvoke printf, format_string_double, DWORD[eax], DWORD[eax + 4]
+     cinvoke printf, format_string_double_unformatted, DWORD[eax], DWORD[eax + 4]
      popa
 
      ret
@@ -287,8 +313,8 @@ proc print_x_values_array
 
      print_current:
         stdcall copy_qword_variable, eax, temp_double
-        stdcall print_double, temp_double
-        stdcall print_string, format_string_whitespace
+        stdcall print_double_formatted, temp_double
+        stdcall print_string, whitespace_text
         add eax, 8
         loop print_current
 
@@ -305,9 +331,41 @@ proc print_y_values_array
 
      print_current:
         stdcall copy_qword_variable, eax, temp_double
-        stdcall print_double, temp_double
-        stdcall print_string, format_string_whitespace
+        stdcall print_double_formatted, temp_double
+        stdcall print_string, whitespace_text
         add eax, 8
+        loop print_current
+
+     popa
+
+     ret
+endp
+
+proc print_result_function_table
+     pusha
+
+     stdcall print_string, table_header_text
+     stdcall print_endline
+
+     mov ecx, [number_of_split_segments]
+     inc ecx
+     mov eax, x_values
+     mov ebx, y_values
+
+     print_current:
+        ; print x[i]
+        stdcall copy_qword_variable, eax, temp_double
+        stdcall print_double_formatted, temp_double
+
+        stdcall print_string, whitespace_text
+        ; print y[i]
+        stdcall copy_qword_variable, ebx, temp_double
+        stdcall print_double_formatted, temp_double
+
+        stdcall print_endline
+
+        add eax, 8
+        add ebx, 8
         loop print_current
 
      popa

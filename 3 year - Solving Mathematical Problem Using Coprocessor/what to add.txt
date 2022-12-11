@@ -1,1 +1,0 @@
-DOSBox, VS TASM/MASM, TASM EXE, TLINK EXE, compile in windows or DOS
