@@ -34,7 +34,7 @@ SECTION '.data' data readable writeable
         interval_right_border dq 1.0
 
         ; constants and variables for solving
-        number_of_split_segments dd 27 ; works for 2..27
+        number_of_split_segments dd 29 ; works for 2..29
         step dq ?
         x_values dq 24 dup(?)
         y_values dq 21 dup(0.0)
