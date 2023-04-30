@@ -1,14 +1,11 @@
 FORMAT PE Console
 
-
 ENTRY main
-
 
 INCLUDE 'win32a.inc'
 ; link to these files on other machine
 INCLUDE 'C:\Users\User\Downloads\fasmw17330\INCLUDE\API\kernel32.inc'
 INCLUDE 'C:\Users\User\Downloads\fasmw17330\INCLUDE\API\user32.inc'
-
 
 SECTION '.data' data readable writeable
         ; constants for output
@@ -18,7 +15,6 @@ SECTION '.data' data readable writeable
         format_string_text db '%s', 0
         whitespace_text db '  ', 0
         format_string_endline db 13, 10, 0
-        minus_symbol db '-', 0 ; 0 => string end
         interval_divider_text db '...', 0
 
         digit_temp dd ?
@@ -43,8 +39,6 @@ SECTION '.data' data readable writeable
         ;some comments output strings
         found_step_message db 'Grid splitting step size: ', 0
         number_of_nodes_message db 'Number of nodes: ', 0
-        current_index_message db 'Index = ', 0
-        x_values_message db 'Array of X: ', 0
         output_table_message db 'Table of values of the grid function on the interval', 0
         table_header_text db ' x          y', 0
         exit_program_message db 'Press Enter to close console window or just close it yourself   ', 0
@@ -60,8 +54,6 @@ SECTION '.data' data readable writeable
         y_previous dq ? ; to put here y[i-1]
         current_y_total dq ?
 
-        counter dd 0
-
         SHOW_DEBUG_INFO_FLAG dd 0 ; 1 <=> show intermediate results in computing f, y | 0 <=> do not show
 
 
@@ -73,8 +65,8 @@ SECTION '.code' code readable executable
                         stdcall print_endline
 
                 prepare_fpu:
-                        fwait ; wait for mathematics co-processor
-                        finit ; initialize FPU module
+                        fwait ; wait for mathematics co-processor intel 8087 (built-in in modern CPUs)
+                        finit ; initialize x87 FPU module
 
                 define_step_size:
                         fld [interval_right_border]
@@ -96,6 +88,7 @@ SECTION '.code' code readable executable
 
                         mov eax, x_values
                         add eax, 8
+
                         initialize_current_x:
                                 finit
                                 ; load x[i - 1] --> temp_double
@@ -152,6 +145,7 @@ SECTION '.code' code readable executable
                 stdcall print_string, exit_program_message
                 invoke getch
                 invoke ExitProcess, 0
+
 
 
 proc print_algorithm_full_response
