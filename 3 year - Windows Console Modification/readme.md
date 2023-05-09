@@ -1,4 +1,4 @@
-## _Subject: __Programming___
+## _Subject: __Operating Systems and Environments___
 
 # Deep modification of standard Windows console and creation of a File Manager based on it
 
@@ -49,4 +49,4 @@
   &nbsp;  
   &nbsp;
 
-###### _Copyright © 2021 | All rights reserved_
+###### _Copyright © 2023 | All rights reserved_
