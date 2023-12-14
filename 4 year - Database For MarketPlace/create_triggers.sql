@@ -1,5 +1,8 @@
 DROP TRIGGER IF EXISTS news_logging_trigger  ON public.news;
+
 DROP FUNCTION IF EXISTS logging_trigger;
+
+
 CREATE OR REPLACE FUNCTION logging_trigger() RETURNS TRIGGER AS $$
 BEGIN
     IF TG_OP = 'INSERT' THEN
